@@ -11,6 +11,27 @@
 		11A9D4E22D143F1900F6284A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4DD2D143F1900F6284A /* HomeViewController.swift */; };
 		11A9D4E32D143F1900F6284A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */; };
 		11A9D4E42D143F1900F6284A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A9D4DC2D143F1900F6284A /* Assets.xcassets */; };
+		11A9D4EF2D144A9300F6284A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4ED2D144A9300F6284A /* Extension.swift */; };
+		11A9D4F02D144A9300F6284A /* LayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4EE2D144A9300F6284A /* LayoutExtensions.swift */; };
+		11A9D4F52D144AE900F6284A /* CoreAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4F12D144AE900F6284A /* CoreAPIHelper.swift */; };
+		11A9D4F62D144AE900F6284A /* CoreAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4F22D144AE900F6284A /* CoreAPIManager.swift */; };
+		11A9D4F72D144AE900F6284A /* CoreErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4F32D144AE900F6284A /* CoreErrorModel.swift */; };
+		11A9D5002D144B3C00F6284A /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4FB2D144B3C00F6284A /* ReusableButton.swift */; };
+		11A9D5012D144B3C00F6284A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4F92D144B3C00F6284A /* BaseViewController.swift */; };
+		11A9D5022D144B3C00F6284A /* ReusableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4FD2D144B3C00F6284A /* ReusableTextField.swift */; };
+		11A9D5032D144B3C00F6284A /* ReusableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4FC2D144B3C00F6284A /* ReusableLabel.swift */; };
+		11A9D50B2D144BF200F6284A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D50A2D144BF200F6284A /* HomeViewModel.swift */; };
+		11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D5672D144C4A00F6284A /* UserDefaultsKey.swift */; };
+		11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D5662D144C4A00F6284A /* UserDefaultsHelper.swift */; };
+		11CC75572D15C52600903217 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75562D15C52600903217 /* Colors.xcassets */; };
+		11CC75592D15D1B600903217 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75582D15D1B600903217 /* Coordinator.swift */; };
+		11CC755B2D15D2AF00903217 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC755A2D15D2AF00903217 /* AppCoordinator.swift */; };
+		11CC75BF2D15D92E00903217 /* Nexa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75BD2D15D92E00903217 /* Nexa-Regular.ttf */; };
+		11CC75C02D15D92E00903217 /* Nexa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75BC2D15D92E00903217 /* Nexa-Light.ttf */; };
+		11CC75C12D15D92E00903217 /* Nexa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75BB2D15D92E00903217 /* Nexa-Bold.ttf */; };
+		11CC75C32D15D9CB00903217 /* HomeTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75C22D15D9CB00903217 /* HomeTabBarCoordinator.swift */; };
+		11CC75C62D15DA4500903217 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75C52D15DA4500903217 /* TabBarController.swift */; };
+		11CC75CA2D15DD5B00903217 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75C92D15DD5B00903217 /* HomeCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +41,27 @@
 		11A9D4DD2D143F1900F6284A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		11A9D4DE2D143F1900F6284A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		11A9D4ED2D144A9300F6284A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		11A9D4EE2D144A9300F6284A /* LayoutExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutExtensions.swift; sourceTree = "<group>"; };
+		11A9D4F12D144AE900F6284A /* CoreAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAPIHelper.swift; sourceTree = "<group>"; };
+		11A9D4F22D144AE900F6284A /* CoreAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreAPIManager.swift; sourceTree = "<group>"; };
+		11A9D4F32D144AE900F6284A /* CoreErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreErrorModel.swift; sourceTree = "<group>"; };
+		11A9D4F92D144B3C00F6284A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		11A9D4FB2D144B3C00F6284A /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
+		11A9D4FC2D144B3C00F6284A /* ReusableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableLabel.swift; sourceTree = "<group>"; };
+		11A9D4FD2D144B3C00F6284A /* ReusableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTextField.swift; sourceTree = "<group>"; };
+		11A9D50A2D144BF200F6284A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		11A9D5662D144C4A00F6284A /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		11A9D5672D144C4A00F6284A /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		11CC75562D15C52600903217 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		11CC75582D15D1B600903217 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		11CC755A2D15D2AF00903217 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		11CC75BB2D15D92E00903217 /* Nexa-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Bold.ttf"; sourceTree = "<group>"; };
+		11CC75BC2D15D92E00903217 /* Nexa-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Light.ttf"; sourceTree = "<group>"; };
+		11CC75BD2D15D92E00903217 /* Nexa-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Regular.ttf"; sourceTree = "<group>"; };
+		11CC75C22D15D9CB00903217 /* HomeTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarCoordinator.swift; sourceTree = "<group>"; };
+		11CC75C52D15DA4500903217 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		11CC75C92D15DD5B00903217 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,13 +94,210 @@
 		11A9D4E02D143F1900F6284A /* MovieTrackingApp */ = {
 			isa = PBXGroup;
 			children = (
-				11A9D4DB2D143F1900F6284A /* AppDelegate.swift */,
-				11A9D4DC2D143F1900F6284A /* Assets.xcassets */,
-				11A9D4DD2D143F1900F6284A /* HomeViewController.swift */,
+				11A9D4E72D1448A900F6284A /* App */,
+				11A9D4EC2D14498B00F6284A /* Network */,
+				11A9D4E82D1448CE00F6284A /* Presentation */,
+				11A9D4E92D1448DC00F6284A /* Helpers */,
+				11A9D4EA2D1448E400F6284A /* Resources */,
 				11A9D4DE2D143F1900F6284A /* Info.plist */,
-				11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */,
 			);
 			path = MovieTrackingApp;
+			sourceTree = "<group>";
+		};
+		11A9D4E72D1448A900F6284A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4DB2D143F1900F6284A /* AppDelegate.swift */,
+				11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */,
+				11CC75582D15D1B600903217 /* Coordinator.swift */,
+				11CC755A2D15D2AF00903217 /* AppCoordinator.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		11A9D4E82D1448CE00F6284A /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D5042D144B9000F6284A /* Auth */,
+				11A9D5052D144B9500F6284A /* Main */,
+				11A9D4F82D144B2900F6284A /* Core */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		11A9D4E92D1448DC00F6284A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D5642D144C2F00F6284A /* Managers */,
+				11A9D4EB2D14497000F6284A /* Extensions */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		11A9D4EA2D1448E400F6284A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75552D15C3DC00903217 /* Fonts */,
+				11A9D4DC2D143F1900F6284A /* Assets.xcassets */,
+				11CC75562D15C52600903217 /* Colors.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		11A9D4EB2D14497000F6284A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4ED2D144A9300F6284A /* Extension.swift */,
+				11A9D4EE2D144A9300F6284A /* LayoutExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		11A9D4EC2D14498B00F6284A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4F42D144AE900F6284A /* Core */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		11A9D4F42D144AE900F6284A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4F12D144AE900F6284A /* CoreAPIHelper.swift */,
+				11A9D4F22D144AE900F6284A /* CoreAPIManager.swift */,
+				11A9D4F32D144AE900F6284A /* CoreErrorModel.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		11A9D4F82D144B2900F6284A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4F92D144B3C00F6284A /* BaseViewController.swift */,
+				11A9D4FF2D144B3C00F6284A /* ReusableViews */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		11A9D4FA2D144B3C00F6284A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		11A9D4FE2D144B3C00F6284A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4FB2D144B3C00F6284A /* ReusableButton.swift */,
+				11A9D4FC2D144B3C00F6284A /* ReusableLabel.swift */,
+				11A9D4FD2D144B3C00F6284A /* ReusableTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		11A9D4FF2D144B3C00F6284A /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4FA2D144B3C00F6284A /* Cells */,
+				11A9D4FE2D144B3C00F6284A /* Views */,
+			);
+			path = ReusableViews;
+			sourceTree = "<group>";
+		};
+		11A9D5042D144B9000F6284A /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		11A9D5052D144B9500F6284A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75C42D15D9E100903217 /* HomeTabBar */,
+				11A9D5062D144BA300F6284A /* HomeViewController */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		11A9D5062D144BA300F6284A /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75C92D15DD5B00903217 /* HomeCoordinator.swift */,
+				11A9D5092D144BD100F6284A /* Views */,
+				11A9D5082D144BC600F6284A /* ViewModules */,
+				11A9D5072D144BC100F6284A /* Models */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		11A9D5072D144BC100F6284A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		11A9D5082D144BC600F6284A /* ViewModules */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D4DD2D143F1900F6284A /* HomeViewController.swift */,
+				11A9D50A2D144BF200F6284A /* HomeViewModel.swift */,
+			);
+			path = ViewModules;
+			sourceTree = "<group>";
+		};
+		11A9D5092D144BD100F6284A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		11A9D5642D144C2F00F6284A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D5652D144C3900F6284A /* UserDefaults */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		11A9D5652D144C3900F6284A /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				11A9D5662D144C4A00F6284A /* UserDefaultsHelper.swift */,
+				11A9D5672D144C4A00F6284A /* UserDefaultsKey.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		11CC75552D15C3DC00903217 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75BE2D15D92E00903217 /* Nexa */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		11CC75BE2D15D92E00903217 /* Nexa */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75BB2D15D92E00903217 /* Nexa-Bold.ttf */,
+				11CC75BC2D15D92E00903217 /* Nexa-Light.ttf */,
+				11CC75BD2D15D92E00903217 /* Nexa-Regular.ttf */,
+			);
+			path = Nexa;
+			sourceTree = "<group>";
+		};
+		11CC75C42D15D9E100903217 /* HomeTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75C22D15D9CB00903217 /* HomeTabBarCoordinator.swift */,
+				11CC75C52D15DA4500903217 /* TabBarController.swift */,
+			);
+			path = HomeTabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,7 +361,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11CC75BF2D15D92E00903217 /* Nexa-Regular.ttf in Resources */,
+				11CC75C02D15D92E00903217 /* Nexa-Light.ttf in Resources */,
+				11CC75C12D15D92E00903217 /* Nexa-Bold.ttf in Resources */,
 				11A9D4E42D143F1900F6284A /* Assets.xcassets in Resources */,
+				11CC75572D15C52600903217 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,9 +376,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11CC75592D15D1B600903217 /* Coordinator.swift in Sources */,
+				11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */,
+				11CC755B2D15D2AF00903217 /* AppCoordinator.swift in Sources */,
+				11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */,
 				11A9D4E12D143F1900F6284A /* AppDelegate.swift in Sources */,
+				11A9D5002D144B3C00F6284A /* ReusableButton.swift in Sources */,
+				11A9D5012D144B3C00F6284A /* BaseViewController.swift in Sources */,
+				11A9D5022D144B3C00F6284A /* ReusableTextField.swift in Sources */,
+				11A9D5032D144B3C00F6284A /* ReusableLabel.swift in Sources */,
+				11CC75C32D15D9CB00903217 /* HomeTabBarCoordinator.swift in Sources */,
+				11CC75C62D15DA4500903217 /* TabBarController.swift in Sources */,
 				11A9D4E22D143F1900F6284A /* HomeViewController.swift in Sources */,
+				11A9D4EF2D144A9300F6284A /* Extension.swift in Sources */,
+				11A9D4F02D144A9300F6284A /* LayoutExtensions.swift in Sources */,
+				11A9D50B2D144BF200F6284A /* HomeViewModel.swift in Sources */,
 				11A9D4E32D143F1900F6284A /* SceneDelegate.swift in Sources */,
+				11A9D4F52D144AE900F6284A /* CoreAPIHelper.swift in Sources */,
+				11CC75CA2D15DD5B00903217 /* HomeCoordinator.swift in Sources */,
+				11A9D4F62D144AE900F6284A /* CoreAPIManager.swift in Sources */,
+				11A9D4F72D144AE900F6284A /* CoreErrorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
