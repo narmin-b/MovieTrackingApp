@@ -44,6 +44,10 @@ final class HomeTabBarCoordinator: Coordinator {
         homeItem.image = UIImage(systemName: "house")
         homeItem.selectedImage = UIImage(systemName: "house.fill")
         homeNavigationController.tabBarItem = homeItem
+        homeNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        homeNavigationController.navigationBar.shadowImage = UIImage()
+        homeNavigationController.navigationItem.title = "Home"
+        homeNavigationController.navigationItem.titleView?.tintColor = .white
         
         let favoriteItem = UITabBarItem()
         favoriteItem.title = "Favorites"

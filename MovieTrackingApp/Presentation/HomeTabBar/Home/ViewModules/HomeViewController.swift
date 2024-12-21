@@ -35,8 +35,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.anchorSize(.init(width: 0, height: 240))
-        collectionView.backgroundColor = .red
+        collectionView.anchorSize(.init(width: 0, height: 180))
         return collectionView
     }()
     
@@ -66,8 +65,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .red
-        collectionView.anchorSize(.init(width: 0, height: 240))
+        collectionView.anchorSize(.init(width: 0, height: 180))
         return collectionView
     }()
     
@@ -97,8 +95,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .red
-        collectionView.anchorSize(.init(width: 0, height: 240))
+        collectionView.anchorSize(.init(width: 0, height: 180))
         return collectionView
     }()
     
@@ -133,7 +130,7 @@ final class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
-
+        
         viewModel?.getNowPlayingMovies()
         viewModel?.getPopularMovies()
         viewModel?.getTopRatedMovies()
@@ -155,13 +152,17 @@ final class HomeViewController: BaseViewController {
        
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let contentHeightNowPlaying = nowPlayingMoviesCollectionView.contentSize.height
+        nowPlayingMoviesCollectionView.collectionViewLayout.invalidateLayout()
+        popularMoviesCollectionView.collectionViewLayout.invalidateLayout()
+        topRatedMoviesCollectionView.collectionViewLayout.invalidateLayout()
+        
+        let contentHeightNowPlaying = nowPlayingMoviesCollectionView.collectionViewLayout.collectionViewContentSize.height
         nowPlayingMoviesCollectionView.heightAnchor.constraint(equalToConstant: contentHeightNowPlaying).isActive = true
         
-        let contentHeightPopularMovies = popularMoviesCollectionView.contentSize.height
+        let contentHeightPopularMovies = popularMoviesCollectionView.collectionViewLayout.collectionViewContentSize.height
         popularMoviesCollectionView.heightAnchor.constraint(equalToConstant: contentHeightPopularMovies).isActive = true
         
-        let contentHeightTopRatedMovies = topRatedMoviesCollectionView.contentSize.height
+        let contentHeightTopRatedMovies = topRatedMoviesCollectionView.collectionViewLayout.collectionViewContentSize.height
         topRatedMoviesCollectionView.heightAnchor.constraint(equalToConstant: contentHeightTopRatedMovies).isActive = true
     }
     
@@ -191,6 +192,10 @@ final class HomeViewController: BaseViewController {
                     self.nowPlayingMoviesCollectionView.reloadData()
                     self.popularMoviesCollectionView.reloadData()
                     self.topRatedMoviesCollectionView.reloadData()
+                    
+                    self.nowPlayingMoviesCollectionView.layoutIfNeeded()
+                    self.popularMoviesCollectionView.layoutIfNeeded()
+                    self.topRatedMoviesCollectionView.layoutIfNeeded()
                 }
             case .error(message: let message):
                 showMessage(title: message)
@@ -228,7 +233,7 @@ final class HomeViewController: BaseViewController {
         nowPlayingMoviesStack.anchor(
             top: scrollStack.topAnchor,
             leading: scrollStack.leadingAnchor,
-            trailing: scrollStack.trailingAnchor,
+            trailing: scrollView.trailingAnchor,
             padding: .init(top: 0, left: 4, bottom: 0, right: -4)
         )
         nowPlayingMovieLabel.anchor(
@@ -239,6 +244,7 @@ final class HomeViewController: BaseViewController {
         nowPlayingMoviesCollectionView.anchor(
             top: nowPlayingMovieLabel.bottomAnchor,
             leading: nowPlayingMoviesStack.leadingAnchor,
+            trailing: nowPlayingMoviesStack.trailingAnchor,
             padding: .init(top: 0, left: 0, bottom: 0, right: 0)
         )
         

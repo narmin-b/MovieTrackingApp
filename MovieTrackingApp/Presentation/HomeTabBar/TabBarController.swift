@@ -16,7 +16,7 @@ final class TabBarController: UITabBarController {
     fileprivate func configureUI() {
         tabBar.backgroundColor = .accentMain
         tabBar.isTranslucent = false
-        tabBar.barTintColor = .white
+        tabBar.barTintColor = .accentMain
         tabBar.tintColor = .white
         tabBar.unselectedItemTintColor = .lightGray
         tabBar.shadowImage = UIImage()
