@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SD
 
 extension Double {
     func convertToString() -> String {
@@ -97,9 +98,9 @@ extension String {
     }
 }
 
-//extension UIImageView {
-//    func loadImageURL(url: String) {
-//        guard let url = URL(string: url) else {return}
-//        self.sd_setImage(with: url)
-//    }
-//}
+extension UIImageView {
+    func loadImageURL(url: String) {
+        guard let url = URL(string: url) else {return}
+        self.sd_setImage(with: url)
+    }
+}

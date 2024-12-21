@@ -1,21 +1,21 @@
 //
-//  HomeViewController.swift
+//  FavoriteViewController.swift
 //  MovieTrackingApp
 //
-//  Created by Narmin Baghirova on 19.12.24.
+//  Created by Narmin Baghirova on 20.12.24.
 //
 
 import UIKit
 
-final class HomeViewController: BaseViewController {
-    private let viewModel: HomeViewModel?
+class FavoriteViewController: BaseViewController {
+    private let viewModel: FavoriteViewModel?
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .yellow
     }
     
-    init(viewModel: HomeViewModel?) {
+    init(viewModel: FavoriteViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

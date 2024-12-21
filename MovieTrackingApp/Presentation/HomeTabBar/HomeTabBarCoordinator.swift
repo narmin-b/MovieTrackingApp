@@ -14,6 +14,7 @@ final class HomeTabBarCoordinator: Coordinator {
     
     private let tabBarController = TabBarController()
     private var homeCoordinator: HomeCoordinator?
+    private var favoriteCoordinator: FavoriteCoordinator?
     
     init(
         navigationController: UINavigationController
@@ -34,22 +35,39 @@ final class HomeTabBarCoordinator: Coordinator {
         homeCoordinator = HomeCoordinator(navigationController: homeNavigationController)
         homeCoordinator?.parentCoordinator = parentCoordinator
         
+        let favoriteNavigationController = UINavigationController()
+        favoriteCoordinator = FavoriteCoordinator(navigationController: favoriteNavigationController)
+        favoriteCoordinator?.parentCoordinator = parentCoordinator
+        
         let homeItem = UITabBarItem()
         homeItem.title = "Home"
         homeItem.image = UIImage(systemName: "house")
         homeItem.selectedImage = UIImage(systemName: "house.fill")
         homeNavigationController.tabBarItem = homeItem
         
+        let favoriteItem = UITabBarItem()
+        favoriteItem.title = "Favorites"
+        favoriteItem.image = UIImage(systemName: "heart")
+        favoriteItem.selectedImage = UIImage(systemName: "heart.fill")
+        favoriteNavigationController.tabBarItem = favoriteItem
+        
         tabBarController.viewControllers = [
-            homeNavigationController
+            homeNavigationController,
+            favoriteNavigationController
         ]
         
         navigationController.pushViewController(tabBarController, animated: true)
+        navigationController.setNavigationBarHidden(true, animated: false)
         
         parentCoordinator?.children.append (
             homeCoordinator ?? HomeCoordinator(navigationController: UINavigationController())
         )
         
+        parentCoordinator?.children.append (
+            favoriteCoordinator ?? FavoriteCoordinator(navigationController: UINavigationController())
+        )
+        
         homeCoordinator?.start()
+        favoriteCoordinator?.start()
     }
 }
