@@ -75,7 +75,6 @@ final class HomeViewModel {
             guard let self = self else { return }
             requestCallback?(.loading)
             if let dto = dto {
-                print(dto)
                 topRatedMoviesDto = dto.results
                 requestCallback?(.success)
             } else if let error = error {

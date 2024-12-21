@@ -35,7 +35,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.anchorSize(.init(width: 0, height: 180))
+        collectionView.anchorSize(.init(width: 0, height: 228))
         return collectionView
     }()
     
@@ -65,7 +65,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.anchorSize(.init(width: 0, height: 180))
+        collectionView.anchorSize(.init(width: 0, height: 228))
         return collectionView
     }()
     
@@ -95,7 +95,7 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.anchorSize(.init(width: 0, height: 180))
+        collectionView.anchorSize(.init(width: 0, height: 228))
         return collectionView
     }()
     
@@ -119,7 +119,7 @@ final class HomeViewController: BaseViewController {
     private lazy var scrollStack: UIStackView = {
         let scrollStack = UIStackView(arrangedSubviews: [nowPlayingMoviesStack, popularMoviesStack, topRatedMoviesStack])
         scrollStack.axis = .vertical
-        scrollStack.spacing = 12
+        scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
         return scrollStack
@@ -130,6 +130,7 @@ final class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
+        configureNavigationBar()
         
         viewModel?.getNowPlayingMovies()
         viewModel?.getPopularMovies()
@@ -141,13 +142,24 @@ final class HomeViewController: BaseViewController {
         nowPlayingMoviesCollectionView.layoutIfNeeded()
         popularMoviesCollectionView.layoutIfNeeded()
         topRatedMoviesCollectionView.layoutIfNeeded()
-        
-//        for family in UIFont.familyNames {
-//            print("Font family: \(family)")
-//            for font in UIFont.fontNames(forFamilyName: family) {
-//                print("    Font name: \(font)")
-//            }
-//        }
+    }
+    
+    fileprivate func configureNavigationBar() {
+        let navgationView = UIView()
+        navgationView.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.text = "Movies"
+        label.sizeToFit()
+        label.textAlignment = .center
+        label.font = UIFont(name: "Nexa-Bold", size: 20)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+       
+        navgationView.addSubview(label)
+        label.centerXToView(to: navgationView)
+        label.centerToYView(to: navgationView)
+
+        navigationItem.titleView = navgationView
     }
        
     override func viewDidLayoutSubviews() {
@@ -234,50 +246,50 @@ final class HomeViewController: BaseViewController {
             top: scrollStack.topAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollView.trailingAnchor,
-            padding: .init(top: 0, left: 4, bottom: 0, right: -4)
+            padding: .init(all: .zero)
         )
         nowPlayingMovieLabel.anchor(
             top: nowPlayingMoviesStack.topAnchor,
             leading: nowPlayingMoviesStack.leadingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         nowPlayingMoviesCollectionView.anchor(
             top: nowPlayingMovieLabel.bottomAnchor,
             leading: nowPlayingMoviesStack.leadingAnchor,
             trailing: nowPlayingMoviesStack.trailingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(all: .zero)
         )
         
         popularMoviesStack.anchor(
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 0, left: 4, bottom: 0, right: -4)
+            padding: .init(all: .zero)
         )
         popularMovieLabel.anchor(
             top: popularMoviesStack.topAnchor,
             leading: popularMoviesStack.leadingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         popularMoviesCollectionView.anchor(
             top: popularMovieLabel.bottomAnchor,
             leading: popularMoviesStack.leadingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(all: .zero)
         )
         
         topRatedMoviesStack.anchor(
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 0, left: 4, bottom: 0, right: -4)
+            padding: .init(all: .zero)
         )
         topRatedMovieLabel.anchor(
             top: topRatedMoviesStack.topAnchor,
             leading: topRatedMoviesStack.leadingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         topRatedMoviesCollectionView.anchor(
             top: topRatedMovieLabel.bottomAnchor,
             leading: topRatedMoviesStack.leadingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(all: .zero)
         )
     }
     
@@ -295,7 +307,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return viewModel?.getPopularMovieItems() ?? 0
         }
         else if collectionView == topRatedMoviesCollectionView {
-            print(viewModel?.getTopRatedItems() ?? 0)
             return viewModel?.getTopRatedItems() ?? 0
         }
         return 0
@@ -321,7 +332,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width - 16) / 4
-        return CGSize(width: width, height: collectionView.bounds.height)
+        return CGSize(width: 120, height: collectionView.bounds.height)
     }
 }

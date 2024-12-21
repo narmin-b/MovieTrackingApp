@@ -9,7 +9,7 @@ import UIKit
 
 class TitleImageCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 12, numOfLines: 2)
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 2)
         label.textAlignment = .center
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,7 @@ class TitleImageCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderWidth = 0.3
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.image = UIImage(named: "testing")
-        imageView.anchorSize(.init(width: 80, height: 120))
+        imageView.anchorSize(.init(width: 120, height: 180))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

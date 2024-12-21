@@ -15,6 +15,8 @@ final class HomeTabBarCoordinator: Coordinator {
     private let tabBarController = TabBarController()
     private var homeCoordinator: HomeCoordinator?
     private var favoriteCoordinator: FavoriteCoordinator?
+    private var searchCoordinator: SearchCoordinator?
+    private var profileCoordinator: ProfileCoordinator?
     
     init(
         navigationController: UINavigationController
@@ -39,6 +41,14 @@ final class HomeTabBarCoordinator: Coordinator {
         favoriteCoordinator = FavoriteCoordinator(navigationController: favoriteNavigationController)
         favoriteCoordinator?.parentCoordinator = parentCoordinator
         
+        let searchNavigationController = UINavigationController()
+        searchCoordinator = SearchCoordinator(navigationController: searchNavigationController)
+        searchCoordinator?.parentCoordinator = parentCoordinator
+        
+        let profileNavigationController = UINavigationController()
+        profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController)
+        profileCoordinator?.parentCoordinator = parentCoordinator
+        
         let homeItem = UITabBarItem()
         homeItem.title = "Home"
         homeItem.image = UIImage(systemName: "house")
@@ -46,8 +56,6 @@ final class HomeTabBarCoordinator: Coordinator {
         homeNavigationController.tabBarItem = homeItem
         homeNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         homeNavigationController.navigationBar.shadowImage = UIImage()
-        homeNavigationController.navigationItem.title = "Home"
-        homeNavigationController.navigationItem.titleView?.tintColor = .white
         
         let favoriteItem = UITabBarItem()
         favoriteItem.title = "Favorites"
@@ -55,9 +63,23 @@ final class HomeTabBarCoordinator: Coordinator {
         favoriteItem.selectedImage = UIImage(systemName: "heart.fill")
         favoriteNavigationController.tabBarItem = favoriteItem
         
+        let searchItem = UITabBarItem()
+        searchItem.title = "Search"
+        searchItem.image = UIImage(systemName: "magnifyingglass")
+        searchItem.selectedImage = UIImage(systemName: "magnifyingglass")
+        searchNavigationController.tabBarItem = searchItem
+        
+        let profileItem = UITabBarItem()
+        profileItem.title = "Profile"
+        profileItem.image = UIImage(systemName: "person")
+        profileItem.selectedImage = UIImage(systemName: "person.fill")
+        profileNavigationController.tabBarItem = profileItem
+        
         tabBarController.viewControllers = [
             homeNavigationController,
-            favoriteNavigationController
+            searchNavigationController,
+            favoriteNavigationController,
+            profileNavigationController
         ]
         
         navigationController.pushViewController(tabBarController, animated: true)
@@ -71,7 +93,17 @@ final class HomeTabBarCoordinator: Coordinator {
             favoriteCoordinator ?? FavoriteCoordinator(navigationController: UINavigationController())
         )
         
+        parentCoordinator?.children.append (
+            searchCoordinator ?? SearchCoordinator(navigationController: UINavigationController())
+        )
+        
+        parentCoordinator?.children.append (
+            profileCoordinator ?? ProfileCoordinator(navigationController: UINavigationController())
+        )
+        
         homeCoordinator?.start()
         favoriteCoordinator?.start()
+        profileCoordinator?.start()
+        searchCoordinator?.start()
     }
 }
