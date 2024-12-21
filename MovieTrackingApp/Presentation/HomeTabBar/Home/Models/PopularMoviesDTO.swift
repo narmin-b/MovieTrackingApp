@@ -49,3 +49,16 @@ struct PopularMoviesResult: Codable {
         case voteCount = "vote_count"
     }
 }
+
+typealias PopularMoviesList = [PopularMoviesResult]
+
+extension PopularMoviesResult: TitleImageCellProtocol {
+    var titleString: String {
+        originalTitle
+    }
+    
+    var imageString: String {
+        posterPath
+    }
+}
+

@@ -54,3 +54,15 @@ struct UpcomingResult: Codable {
         case voteCount = "vote_count"
     }
 }
+
+typealias UpcomingMoviesList = [UpcomingResult]
+
+extension UpcomingResult: TitleImageCellProtocol {
+    var titleString: String {
+        originalTitle
+    }
+    
+    var imageString: String {
+        posterPath
+    }
+}

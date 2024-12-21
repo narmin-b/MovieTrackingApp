@@ -14,7 +14,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         apiService.request(type: NowPlayingDTO.self,
                            url: MovieListsHelper.nowPlaying.endpoint,
                            method: .GET) { [weak self] result in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch result {
             case .success(let data):
                 completion(data, nil)
@@ -28,7 +28,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         apiService.request(type: PopularMoviesDTO.self,
                            url: MovieListsHelper.popular.endpoint,
                            method: .GET) { [weak self] result in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch result {
             case .success(let data):
                 completion(data, nil)
@@ -42,7 +42,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         apiService.request(type: TopRatedMoviesDTO.self,
                            url: MovieListsHelper.topRated.endpoint,
                            method: .GET) { [weak self] result in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch result {
             case .success(let data):
                 completion(data, nil)
@@ -56,7 +56,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         apiService.request(type: UpcomingMoviesDTO.self,
                            url: MovieListsHelper.upcoming.endpoint,
                            method: .GET) { [weak self] result in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch result {
             case .success(let data):
                 completion(data, nil)

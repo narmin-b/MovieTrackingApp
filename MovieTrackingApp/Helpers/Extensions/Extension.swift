@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import SD
+import SDWebImage
 
 extension Double {
     func convertToString() -> String {

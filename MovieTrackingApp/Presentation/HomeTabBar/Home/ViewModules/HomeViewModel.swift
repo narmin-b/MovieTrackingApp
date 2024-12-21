@@ -18,12 +18,12 @@ final class HomeViewModel {
     var requestCallback : ((ViewState) -> Void?)?
     
     // MARK: MovieLists Requests
+    
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
-    private(set) var nowPlayingDto: NowPlayingDTO?
-    private(set) var popularMoviesDto: PopularMoviesDTO?
-    private(set) var topRatedMoviesDto: TopRatedMoviesDTO?
-    private(set) var upcomingMoviesDto: UpcomingMoviesDTO?
-
+    private(set) var nowPlayingDto: NowPlayingMoviesList?
+    private(set) var popularMoviesDto: PopularMoviesList?
+    private(set) var topRatedMoviesDto: TopRatedMoviesList?
+    private(set) var upcomingMoviesDto: UpcomingMoviesList?
     
     func getNowPlayingMovies() {
         requestCallback?(.loading)
@@ -31,8 +31,7 @@ final class HomeViewModel {
             guard let self = self else { return }
             requestCallback?(.loading)
             if let dto = dto {
-                nowPlayingDto = dto
-                print(dto)
+                nowPlayingDto = dto.results
                 requestCallback?(.success)
             } else if let error = error {
                 requestCallback?(.error(message: error))
@@ -40,19 +39,34 @@ final class HomeViewModel {
         }
     }
     
+    func getNowPlayingItems() -> Int {
+        return nowPlayingDto?.count ?? 0
+    }
+    
+    func getNowPlayingProtocol(index: Int) -> TitleImageCellProtocol? {
+        return nowPlayingDto?[index]
+    }
+        
     func getPopularMovies() {
         requestCallback?(.loading)
         movieListsUse.getPopularMovies { [weak self] dto, error in
             guard let self = self else { return }
             requestCallback?(.loading)
             if let dto = dto {
-                popularMoviesDto = dto
-//                print(dto)
+                popularMoviesDto = dto.results
                 requestCallback?(.success)
             } else if let error = error {
                 requestCallback?(.error(message: error))
             }
         }
+    }
+    
+    func getPopularMovieItems() -> Int {
+        return popularMoviesDto?.count ?? 0
+    }
+    
+    func getPopularMovieProtocol(index: Int) -> TitleImageCellProtocol? {
+        return popularMoviesDto?[index]
     }
     
     func getTopRatedMovies() {
@@ -61,13 +75,21 @@ final class HomeViewModel {
             guard let self = self else { return }
             requestCallback?(.loading)
             if let dto = dto {
-                topRatedMoviesDto = dto
-//                print(dto)
+                print(dto)
+                topRatedMoviesDto = dto.results
                 requestCallback?(.success)
             } else if let error = error {
                 requestCallback?(.error(message: error))
             }
         }
+    }
+    
+    func getTopRatedItems() -> Int {
+        return topRatedMoviesDto?.count ?? 0
+    }
+    
+    func getTopRatedProtocol(index: Int) -> TitleImageCellProtocol? {
+        return topRatedMoviesDto?[index]
     }
     
     func getUpcomingMovies() {
@@ -76,12 +98,19 @@ final class HomeViewModel {
             guard let self = self else { return }
             requestCallback?(.loading)
             if let dto = dto {
-                upcomingMoviesDto = dto
-//                print(dto)
+                upcomingMoviesDto = dto.results
                 requestCallback?(.success)
             } else if let error = error {
                 requestCallback?(.error(message: error))
             }
         }
+    }
+    
+    func getUpcomingItems() -> Int {
+        return upcomingMoviesDto?.count ?? 0
+    }
+    
+    func getUpcomingProtocol(index: Int) -> TitleImageCellProtocol? {
+        return upcomingMoviesDto?[index]
     }
 }

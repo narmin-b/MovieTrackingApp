@@ -9,19 +9,27 @@ import UIKit
 
 class TitleImageCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelSize: 24)
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelSize: 12, numOfLines: 2)
+        label.textAlignment = .center
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.anchorSize(.init(width: 80, height: 120))
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 0.3
+        imageView.layer.borderColor = UIColor.white.cgColor
         imageView.image = UIImage(named: "testing")
+        imageView.anchorSize(.init(width: 80, height: 120))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    private var baseImageURL = "https://image.tmdb.org/t/p/w500"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,22 +40,26 @@ class TitleImageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell() {
-       
+    func configureCell(model: TitleImageCellProtocol?) {
+        titleLabel.text = model?.titleString
+        imageView.loadImageURL(url:baseImageURL + (model?.imageString ?? ""))
     }
     
     fileprivate func configureView() {
-        addSubViews(imageView, titleLabel)
+        contentView.addSubViews(imageView, titleLabel)
         
+        imageView.centerXToSuperview()
         imageView.anchor(
             top: topAnchor,
-            leading: leadingAnchor,
-            padding: .init(top: 4, left: 16, bottom: 0, right: 0)
+            padding: .init(top: 4, left: 0, bottom: 0, right: 0)
         )
+
+        titleLabel.centerXToSuperview()
         titleLabel.anchor(
             top: imageView.bottomAnchor,
             leading: leadingAnchor,
-            padding: .init(top: 4, left: 16, bottom: 0, right: 0)
+            trailing: trailingAnchor,
+            padding: .init(top: 4, left: 0, bottom: 0, right: 0)
         )
     }
 }

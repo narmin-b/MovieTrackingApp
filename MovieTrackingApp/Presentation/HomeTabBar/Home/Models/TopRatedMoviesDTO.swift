@@ -48,3 +48,15 @@ struct TopRatedResult: Codable {
         case voteCount = "vote_count"
     }
 }
+
+typealias TopRatedMoviesList = [TopRatedResult]
+
+extension TopRatedResult: TitleImageCellProtocol {
+    var titleString: String {
+        originalTitle
+    }
+    
+    var imageString: String {
+        posterPath
+    }
+}

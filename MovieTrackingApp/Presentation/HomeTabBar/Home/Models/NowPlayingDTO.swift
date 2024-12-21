@@ -55,3 +55,15 @@ struct NowPlayingResult: Codable {
         case voteCount = "vote_count"
     }
 }
+
+typealias NowPlayingMoviesList = [NowPlayingResult]
+
+extension NowPlayingResult: TitleImageCellProtocol {
+    var titleString: String {
+        originalTitle
+    }
+    
+    var imageString: String {
+        posterPath
+    }
+}
