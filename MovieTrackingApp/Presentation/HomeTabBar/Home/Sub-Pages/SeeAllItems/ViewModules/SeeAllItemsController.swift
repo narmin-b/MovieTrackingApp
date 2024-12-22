@@ -41,15 +41,6 @@ final class SeeAllItemsController: BaseViewController {
         viewModel?.getList()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        tabBarController?.tabBar.isHidden = true
-//        navigationController?.tabBarController?.tabBar.isHidden = true
-//    }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        tabBarController?.tabBar.isHidden = false
-//    }
-    
     fileprivate func configureNavigationBar() {
         let navgationView = UIView()
         navgationView.translatesAutoresizingMaskIntoConstraints = false
