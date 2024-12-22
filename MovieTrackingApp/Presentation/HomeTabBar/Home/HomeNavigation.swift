@@ -9,5 +9,5 @@ import Foundation
 
 protocol HomeNavigation: AnyObject {
     func showDetails()
-    func showAllItems(movieList: [MovieResultDTO])
+    func showAllItems(listType: MovieListType)
 }

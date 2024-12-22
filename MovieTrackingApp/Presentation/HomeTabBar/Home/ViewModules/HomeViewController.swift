@@ -41,7 +41,7 @@ final class HomeViewController: BaseViewController {
         let stack = UIStackView(arrangedSubviews: [nowPlayingMovieLabel, nowPlayingSeeAllButton])
         stack.axis = .horizontal
         stack.backgroundColor = .clear
-        stack.distribution = .fillProportionally
+        stack.distribution = .fill
         stack.alignment = .fill
         stack.spacing = 4
         stack.translatesAutoresizingMaskIntoConstraints = false

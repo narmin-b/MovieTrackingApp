@@ -24,8 +24,8 @@ final class HomeCoordinator: Coordinator {
 }
 
 extension HomeCoordinator: HomeNavigation {
-    func showAllItems(movieList: [MovieResultDTO]) {
-        let vc = SeeAllItemsController(viewModel: .init(movieList: movieList))
+    func showAllItems(listType: MovieListType) {
+        let vc = SeeAllItemsController(viewModel: .init(listType: listType))
         showController(vc: vc)
     }
     

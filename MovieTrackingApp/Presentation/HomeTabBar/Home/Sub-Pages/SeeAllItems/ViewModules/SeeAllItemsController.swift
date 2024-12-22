@@ -10,10 +10,11 @@ import UIKit
 final class SeeAllItemsController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-        view.color = .black
-        view.tintColor = .black
+        view.color = .white
+        view.tintColor = .white
         view.hidesWhenStopped = true
         view.backgroundColor = .white
+        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -38,6 +39,16 @@ final class SeeAllItemsController: BaseViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel?.getList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
     }
     
     fileprivate func configureNavigationBar() {
@@ -80,10 +91,9 @@ final class SeeAllItemsController: BaseViewController {
                     self.loadingView.stopAnimating()
                 }
             case .success:
-                print(#function)
-                DispatchQueue.main.async {
-                    self.allMoviesCollectionView.reloadData()
-                }
+//                DispatchQueue.main.async {
+                allMoviesCollectionView.reloadData()
+//                }
             case .error(message: let message):
                 showMessage(title: message)
             }
@@ -92,17 +102,29 @@ final class SeeAllItemsController: BaseViewController {
     
     override func configureView() {
         configureNavigationBar()
+        allMoviesCollectionView.reloadData()
         
-        view.backgroundColor = .backgroundMain
+        self.view.backgroundColor = .backgroundMain
         view.addSubViews(loadingView, allMoviesCollectionView)
         view.bringSubviewToFront(loadingView)
     }
     
     override func configureConstraint() {
-        loadingView.centerXToSuperview()
-        loadingView.centerYToSuperview()
+        loadingView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(all: 0)
+        )
         
-        allMoviesCollectionView.fillSuperviewSafeAreaLayoutGuide()
+        allMoviesCollectionView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(all: 0)
+        )
     }
         
     
@@ -120,7 +142,7 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell", for: indexPath) as? ImageCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let item = viewModel?.getAllItemsProtocol(index: indexPath.row) 
+        let item = viewModel?.getAllItemsProtocol(index: indexPath.row)
         cell.configureCell(model: item)
         return cell
     }

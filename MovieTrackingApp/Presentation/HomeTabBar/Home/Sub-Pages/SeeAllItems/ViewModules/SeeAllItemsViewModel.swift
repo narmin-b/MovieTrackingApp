@@ -16,10 +16,12 @@ final class SeeAllItemsViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
-    private let movieList: [MovieResultDTO]
+    private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
+    private var movieList: [MovieResultDTO] = []
+    private var listType: MovieListType
     
-    init(movieList: [MovieResultDTO]) {
-        self.movieList = movieList
+    init(listType: MovieListType) {
+        self.listType = listType
     }
     
     func getAllItems() -> Int {
@@ -29,4 +31,83 @@ final class SeeAllItemsViewModel {
     func getAllItemsProtocol(index: Int) -> TitleImageCellProtocol? {
         return movieList[index]
     }
+    
+    
+    func getList() {
+        switch listType {
+        case .nowPlaying:
+            getAllNowPlayingMovies()
+        case .popular:
+            getAllPopularMovies()
+        case .topRated:
+            getAllTopRatedMovies()
+        case .upcoming:
+            getAllUpcomingMovies()
+        }
+    }
+    
+    fileprivate func getAllNowPlayingMovies() {
+        requestCallback?(.loading)
+        for i in 1...10 {
+            movieListsUse.getNowPlayingMovies(page: i) { [weak self] dto, error in
+                guard let self = self else { return }
+                requestCallback?(.loaded)
+                if let dto = dto {
+                    movieList += dto.results
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    fileprivate func getAllPopularMovies() {
+        requestCallback?(.loading)
+        for i in 1...10 {
+            self.movieListsUse.getPopularMovies(page: i) { [weak self] dto, error in
+                guard let self = self else { return }
+                requestCallback?(.loaded)
+                if let dto = dto {
+                    movieList += dto.results
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+
+    fileprivate func getAllTopRatedMovies() {
+        requestCallback?(.loading)
+        for i in 1...10 {
+            self.movieListsUse.getTopRatedMovies(page: i) { [weak self] dto, error in
+                guard let self = self else { return }
+                requestCallback?(.loaded)
+                if let dto = dto {
+                    movieList += dto.results
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    fileprivate func getAllUpcomingMovies() {
+        requestCallback?(.loading)
+        for i in 1...10 {
+            self.movieListsUse.getUpcomingMovies(page: i) { [weak self] dto, error in
+                guard let self = self else { return }
+                requestCallback?(.loaded)
+                if let dto = dto {
+                    movieList += dto.results
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
 }

@@ -17,6 +17,8 @@ final class HomeViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: HomeNavigation?
+    private var seeAllList: [MovieResultDTO] = []
+
     
     init(navigation: HomeNavigation) {
         self.navigation = navigation
@@ -27,22 +29,7 @@ final class HomeViewModel {
     }
     
     func showAllItems(listType: MovieListType) {
-        var list: [MovieResultDTO] = []
-        switch listType {
-        case .nowPlaying:
-            getAllNowPlayingMovies()
-            list = nowPlayingDto
-        case .popular:
-            getAllPopularMovies()
-            list = popularMoviesDto
-        case .topRated:
-            getAllTopRatedMovies()
-            list = topRatedMoviesDto
-        case .upcoming:
-            getAllUpcomingMovies()
-            list = upcomingMoviesDto
-        }
-        navigation?.showAllItems(movieList: list)
+        navigation?.showAllItems(listType: listType)
     }
     
     // MARK: MovieLists Requests
@@ -68,24 +55,6 @@ final class HomeViewModel {
         print(nowPlayingDto)
     }
     
-    fileprivate func getAllNowPlayingMovies() {
-        requestCallback?(.loading)
-        DispatchQueue.main.async {
-            for i in 2...10 {
-                self.movieListsUse.getNowPlayingMovies(page: i) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        nowPlayingDto.append(contentsOf: dto.results)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
-                }
-            }
-        }
-        requestCallback?(.success)
-    }
-    
     func getNowPlayingItems() -> Int {
         return nowPlayingDto.count
     }
@@ -106,24 +75,6 @@ final class HomeViewModel {
                 requestCallback?(.error(message: error))
             }
         }
-    }
-    
-    fileprivate func getAllPopularMovies() {
-        requestCallback?(.loading)
-        DispatchQueue.main.async {
-            for i in 2...10 {
-                self.movieListsUse.getPopularMovies(page: i) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        popularMoviesDto.append(contentsOf: dto.results)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
-                }
-            }
-        }
-        requestCallback?(.success)
     }
     
     func getPopularMovieItems() -> Int {
@@ -148,24 +99,6 @@ final class HomeViewModel {
         }
     }
     
-    fileprivate func getAllTopRatedMovies() {
-        requestCallback?(.loading)
-        DispatchQueue.main.async {
-            for i in 2...10 {
-                self.movieListsUse.getTopRatedMovies(page: i) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        topRatedMoviesDto.append(contentsOf: dto.results)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
-                }
-            }
-        }
-        requestCallback?(.success)
-    }
-    
     func getTopRatedItems() -> Int {
         return topRatedMoviesDto.count
     }
@@ -186,24 +119,6 @@ final class HomeViewModel {
                 requestCallback?(.error(message: error))
             }
         }
-    }
-    
-    fileprivate func getAllUpcomingMovies() {
-        requestCallback?(.loading)
-        DispatchQueue.main.async {
-            for i in 2...10 {
-                self.movieListsUse.getUpcomingMovies(page: i) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        upcomingMoviesDto.append(contentsOf: dto.results)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
-                }
-            }
-        }
-        requestCallback?(.success)
     }
     
     func getUpcomingItems() -> Int {
