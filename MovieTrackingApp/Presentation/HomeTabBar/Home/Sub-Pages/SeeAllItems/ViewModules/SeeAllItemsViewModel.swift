@@ -32,6 +32,18 @@ final class SeeAllItemsViewModel {
         return movieList[index]
     }
     
+    func getNavBarTitle() -> String {
+        switch listType {
+        case .nowPlaying:
+            return "Now Playing"
+        case .popular:
+            return "Popular"
+        case .topRated:
+            return "Top Rated"
+        case .upcoming:
+            return "Upcoming"
+        }
+    }
     
     func getList() {
         switch listType {

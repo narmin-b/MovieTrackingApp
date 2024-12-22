@@ -10,11 +10,10 @@ import UIKit
 final class SeeAllItemsController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-        view.color = .white
-        view.tintColor = .white
+        view.color = .black
+        view.tintColor = .black
         view.hidesWhenStopped = true
         view.backgroundColor = .white
-        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -42,20 +41,20 @@ final class SeeAllItemsController: BaseViewController {
         viewModel?.getList()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = true
-        navigationController?.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        tabBarController?.tabBar.isHidden = false
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        tabBarController?.tabBar.isHidden = true
+//        navigationController?.tabBarController?.tabBar.isHidden = true
+//    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        tabBarController?.tabBar.isHidden = false
+//    }
     
     fileprivate func configureNavigationBar() {
         let navgationView = UIView()
         navgationView.translatesAutoresizingMaskIntoConstraints = false
         let label = UILabel()
-        label.text = "All Movies"
+        label.text = viewModel?.getNavBarTitle()
         label.sizeToFit()
         label.textAlignment = .center
         label.font = UIFont(name: "Nexa-Bold", size: 20)
@@ -67,6 +66,11 @@ final class SeeAllItemsController: BaseViewController {
         label.centerToYView(to: navgationView)
 
         navigationItem.titleView = navgationView
+        navigationController?.navigationBar.tintColor = .primaryHighlight
+
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
     init(viewModel: SeeAllItemsViewModel?) {

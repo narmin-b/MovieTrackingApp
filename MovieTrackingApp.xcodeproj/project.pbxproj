@@ -431,12 +431,12 @@
 		11A9D5062D144BA300F6284A /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				113DDE542D184F7D00AB95E1 /* Sub-Pages */,
 				113DDE242D18262800AB95E1 /* HomeNavigation.swift */,
 				11CC75C92D15DD5B00903217 /* HomeCoordinator.swift */,
 				11A9D5082D144BC600F6284A /* ViewModules */,
 				11A9D5092D144BD100F6284A /* Views */,
 				11A9D5072D144BC100F6284A /* Models */,
+				113DDE542D184F7D00AB95E1 /* Sub-Pages */,
 			);
 			path = Home;
 			sourceTree = "<group>";
