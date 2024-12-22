@@ -8,17 +8,21 @@
 import Foundation
 
 enum MovieListsHelper {
-    case popular
-    case nowPlaying
-    case topRated
-    case upcoming
+    case popular(page: Int)
+    case nowPlaying(page: Int)
+    case topRated(page: Int)
+    case upcoming(page: Int)
     
     var endpoint: URL? {
         switch self {
-        case .popular: return CoreAPIHelper.instance.makeURL(path: "movie/popular")
-        case .nowPlaying: return CoreAPIHelper.instance.makeURL(path: "movie/now_playing")
-        case .topRated: return CoreAPIHelper.instance.makeURL(path: "movie/top_rated")
-        case .upcoming: return CoreAPIHelper.instance.makeURL(path: "movie/upcoming")
+        case .popular(let page):
+            return CoreAPIHelper.instance.makeURL(path: "movie/popular?language=en-US&page=", page: page)
+        case .nowPlaying(let page):
+            return CoreAPIHelper.instance.makeURL(path: "movie/now_playing?language=en-US&page=", page: page)
+        case .topRated(let page):
+            return CoreAPIHelper.instance.makeURL(path: "movie/top_rated?language=en-US&page=", page: page)
+        case .upcoming(let page):
+            return CoreAPIHelper.instance.makeURL(path: "movie/upcoming?language=en-US&page=", page: page)
         }
     }
 }

@@ -50,7 +50,7 @@ final class HomeTabBarCoordinator: Coordinator {
         profileCoordinator?.parentCoordinator = parentCoordinator
         
         let homeItem = UITabBarItem()
-        homeItem.title = "Home"
+//        homeItem.title = "Home"
         homeItem.image = UIImage(systemName: "house")
         homeItem.selectedImage = UIImage(systemName: "house.fill")
         homeNavigationController.tabBarItem = homeItem
@@ -58,19 +58,19 @@ final class HomeTabBarCoordinator: Coordinator {
         homeNavigationController.navigationBar.shadowImage = UIImage()
         
         let favoriteItem = UITabBarItem()
-        favoriteItem.title = "Favorites"
+//        favoriteItem.title = "Favorites"
         favoriteItem.image = UIImage(systemName: "heart")
         favoriteItem.selectedImage = UIImage(systemName: "heart.fill")
         favoriteNavigationController.tabBarItem = favoriteItem
         
         let searchItem = UITabBarItem()
-        searchItem.title = "Search"
+//        searchItem.title = "Search"
         searchItem.image = UIImage(systemName: "magnifyingglass")
         searchItem.selectedImage = UIImage(systemName: "magnifyingglass")
         searchNavigationController.tabBarItem = searchItem
         
         let profileItem = UITabBarItem()
-        profileItem.title = "Profile"
+//        profileItem.title = "Profile"
         profileItem.image = UIImage(systemName: "person")
         profileItem.selectedImage = UIImage(systemName: "person.fill")
         profileNavigationController.tabBarItem = profileItem

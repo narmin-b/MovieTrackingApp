@@ -8,8 +8,8 @@
 import Foundation
 
 protocol MovieListsUseCase {
-    func getNowPlayingMovies(completion: @escaping(NowPlayingDTO?, String?) -> Void)
-    func getPopularMovies(completion: @escaping(PopularMoviesDTO?, String?) -> Void)
-    func getTopRatedMovies(completion: @escaping(TopRatedMoviesDTO?, String?) -> Void)
-    func getUpcomingMovies(completion: @escaping(UpcomingMoviesDTO?, String?) -> Void)
+    func getNowPlayingMovies(page: Int, completion: @escaping(NowPlayingDTO?, String?) -> Void)
+    func getPopularMovies(page: Int, completion: @escaping(PopularMoviesDTO?, String?) -> Void)
+    func getTopRatedMovies(page: Int, completion: @escaping(TopRatedMoviesDTO?, String?) -> Void)
+    func getUpcomingMovies(page: Int, completion: @escaping(UpcomingMoviesDTO?, String?) -> Void)
 }

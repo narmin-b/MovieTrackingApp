@@ -10,9 +10,9 @@ import Foundation
 final class MovieListsAPIService: MovieListsUseCase {
     private let apiService = CoreAPIManager.instance
     
-    func getNowPlayingMovies(completion: @escaping (NowPlayingDTO?, String?) -> Void) {
+    func getNowPlayingMovies(page: Int, completion: @escaping (NowPlayingDTO?, String?) -> Void) {
         apiService.request(type: NowPlayingDTO.self,
-                           url: MovieListsHelper.nowPlaying.endpoint,
+                           url: MovieListsHelper.nowPlaying(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {
@@ -24,9 +24,9 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getPopularMovies(completion: @escaping (PopularMoviesDTO?, String?) -> Void) {
+    func getPopularMovies(page: Int, completion: @escaping (PopularMoviesDTO?, String?) -> Void) {
         apiService.request(type: PopularMoviesDTO.self,
-                           url: MovieListsHelper.popular.endpoint,
+                           url: MovieListsHelper.popular(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {
@@ -38,9 +38,9 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getTopRatedMovies(completion: @escaping (TopRatedMoviesDTO?, String?) -> Void) {
+    func getTopRatedMovies(page: Int, completion: @escaping (TopRatedMoviesDTO?, String?) -> Void) {
         apiService.request(type: TopRatedMoviesDTO.self,
-                           url: MovieListsHelper.topRated.endpoint,
+                           url: MovieListsHelper.topRated(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {
@@ -52,9 +52,9 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getUpcomingMovies(completion: @escaping (UpcomingMoviesDTO?, String?) -> Void) {
+    func getUpcomingMovies(page: Int, completion: @escaping (UpcomingMoviesDTO?, String?) -> Void) {
         apiService.request(type: UpcomingMoviesDTO.self,
-                           url: MovieListsHelper.upcoming.endpoint,
+                           url: MovieListsHelper.upcoming(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {

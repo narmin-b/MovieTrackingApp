@@ -18,7 +18,19 @@ final class HomeCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = HomeViewController(viewModel: HomeViewModel())
+        let controller = HomeViewController(viewModel: .init(navigation: self))
         showController(vc: controller)
+    }
+}
+
+extension HomeCoordinator: HomeNavigation {
+    func showAllItems(movieList: [MovieResultDTO]) {
+        let vc = SeeAllItemsController(viewModel: .init(movieList: movieList))
+        showController(vc: vc)
+    }
+    
+    func showDetails() {
+        let vc = MovieDetailController(viewModel: .init())
+        showController(vc: vc)
     }
 }
