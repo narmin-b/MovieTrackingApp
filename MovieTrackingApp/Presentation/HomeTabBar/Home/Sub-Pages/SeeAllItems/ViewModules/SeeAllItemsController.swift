@@ -40,9 +40,12 @@ final class SeeAllItemsController: BaseViewController {
         print("deinit")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel?.getList()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel?.getList()
     }
     
     fileprivate func configureNavigationBar() {

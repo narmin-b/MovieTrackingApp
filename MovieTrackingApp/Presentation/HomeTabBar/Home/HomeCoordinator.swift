@@ -30,8 +30,8 @@ extension HomeCoordinator: HomeNavigation {
         showController(vc: vc)
     }
     
-    func showDetails() {
-        let vc = MovieDetailController(viewModel: .init())
+    func showDetails(movie: MovieDetailProtocol) {
+        let vc = MovieDetailController(viewModel: .init(movie: movie))
         showController(vc: vc)
     }
 }

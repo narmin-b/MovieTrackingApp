@@ -25,8 +25,8 @@ final class HomeViewModel {
         self.navigation = navigation
     }
     
-    func showMovieDetail() {
-        navigation?.showDetails()
+    func showMovieDetail(movie: MovieDetailProtocol) {
+        navigation?.showDetails(movie: movie)
     }
     
     func showAllItems(listType: MovieListType) {
@@ -60,6 +60,10 @@ final class HomeViewModel {
         return nowPlayingDto.count
     }
     
+    func getNowPlayingMovie(index: Int) -> MovieDetailProtocol {
+        return nowPlayingDto[index]
+    }
+    
     func getNowPlayingProtocol(index: Int) -> TitleImageCellProtocol? {
         return nowPlayingDto[index]
     }
@@ -86,6 +90,10 @@ final class HomeViewModel {
         return popularMoviesDto[index]
     }
     
+    func getPopularMovie(index: Int) -> MovieDetailProtocol {
+        return popularMoviesDto[index]
+    }
+    
     func getTopRatedMovies() {
         requestCallback?(.loading)
         movieListsUse.getTopRatedMovies(page: 1) { [weak self] dto, error in
@@ -102,6 +110,10 @@ final class HomeViewModel {
     
     func getTopRatedItems() -> Int {
         return topRatedMoviesDto.count
+    }
+    
+    func getTopRatedMovie(index: Int) -> MovieDetailProtocol {
+        return topRatedMoviesDto[index]
     }
     
     func getTopRatedProtocol(index: Int) -> TitleImageCellProtocol? {
@@ -127,6 +139,10 @@ final class HomeViewModel {
     }
     
     func getUpcomingProtocol(index: Int) -> TitleImageCellProtocol? {
+        return upcomingMoviesDto[index]
+    }
+    
+    func getUpcomingMovie(index: Int) -> MovieDetailProtocol {
         return upcomingMoviesDto[index]
     }
 }

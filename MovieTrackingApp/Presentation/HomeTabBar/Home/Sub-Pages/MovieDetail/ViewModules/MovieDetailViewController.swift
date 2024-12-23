@@ -18,6 +18,12 @@ final class MovieDetailController: BaseViewController {
         return view
     }()
     
+    private let titleLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Test")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let viewModel: MovieDetailViewModel?
         
     override func viewDidLoad() {
@@ -80,11 +86,15 @@ final class MovieDetailController: BaseViewController {
     
     override func configureView() {
         view.backgroundColor = .purple
+        view.addSubview(titleLabel)
+        titleLabel.text = viewModel?.getMovieName()
     }
     
     override func configureConstraint() {
         loadingView.centerXToSuperview()
         loadingView.centerYToSuperview()
+        titleLabel.centerXToSuperview()
+        titleLabel.centerYToSuperview()
     }
         
     override func configureTargets() {

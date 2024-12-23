@@ -45,3 +45,61 @@ extension MovieResultDTO: TitleImageCellProtocol {
         posterPath
     }
 }
+
+extension MovieResultDTO: MovieDetailProtocol {
+    var adultBool: Bool {
+        adult
+    }
+    
+    var backdropPathStr: String {
+        backdropPath
+    }
+    
+    var genreIDSInt: [Int] {
+        genreIDS
+    }
+    
+    var idInt: Int {
+        id
+    }
+    
+    var originalLanguageStr: String {
+        originalLanguage
+    }
+    
+    var originalTitleStr: String {
+        originalTitle
+    }
+    
+    var overviewStr: String {
+        overview
+    }
+    
+    var popularityDbl: Double {
+        popularity
+    }
+    
+    var posterPathStr: String {
+        posterPath
+    }
+    
+    var releaseDateStr: String {
+        releaseDate
+    }
+    
+    var titleStr: String {
+        title
+    }
+    
+    var videoBool: Bool {
+        video
+    }
+    
+    var voteAverageDbl: Double {
+        voteAverage
+    }
+    
+    var voteCountInt: Int {
+        voteCount
+    }
+}

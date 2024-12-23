@@ -16,4 +16,13 @@ final class MovieDetailViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
+    private var movie: MovieDetailProtocol?
+    
+    init(movie: MovieDetailProtocol) {
+        self.movie = movie
+    }
+    
+    func getMovieName() -> String {
+        return movie?.originalTitleStr ?? ""
+    }
 }

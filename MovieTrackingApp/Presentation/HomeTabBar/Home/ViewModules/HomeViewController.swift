@@ -507,6 +507,23 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel?.showMovieDetail()
+        print("movie")
+        if collectionView == nowPlayingMoviesCollectionView {
+            guard let item = viewModel?.getNowPlayingMovie(index: indexPath.row) else {return}
+            viewModel?.showMovieDetail(movie: item)
+        }
+        else if collectionView == popularMoviesCollectionView {
+            guard let item = viewModel?.getPopularMovie(index: indexPath.row) else {return}
+            viewModel?.showMovieDetail(movie: item)
+        }
+        else if collectionView == topRatedMoviesCollectionView {
+            guard let item = viewModel?.getTopRatedMovie(index: indexPath.row) else {return}
+            viewModel?.showMovieDetail(movie: item)
+        }
+        else if collectionView == upcomingMoviesCollectionView {
+            guard let item = viewModel?.getUpcomingMovie(index: indexPath.row) else {return}
+            viewModel?.showMovieDetail(movie: item)
+        }
+//        viewModel?.showMovieDetail(movie: MovieResultDTO)
     }
 }
