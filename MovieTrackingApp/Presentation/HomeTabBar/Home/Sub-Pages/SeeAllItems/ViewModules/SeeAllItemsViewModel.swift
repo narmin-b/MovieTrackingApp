@@ -16,6 +16,7 @@ final class SeeAllItemsViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
+    
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var movieList: [MovieResultDTO] = []
     private var listType: MovieListType
@@ -23,6 +24,10 @@ final class SeeAllItemsViewModel {
     init(listType: MovieListType) {
         self.listType = listType
     }
+    
+//    func showMovieDetail() {
+//        navigation?.showDetails()
+//    }
     
     func getAllItems() -> Int {
         return movieList.count
@@ -66,12 +71,12 @@ final class SeeAllItemsViewModel {
                 requestCallback?(.loaded)
                 if let dto = dto {
                     movieList += dto.results
-                    requestCallback?(.success)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.success)
     }
     
     fileprivate func getAllPopularMovies() {
@@ -82,12 +87,12 @@ final class SeeAllItemsViewModel {
                 requestCallback?(.loaded)
                 if let dto = dto {
                     movieList += dto.results
-                    requestCallback?(.success)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.success)
     }
 
     fileprivate func getAllTopRatedMovies() {
@@ -98,12 +103,12 @@ final class SeeAllItemsViewModel {
                 requestCallback?(.loaded)
                 if let dto = dto {
                     movieList += dto.results
-                    requestCallback?(.success)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.success)
     }
     
     fileprivate func getAllUpcomingMovies() {
@@ -114,12 +119,12 @@ final class SeeAllItemsViewModel {
                 requestCallback?(.loaded)
                 if let dto = dto {
                     movieList += dto.results
-                    requestCallback?(.success)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.success)
     }
     
 }

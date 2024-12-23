@@ -10,10 +10,10 @@ import UIKit
 final class SeeAllItemsController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-        view.color = .black
-        view.tintColor = .black
+        view.color = .white
+        view.tintColor = .white
         view.hidesWhenStopped = true
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -35,7 +35,11 @@ final class SeeAllItemsController: BaseViewController {
     }()
     
     private let viewModel: SeeAllItemsViewModel?
-        
+    
+    deinit {
+        print("deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel?.getList()
@@ -78,17 +82,13 @@ final class SeeAllItemsController: BaseViewController {
             guard let self = self else {return}
             switch state {
             case .loading:
-                DispatchQueue.main.async {
                     self.loadingView.startAnimating()
-                }
             case .loaded:
                 DispatchQueue.main.async {
                     self.loadingView.stopAnimating()
                 }
             case .success:
-//                DispatchQueue.main.async {
                 allMoviesCollectionView.reloadData()
-//                }
             case .error(message: let message):
                 showMessage(title: message)
             }
@@ -97,7 +97,6 @@ final class SeeAllItemsController: BaseViewController {
     
     override func configureView() {
         configureNavigationBar()
-        allMoviesCollectionView.reloadData()
         
         self.view.backgroundColor = .backgroundMain
         view.addSubViews(loadingView, allMoviesCollectionView)
@@ -144,5 +143,10 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.bounds.width-24)/4, height: (collectionView.bounds.width-24)/8*3)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("movie")
+//        viewModel?.showMovieDetail()
     }
 }

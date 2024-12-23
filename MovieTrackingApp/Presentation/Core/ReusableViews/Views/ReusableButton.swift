@@ -17,7 +17,7 @@ class ReusableButton: UIButton {
     private var onAction: (() -> Void)
     
     
-    init(title: String!, onAction: (@escaping () -> Void), cornerRad: CGFloat = 12, bgColor: UIColor = .gray, titleColor: UIColor = .white, titleSize: CGFloat = 18, titleFont: String = "Futura") {
+    init(title: String!, onAction: (@escaping () -> Void), cornerRad: CGFloat = 12, bgColor: UIColor = .gray, titleColor: UIColor = .white, titleSize: CGFloat = 16, titleFont: String = "Futura") {
         self.title = title
         self.onAction = onAction
         self.bgColor = bgColor

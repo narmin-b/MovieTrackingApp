@@ -17,10 +17,10 @@ enum MovieListType {
 final class HomeViewController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-        view.color = .black
-        view.tintColor = .black
+        view.color = .white
+        view.tintColor = .white
         view.hidesWhenStopped = true
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -33,6 +33,12 @@ final class HomeViewController: BaseViewController {
     
     private lazy var nowPlayingSeeAllButton: UIButton = {
         let button = ReusableButton(title: "See All", onAction: nowPlayingSeeAllButtonClicked, bgColor: .clear, titleColor: .primaryHighlight)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
+        config.baseForegroundColor = .primaryHighlight
+        button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -82,6 +88,12 @@ final class HomeViewController: BaseViewController {
     
     private lazy var popularMoviesSeeAllButton: UIButton = {
         let button = ReusableButton(title: "See All", onAction: popularMoviesSeeAllButtonClicked, bgColor: .clear, titleColor: .primaryHighlight)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
+        config.baseForegroundColor = .primaryHighlight
+        button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -90,8 +102,9 @@ final class HomeViewController: BaseViewController {
         let stack = UIStackView(arrangedSubviews: [popularMovieLabel, popularMoviesSeeAllButton])
         stack.axis = .horizontal
         stack.backgroundColor = .clear
-        stack.distribution = .fillProportionally
+        stack.distribution = .fill
         stack.alignment = .fill
+        stack.spacing = 4
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -127,6 +140,29 @@ final class HomeViewController: BaseViewController {
         return label
     }()
     
+    private lazy var topRatedMoviesSeeAllButton: UIButton = {
+        let button = ReusableButton(title: "See All", onAction: topRatedMoviesSeeAllButtonClicked, bgColor: .clear, titleColor: .primaryHighlight)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
+        config.baseForegroundColor = .primaryHighlight
+        button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var topRatedMoviesLabelStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [topRatedMovieLabel, topRatedMoviesSeeAllButton])
+        stack.axis = .horizontal
+        stack.backgroundColor = .clear
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     private lazy var topRatedMoviesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -143,7 +179,61 @@ final class HomeViewController: BaseViewController {
     }()
     
     private lazy var topRatedMoviesStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [topRatedMovieLabel, topRatedMoviesCollectionView])
+        let stack = UIStackView(arrangedSubviews: [topRatedMoviesLabelStack, topRatedMoviesCollectionView])
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    private lazy var upcomingMovieLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Upcoming Movies", labelColor: .white, labelFont: "NexaRegular", labelSize: 24)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var upcomingMoviesSeeAllButton: UIButton = {
+        let button = ReusableButton(title: "See All", onAction: upcomingMoviesSeeAllButtonClicked, bgColor: .clear, titleColor: .primaryHighlight)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 8
+        config.baseForegroundColor = .primaryHighlight
+        button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var upcomingMoviesLabelStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [upcomingMovieLabel, upcomingMoviesSeeAllButton])
+        stack.axis = .horizontal
+        stack.backgroundColor = .clear
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 4
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    private lazy var upcomingMoviesCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(TitleImageCollectionViewCell.self, forCellWithReuseIdentifier: "TitleImageCollectionViewCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.anchorSize(.init(width: 0, height: 228))
+        return collectionView
+    }()
+    
+    private lazy var upcomingMoviesStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [upcomingMoviesLabelStack, upcomingMoviesCollectionView])
         stack.axis = .vertical
         stack.distribution = .fill
         stack.alignment = .fill
@@ -161,7 +251,7 @@ final class HomeViewController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [nowPlayingMoviesStack, popularMoviesStack, topRatedMoviesStack])
+        let scrollStack = UIStackView(arrangedSubviews: [nowPlayingMoviesStack, popularMoviesStack, topRatedMoviesStack, upcomingMoviesStack])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -170,7 +260,7 @@ final class HomeViewController: BaseViewController {
     }()
     
     private let viewModel: HomeViewModel?
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
@@ -179,17 +269,35 @@ final class HomeViewController: BaseViewController {
         viewModel?.getNowPlayingMovies()
         viewModel?.getPopularMovies()
         viewModel?.getTopRatedMovies()
+        viewModel?.getUpcomingMovies()
     }
     
     override func configureView() {
         view.backgroundColor = .backgroundMain
-        view.addSubViews(scrollView)
+        view.addSubViews(loadingView, scrollView)
         view.bringSubviewToFront(loadingView)
+        nowPlayingMovieLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        popularMovieLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        topRatedMovieLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        upcomingMovieLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
+        nowPlayingSeeAllButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        popularMoviesSeeAllButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        topRatedMoviesSeeAllButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        upcomingMoviesSeeAllButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     override func configureConstraint() {
-        loadingView.centerXToSuperview()
-        loadingView.centerYToSuperview()
+//        loadingView.centerXToSuperview()
+//        loadingView.centerYToSuperview()
+        loadingView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(all: 0)
+        )
+        
         
         scrollView.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
@@ -217,7 +325,7 @@ final class HomeViewController: BaseViewController {
             top: nowPlayingMoviesStack.topAnchor,
             leading: nowPlayingMoviesStack.leadingAnchor,
             trailing: nowPlayingMoviesStack.trailingAnchor,
-            padding: .init(top: 0, left: 4, bottom: 0, right: 4)
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         nowPlayingMoviesCollectionView.anchor(
             top: nowPlayingMoviesLabelStack.bottomAnchor,
@@ -235,11 +343,12 @@ final class HomeViewController: BaseViewController {
             top: popularMoviesStack.topAnchor,
             leading: popularMoviesStack.leadingAnchor,
             trailing: popularMoviesStack.trailingAnchor,
-            padding: .init(top: 0, left: 4, bottom: 0, right: 4)
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         popularMoviesCollectionView.anchor(
             top: popularMoviesLabelStack.bottomAnchor,
             leading: popularMoviesStack.leadingAnchor,
+            trailing: popularMoviesStack.trailingAnchor,
             padding: .init(all: .zero)
         )
         
@@ -248,14 +357,34 @@ final class HomeViewController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(all: .zero)
         )
-        topRatedMovieLabel.anchor(
+        topRatedMoviesLabelStack.anchor(
             top: topRatedMoviesStack.topAnchor,
             leading: topRatedMoviesStack.leadingAnchor,
+            trailing: topRatedMoviesStack.trailingAnchor,
             padding: .init(top: 0, left: 4, bottom: 0, right: 0)
         )
         topRatedMoviesCollectionView.anchor(
-            top: topRatedMovieLabel.bottomAnchor,
+            top: topRatedMoviesLabelStack.bottomAnchor,
             leading: topRatedMoviesStack.leadingAnchor,
+            trailing: topRatedMoviesStack.trailingAnchor,
+            padding: .init(all: .zero)
+        )
+        
+        upcomingMoviesStack.anchor(
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(all: .zero)
+        )
+        upcomingMoviesLabelStack.anchor(
+            top: upcomingMoviesStack.topAnchor,
+            leading: upcomingMoviesStack.leadingAnchor,
+            trailing: upcomingMoviesStack.trailingAnchor,
+            padding: .init(top: 0, left: 4, bottom: 0, right: 0)
+        )
+        upcomingMoviesCollectionView.anchor(
+            top: upcomingMoviesLabelStack.bottomAnchor,
+            leading: upcomingMoviesStack.leadingAnchor,
+            trailing: upcomingMoviesStack.trailingAnchor,
             padding: .init(all: .zero)
         )
     }
@@ -308,6 +437,7 @@ final class HomeViewController: BaseViewController {
                     self.nowPlayingMoviesCollectionView.reloadData()
                     self.popularMoviesCollectionView.reloadData()
                     self.topRatedMoviesCollectionView.reloadData()
+                    self.upcomingMoviesCollectionView.reloadData()
                 }
             case .error(message: let message):
                 showMessage(title: message)
@@ -322,6 +452,14 @@ final class HomeViewController: BaseViewController {
     @objc fileprivate func popularMoviesSeeAllButtonClicked() {
         viewModel?.showAllItems(listType: .popular)
     }
+    
+    @objc fileprivate func topRatedMoviesSeeAllButtonClicked() {
+        viewModel?.showAllItems(listType: .topRated)
+    }
+    
+    @objc fileprivate func upcomingMoviesSeeAllButtonClicked() {
+        viewModel?.showAllItems(listType: .upcoming)
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -334,6 +472,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         else if collectionView == topRatedMoviesCollectionView {
             return viewModel?.getTopRatedItems() ?? 0
+        }
+        else if collectionView == upcomingMoviesCollectionView {
+            return viewModel?.getUpcomingItems() ?? 0
         }
         return 0
     }
@@ -352,6 +493,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         else if collectionView == topRatedMoviesCollectionView {
             let item = viewModel?.getTopRatedProtocol(index: indexPath.row)
+            cell.configureCell(model: item)
+        }
+        else if collectionView == upcomingMoviesCollectionView {
+            let item = viewModel?.getUpcomingProtocol(index: indexPath.row)
             cell.configureCell(model: item)
         }
         return cell

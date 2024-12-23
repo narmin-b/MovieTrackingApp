@@ -17,6 +17,7 @@ final class HomeViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: HomeNavigation?
+    
     private var seeAllList: [MovieResultDTO] = []
 
     
