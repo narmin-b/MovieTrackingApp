@@ -16,6 +16,7 @@ final class SeeAllItemsViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
+    private weak var navigation: HomeNavigation?
     
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var movieList: [MovieResultDTO] = []

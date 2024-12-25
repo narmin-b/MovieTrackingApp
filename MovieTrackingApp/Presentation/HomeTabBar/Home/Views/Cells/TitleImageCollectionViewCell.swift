@@ -24,7 +24,6 @@ class TitleImageCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderWidth = 0.3
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.image = UIImage(named: "testing")
-//        imageView.anchorSize(.init(width: 120, height: 180))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

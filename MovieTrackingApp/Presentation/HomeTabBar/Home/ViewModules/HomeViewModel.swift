@@ -19,52 +19,159 @@ final class HomeViewModel {
     private weak var navigation: HomeNavigation?
     
     private var seeAllList: [MovieResultDTO] = []
-
     
     init(navigation: HomeNavigation) {
         self.navigation = navigation
     }
     
-    func showMovieDetail(movie: MovieDetailProtocol) {
-        navigation?.showDetails(movie: movie)
+    func showMovieDetail(movieID: Int) {
+        navigation?.showDetails(movieID: movieID)
     }
     
     func showAllItems(listType: MovieListType) {
         navigation?.showAllItems(listType: listType)
     }
-    
-    // MARK: MovieLists Requests
-    
+        
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
+    private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
+
     private(set) var nowPlayingDto: [MovieResultDTO] = []
     private(set) var popularMoviesDto: [MovieResultDTO] = []
     private(set) var topRatedMoviesDto: [MovieResultDTO] = []
     private(set) var upcomingMoviesDto: [MovieResultDTO] = []
     
+    private(set) var onTheAirTvShowsDto: [TvShowResultDTO] = []
+    private(set) var popularTvShowsDto: [TvShowResultDTO] = []
+    private(set) var airingTodayTvShowsDto: [TvShowResultDTO] = []
+    private(set) var topRatedTvShowsDto: [TvShowResultDTO] = []
+    
+    
+    // MARK: Tv Show Lists Functions
+    
+    func getOnTheAirTvShows() {
+        requestCallback?(.loading)
+        tvShowListsUse.getOnTheAirTvShows(page: 1) { [weak self] dto, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    print(dto)
+                    self.onTheAirTvShowsDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    func getOnTheAirTvShowItems() -> Int {
+        return onTheAirTvShowsDto.count
+    }
+    
+    func getOnTheAirTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
+        return onTheAirTvShowsDto[index]
+    }
+    
+    func getPopularTvShows() {
+        requestCallback?(.loading)
+        tvShowListsUse.getPopularTvShows(page: 1) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.popularTvShowsDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+      
+    func getPopularTvShowItems() -> Int {
+        return popularTvShowsDto.count
+    }
+    
+    func getPopularTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
+        return popularTvShowsDto[index]
+    }
+    
+    func getAiringTodayTvShows() {
+        requestCallback?(.loading)
+        tvShowListsUse.getAiringTodayTvShows(page: 1) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.airingTodayTvShowsDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+      
+    func getAiringTodayTvShowItems() -> Int {
+        return airingTodayTvShowsDto.count
+    }
+    
+    func getAiringTodayTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
+        return airingTodayTvShowsDto[index]
+    }
+    
+    func getTopRatedTvShows() {
+        requestCallback?(.loading)
+        tvShowListsUse.getTopRatedTvShows(page: 1) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.topRatedTvShowsDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+      
+    func getTopRatedTvShowItems() -> Int {
+        return topRatedTvShowsDto.count
+    }
+    
+    func getTopRatedTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
+        return topRatedTvShowsDto[index]
+    }
+    
+    // MARK: Movie Lists Functions
+    
     func getNowPlayingMovies() {
         requestCallback?(.loading)
         movieListsUse.getNowPlayingMovies(page: 1) { [weak self] dto, error in
             guard let self = self else { return }
-            requestCallback?(.loaded)
-            if let dto = dto {
-                nowPlayingDto = dto.results
-                requestCallback?(.success)
-            } else if let error = error {
-                requestCallback?(.error(message: error))
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.nowPlayingDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
             }
         }
-        print(nowPlayingDto)
     }
     
-    func getNowPlayingItems() -> Int {
+    func getNowPlayingMovieItems() -> Int {
         return nowPlayingDto.count
     }
     
-    func getNowPlayingMovie(index: Int) -> MovieDetailProtocol {
-        return nowPlayingDto[index]
+    func getNowPlayingMovie(index: Int) -> Int {
+        return nowPlayingDto[index].id
     }
     
-    func getNowPlayingProtocol(index: Int) -> TitleImageCellProtocol? {
+    func getNowPlayingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
         return nowPlayingDto[index]
     }
         
@@ -72,12 +179,14 @@ final class HomeViewModel {
         requestCallback?(.loading)
         movieListsUse.getPopularMovies(page: 1) { [weak self] dto, error in
             guard let self = self else { return }
-            requestCallback?(.loaded)
-            if let dto = dto {
-                popularMoviesDto = dto.results
-                requestCallback?(.success)
-            } else if let error = error {
-                requestCallback?(.error(message: error))
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.popularMoviesDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
             }
         }
     }
@@ -90,33 +199,35 @@ final class HomeViewModel {
         return popularMoviesDto[index]
     }
     
-    func getPopularMovie(index: Int) -> MovieDetailProtocol {
-        return popularMoviesDto[index]
+    func getPopularMovie(index: Int) -> Int {
+        return popularMoviesDto[index].id
     }
     
     func getTopRatedMovies() {
         requestCallback?(.loading)
         movieListsUse.getTopRatedMovies(page: 1) { [weak self] dto, error in
             guard let self = self else { return }
-            requestCallback?(.loaded)
-            if let dto = dto {
-                topRatedMoviesDto = dto.results
-                requestCallback?(.success)
-            } else if let error = error {
-                requestCallback?(.error(message: error))
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.topRatedMoviesDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
             }
         }
     }
     
-    func getTopRatedItems() -> Int {
+    func getTopRatedMovieItems() -> Int {
         return topRatedMoviesDto.count
     }
     
-    func getTopRatedMovie(index: Int) -> MovieDetailProtocol {
-        return topRatedMoviesDto[index]
+    func getTopRatedMovie(index: Int) -> Int {
+        return topRatedMoviesDto[index].id
     }
     
-    func getTopRatedProtocol(index: Int) -> TitleImageCellProtocol? {
+    func getTopRatedMovieProtocol(index: Int) -> TitleImageCellProtocol? {
         return topRatedMoviesDto[index]
     }
     
@@ -124,25 +235,27 @@ final class HomeViewModel {
         requestCallback?(.loading)
         movieListsUse.getUpcomingMovies(page: 1) { [weak self] dto, error in
             guard let self = self else { return }
-            requestCallback?(.loaded)
-            if let dto = dto {
-                upcomingMoviesDto = dto.results
-                requestCallback?(.success)
-            } else if let error = error {
-                requestCallback?(.error(message: error))
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.upcomingMoviesDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
             }
         }
     }
     
-    func getUpcomingItems() -> Int {
+    func getUpcomingMovieItems() -> Int {
         return upcomingMoviesDto.count
     }
     
-    func getUpcomingProtocol(index: Int) -> TitleImageCellProtocol? {
+    func getUpcomingMoviesProtocol(index: Int) -> TitleImageCellProtocol? {
         return upcomingMoviesDto[index]
     }
     
-    func getUpcomingMovie(index: Int) -> MovieDetailProtocol {
-        return upcomingMoviesDto[index]
+    func getUpcomingMovie(index: Int) -> Int {
+        return upcomingMoviesDto[index].id
     }
 }

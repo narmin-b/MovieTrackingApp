@@ -25,6 +25,17 @@ final class HomeViewController: BaseViewController {
         return view
     }()
     
+    private lazy var segmentView: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["Movies", "Tv Shows"])
+        segment.selectedSegmentIndex = 0
+        segment.layer.cornerRadius = 5.0
+        segment.backgroundColor = .clear
+        segment.tintColor = .white
+        segment.addTarget(self, action: #selector(changeSegment), for: .valueChanged)
+        segment.translatesAutoresizingMaskIntoConstraints = false
+        return segment
+    }()
+
     private lazy var nowPlayingMovieLabel: UILabel = {
         let label = ReusableLabel(labelText: "Now Playing", labelColor: .white, labelFont: "NexaRegular", labelSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -251,7 +262,7 @@ final class HomeViewController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [nowPlayingMoviesStack, popularMoviesStack, topRatedMoviesStack, upcomingMoviesStack])
+        let scrollStack = UIStackView(arrangedSubviews: [segmentView, nowPlayingMoviesStack, popularMoviesStack, topRatedMoviesStack, upcomingMoviesStack])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -266,10 +277,13 @@ final class HomeViewController: BaseViewController {
         configureViewModel()
         configureNavigationBar()
         
-        viewModel?.getNowPlayingMovies()
-        viewModel?.getPopularMovies()
-        viewModel?.getTopRatedMovies()
-        viewModel?.getUpcomingMovies()
+        if segmentView.selectedSegmentIndex == 0 {
+            viewModel?.getNowPlayingMovies()
+            viewModel?.getPopularMovies()
+            viewModel?.getTopRatedMovies()
+            viewModel?.getUpcomingMovies()
+        }
+        
     }
     
     override func configureView() {
@@ -288,8 +302,6 @@ final class HomeViewController: BaseViewController {
     }
     
     override func configureConstraint() {
-//        loadingView.centerXToSuperview()
-//        loadingView.centerYToSuperview()
         loadingView.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
             leading: view.leadingAnchor,
@@ -297,7 +309,6 @@ final class HomeViewController: BaseViewController {
             trailing: view.trailingAnchor,
             padding: .init(all: 0)
         )
-        
         
         scrollView.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
@@ -315,6 +326,13 @@ final class HomeViewController: BaseViewController {
             padding: .init(all: 0)
         )
         scrollStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        segmentView.anchor(
+            top: scrollStack.topAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(all: .zero)
+        )
         
         nowPlayingMoviesStack.anchor(
             leading: scrollStack.leadingAnchor,
@@ -445,6 +463,26 @@ final class HomeViewController: BaseViewController {
         }
     }
     
+    @objc func changeSegment(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 1:
+            DispatchQueue.main.async {
+                self.viewModel?.getOnTheAirTvShows()
+                self.viewModel?.getPopularTvShows()
+                self.viewModel?.getAiringTodayTvShows()
+                self.viewModel?.getTopRatedTvShows()
+            }
+        default:
+            DispatchQueue.main.async {
+                self.viewModel?.getNowPlayingMovies()
+                self.viewModel?.getPopularMovies()
+                self.viewModel?.getTopRatedMovies()
+                self.viewModel?.getUpcomingMovies()
+            }
+        }
+    }
+    
+        
     @objc fileprivate func nowPlayingSeeAllButtonClicked() {
         viewModel?.showAllItems(listType: .nowPlaying)
     }
@@ -465,16 +503,32 @@ final class HomeViewController: BaseViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == nowPlayingMoviesCollectionView {
-            return viewModel?.getNowPlayingItems() ?? 0
+            if segmentView.selectedSegmentIndex == 0 {
+                return viewModel?.getNowPlayingMovieItems() ?? 0
+            } else if segmentView.selectedSegmentIndex == 1 {
+                return viewModel?.getOnTheAirTvShowItems() ?? 0
+            }
         }
         else if collectionView == popularMoviesCollectionView {
-            return viewModel?.getPopularMovieItems() ?? 0
+            if segmentView.selectedSegmentIndex == 0 {
+                return viewModel?.getPopularMovieItems() ?? 0
+            } else if segmentView.selectedSegmentIndex == 1 {
+                return viewModel?.getPopularTvShowItems() ?? 0
+            }
         }
         else if collectionView == topRatedMoviesCollectionView {
-            return viewModel?.getTopRatedItems() ?? 0
+            if segmentView.selectedSegmentIndex == 0 {
+                return viewModel?.getTopRatedMovieItems() ?? 0
+            } else if segmentView.selectedSegmentIndex == 1 {
+                return viewModel?.getTopRatedTvShowItems() ?? 0
+            }
         }
         else if collectionView == upcomingMoviesCollectionView {
-            return viewModel?.getUpcomingItems() ?? 0
+            if segmentView.selectedSegmentIndex == 0 {
+                return viewModel?.getUpcomingMovieItems() ?? 0
+            } else if segmentView.selectedSegmentIndex == 1 {
+                return viewModel?.getAiringTodayTvShowItems() ?? 0
+            }
         }
         return 0
     }
@@ -483,20 +537,41 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TitleImageCollectionViewCell", for: indexPath) as? TitleImageCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
         if collectionView == nowPlayingMoviesCollectionView {
-            let item = viewModel?.getNowPlayingProtocol(index: indexPath.row)
+            var item: TitleImageCellProtocol?
+            if segmentView.selectedSegmentIndex == 0 {
+                item = viewModel?.getNowPlayingMovieProtocol(index: indexPath.row)
+            } else if segmentView.selectedSegmentIndex == 1 {
+                item = viewModel?.getOnTheAirTvShowProtocol(index: indexPath.row)
+            }
             cell.configureCell(model: item)
         }
         else if collectionView == popularMoviesCollectionView {
-            let item = viewModel?.getPopularMovieProtocol(index: indexPath.row)
+            var item: TitleImageCellProtocol?
+            if segmentView.selectedSegmentIndex == 0 {
+                item = viewModel?.getPopularMovieProtocol(index: indexPath.row)
+            } else if segmentView.selectedSegmentIndex == 1 {
+                item = viewModel?.getPopularTvShowProtocol(index: indexPath.row)
+            }
             cell.configureCell(model: item)
         }
         else if collectionView == topRatedMoviesCollectionView {
-            let item = viewModel?.getTopRatedProtocol(index: indexPath.row)
+            var item: TitleImageCellProtocol?
+            if segmentView.selectedSegmentIndex == 0 {
+                item = viewModel?.getTopRatedMovieProtocol(index: indexPath.row)
+            } else if segmentView.selectedSegmentIndex == 1 {
+                item = viewModel?.getTopRatedTvShowProtocol(index: indexPath.row)
+            }
             cell.configureCell(model: item)
         }
         else if collectionView == upcomingMoviesCollectionView {
-            let item = viewModel?.getUpcomingProtocol(index: indexPath.row)
+            var item: TitleImageCellProtocol?
+            if segmentView.selectedSegmentIndex == 0 {
+                item = viewModel?.getUpcomingMoviesProtocol(index: indexPath.row)
+            } else if segmentView.selectedSegmentIndex == 1 {
+                item = viewModel?.getAiringTodayTvShowProtocol(index: indexPath.row)
+            }
             cell.configureCell(model: item)
         }
         return cell
@@ -507,23 +582,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("movie")
         if collectionView == nowPlayingMoviesCollectionView {
             guard let item = viewModel?.getNowPlayingMovie(index: indexPath.row) else {return}
-            viewModel?.showMovieDetail(movie: item)
+            viewModel?.showMovieDetail(movieID: item)
         }
         else if collectionView == popularMoviesCollectionView {
             guard let item = viewModel?.getPopularMovie(index: indexPath.row) else {return}
-            viewModel?.showMovieDetail(movie: item)
+            viewModel?.showMovieDetail(movieID: item)
         }
         else if collectionView == topRatedMoviesCollectionView {
             guard let item = viewModel?.getTopRatedMovie(index: indexPath.row) else {return}
-            viewModel?.showMovieDetail(movie: item)
+            viewModel?.showMovieDetail(movieID: item)
         }
         else if collectionView == upcomingMoviesCollectionView {
             guard let item = viewModel?.getUpcomingMovie(index: indexPath.row) else {return}
-            viewModel?.showMovieDetail(movie: item)
+            viewModel?.showMovieDetail(movieID: item)
         }
-//        viewModel?.showMovieDetail(movie: MovieResultDTO)
     }
 }
