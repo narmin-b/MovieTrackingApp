@@ -17,10 +17,8 @@ final class TvShowListsAPIService: TvShowListsUseCase {
             guard let _ = self else { return }
             switch result {
             case .success(let data):
-                print(data)
                 completion(data, nil)
             case .failure(let error):
-                print("fail: airing")
                 completion(nil, error.localizedDescription)
             }
         }

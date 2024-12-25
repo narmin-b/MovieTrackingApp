@@ -28,7 +28,7 @@ final class HomeViewModel {
         navigation?.showDetails(movieID: movieID)
     }
     
-    func showAllItems(listType: MovieListType) {
+    func showAllItems(listType: HomeListType) {
         navigation?.showAllItems(listType: listType)
     }
         

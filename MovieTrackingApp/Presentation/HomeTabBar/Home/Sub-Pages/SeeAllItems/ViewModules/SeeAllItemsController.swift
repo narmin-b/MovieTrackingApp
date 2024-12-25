@@ -37,15 +37,15 @@ final class SeeAllItemsController: BaseViewController {
     private let viewModel: SeeAllItemsViewModel?
     
     deinit {
+        viewModel?.requestCallback = nil
         print("deinit")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        viewModel?.getList()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViewModel()
+        
+        viewModel?.getList()
     }
     
     fileprivate func configureNavigationBar() {
@@ -83,21 +83,24 @@ final class SeeAllItemsController: BaseViewController {
     fileprivate func configureViewModel() {
         viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
-            switch state {
-            case .loading:
+            DispatchQueue.main.async {
+                switch state {
+                case .loading:
                     self.loadingView.startAnimating()
-            case .loaded:
-                DispatchQueue.main.async {
+                case .loaded:
                     self.loadingView.stopAnimating()
+                case .success:
+                    print("success")
+                    self.allMoviesCollectionView.reloadData()
+                case .error(message: let message):
+                    print("couldnt retrieve")
+//                    self.showMessage(title: message)
                 }
-            case .success:
-                allMoviesCollectionView.reloadData()
-            case .error(message: let message):
-                showMessage(title: message)
             }
         }
     }
-    
+
+
     override func configureView() {
         configureNavigationBar()
         
@@ -150,6 +153,5 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("movie")
-//        viewModel?.showMovieDetail()
     }
 }
