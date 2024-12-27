@@ -33,6 +33,7 @@ class TitleImageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
+        backgroundColor = .blue
     }
         
     required init?(coder: NSCoder) {

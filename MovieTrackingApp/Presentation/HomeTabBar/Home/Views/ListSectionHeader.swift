@@ -42,7 +42,7 @@ final class ListSectionHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
+        backgroundColor = .red
         setUpConstrains()
     }
     

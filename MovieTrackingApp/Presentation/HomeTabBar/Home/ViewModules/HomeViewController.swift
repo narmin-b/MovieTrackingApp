@@ -73,16 +73,6 @@ final class HomeViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
@@ -94,6 +84,7 @@ final class HomeViewController: BaseViewController {
     }
     
     override func configureView() {
+        configureNavigationBar()
         view.backgroundColor = .backgroundMain
         view.addSubViews(loadingView, listCollectionView)
         view.bringSubviewToFront(loadingView)
@@ -101,8 +92,21 @@ final class HomeViewController: BaseViewController {
         configureCompositionalLayout()
     }
     
+    fileprivate func configureNavigationBar() {
+        configureNavigationBarTitle(labelStr: "Home", with: 1)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    
     override func configureConstraint() {
-        listCollectionView.fillSuperviewSafeAreaLayoutGuide()
+        listCollectionView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+        )
         loadingView.fillSuperviewSafeAreaLayoutGuide()
     }
     
@@ -137,6 +141,24 @@ final class HomeViewController: BaseViewController {
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
         }
+    }
+    
+    fileprivate func configureNavigationBarTitle(labelStr: String, with offset: CGFloat) {
+        let navigationView = UIView()
+        navigationView.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.text = labelStr
+        label.sizeToFit()
+        label.textAlignment = .center
+        label.font = UIFont(name: "Nexa-Bold", size: 20)
+        label.textColor = .white.withAlphaComponent(offset)
+        label.translatesAutoresizingMaskIntoConstraints = false
+       
+        navigationView.addSubview(label)
+        label.centerXToView(to: navigationView)
+        label.centerToYView(to: navigationView)
+
+        navigationItem.titleView = navigationView
     }
 }
 
@@ -360,6 +382,27 @@ extension HomeViewController: UICollectionViewDelegate,
                 viewModel.showAllItems(listType: .tvShow(.airingToday))
             default:
                 break
+            }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var labelStr: String
+        if selectedSegmentBool {
+            labelStr = "Tv Shows"
+        } else {
+            labelStr = "Movies"
+        }
+        var offset = scrollView.contentOffset.y / 200
+
+        if offset > 1 {
+            offset = 1
+            configureNavigationBarTitle(labelStr: labelStr, with: offset)
+        } else {
+            if offset <= 0 {
+                configureNavigationBarTitle(labelStr: "Home", with: 1)
+            } else {
+                configureNavigationBarTitle(labelStr: labelStr, with: offset)
             }
         }
     }
