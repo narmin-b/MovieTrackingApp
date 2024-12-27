@@ -1,5 +1,5 @@
 //
-//  TopRatedTvShowDTO.swift
+//  AiringTodayDTO.swift
 //  MovieTrackingApp
 //
 //  Created by Narmin Baghirova on 25.12.24.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-// MARK: - TopRatedTvShowDTO
-struct TopRatedTvShowDTO: Codable {
+// MARK: - AiringTodayDTO
+struct TvShowListsDTO: Codable {
     let page: Int
     let results: [TvShowResultDTO]
     let totalPages, totalResults: Int

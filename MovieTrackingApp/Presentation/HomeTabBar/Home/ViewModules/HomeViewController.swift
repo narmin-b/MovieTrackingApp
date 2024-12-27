@@ -117,7 +117,7 @@ final class HomeViewController: BaseViewController {
                         self.loadingView.stopAnimating()
                         self.refreshControl.endRefreshing()
                     case .success:
-                    self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4))
+                        self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4))
                     case .error(let error):
                         self.showMessage(title: "Error", message: error)
                 }
@@ -302,30 +302,30 @@ extension HomeViewController: UICollectionViewDelegate,
         switch selectedSegmentBool {
         case false:
             switch indexPath.section {
-                case 1:
-                    header.configure(with: "Now Playing Movies")
-                case 2:
-                    header.configure(with: "Top Rated Movies")
-                case 3:
-                    header.configure(with: "Popular Movies")
-                case 4:
-                    header.configure(with: "Upcoming Movies")
-                default:
-                    break
-                }
+            case 1:
+                header.configure(with: "Now Playing Movies")
+            case 2:
+                header.configure(with: "Top Rated Movies")
+            case 3:
+                header.configure(with: "Popular Movies")
+            case 4:
+                header.configure(with: "Upcoming Movies")
+            default:
+                break
+            }
         case true:
             switch indexPath.section {
-                case 1:
-                    header.configure(with: "On The Air")
-                case 2:
-                    header.configure(with: "Top Rated Tv Shows")
-                case 3:
-                    header.configure(with: "Popular Tv Shows")
-                case 4:
-                    header.configure(with: "Airing Today")
-                default:
-                    break
-                }
+            case 1:
+                header.configure(with: "On The Air")
+            case 2:
+                header.configure(with: "Top Rated Tv Shows")
+            case 3:
+                header.configure(with: "Popular Tv Shows")
+            case 4:
+                header.configure(with: "Airing Today")
+            default:
+                break
+            }
         }
         header.seeAllButtonAction = {
             self.seeAllButtonClicked(section: indexPath.section)

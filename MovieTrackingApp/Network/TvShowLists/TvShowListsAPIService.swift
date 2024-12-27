@@ -10,8 +10,8 @@ import Foundation
 final class TvShowListsAPIService: TvShowListsUseCase {
     private let apiService = CoreAPIManager.instance
 
-    func getAiringTodayTvShows(page: Int, completion: @escaping (AiringTodayDTO?, String?) -> Void) {
-        apiService.request(type: AiringTodayDTO.self,
+    func getAiringTodayTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+        apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.airingToday(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
@@ -24,8 +24,8 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getPopularTvShows(page: Int, completion: @escaping (PopularTvShowDTO?, String?) -> Void) {
-        apiService.request(type: PopularTvShowDTO.self,
+    func getPopularTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+        apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.popular(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
@@ -38,8 +38,8 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getTopRatedTvShows(page: Int, completion: @escaping (TopRatedTvShowDTO?, String?) -> Void) {
-        apiService.request(type: TopRatedTvShowDTO.self,
+    func getTopRatedTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+        apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.topRated(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
@@ -52,8 +52,8 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getOnTheAirTvShows(page: Int, completion: @escaping (OnTheAirDTO?, String?) -> Void) {
-        apiService.request(type: OnTheAirDTO.self,
+    func getOnTheAirTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+        apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.onTheAir(page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
