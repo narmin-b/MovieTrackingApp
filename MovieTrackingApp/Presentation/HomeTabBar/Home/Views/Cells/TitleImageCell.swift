@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TitleImageCollectionViewCell: UICollectionViewCell {
+class TitleImageCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = ReusableLabel(labelText: "Testjnrerifnbwejrfeijfneirfefj", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 2)
         label.textAlignment = .center

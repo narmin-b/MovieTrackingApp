@@ -22,34 +22,130 @@ extension Int {
 }
 
 extension UITableView {
-    private func reuseIndentifier<T>(for type: T.Type) -> String {
-        return String(describing: type)
+    
+    func setTableHeaderView(headerView: UIView) {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.tableHeaderView = headerView
+        
+        headerView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        headerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        headerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
     }
-
-    public func register<T: UITableViewCell>(cell: T.Type) {
-        register(T.self, forCellReuseIdentifier: reuseIndentifier(for: cell))
+    
+    func updateHeaderViewFrame() {
+        guard let headerView = self.tableHeaderView else { return }
+        
+        headerView.layoutIfNeeded()
+        
+        let header = self.tableHeaderView
+        self.tableHeaderView = header
     }
-
-    public func register<T: UITableViewHeaderFooterView>(headerFooterView: T.Type) {
-        register(T.self, forHeaderFooterViewReuseIdentifier: reuseIndentifier(for: headerFooterView))
-    }
-
-    public func dequeueReusableCell<T: UITableViewCell>(for type: T.Type, for indexPath: IndexPath) -> T {
-        guard let cell = dequeueReusableCell(withIdentifier: reuseIndentifier(for: type), for: indexPath) as? T else {
-            fatalError("Failed to dequeue cell.")
-        }
-
-        return cell
-    }
-
-    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(for type: T.Type) -> T {
-        guard let view = dequeueReusableHeaderFooterView(withIdentifier: reuseIndentifier(for: type)) as? T else {
-            fatalError("Failed to dequeue footer view.")
-        }
-
-        return view
+    
+    func setBottomInset(to value: CGFloat) {
+        let edgeInset = UIEdgeInsets(top: 0, left: 0, bottom: value, right: 0)
+        
+        self.contentInset = edgeInset
+        self.scrollIndicatorInsets = edgeInset
     }
 }
+
+extension UITableViewCell {
+    
+    static var reuseIdentifier: String {
+        return NSStringFromClass(self)
+    }
+    
+}
+extension UITableView {
+    
+    public func register<T: UITableViewCell>(cellClass: T.Type) {
+        register(cellClass, forCellReuseIdentifier: cellClass.reuseIdentifier)
+    }
+}
+
+extension UITableView {
+    
+    public func dequeue<T: UITableViewCell>(cellClass: T.Type) -> T? {
+        return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier) as? T
+    }
+    
+    public func dequeue<T: UITableViewCell>(
+        cellClass: T.Type,
+        forIndexPath indexPath: IndexPath
+    ) -> T {
+        guard let cell = dequeueReusableCell(
+            withIdentifier: cellClass.reuseIdentifier,
+            for: indexPath) as? T else {
+            fatalError(
+                "Error: cell with id: \(cellClass.reuseIdentifier) for indexPath: \(indexPath) is not \(T.self)")
+        }
+        return cell
+    }
+    
+}
+
+extension UICollectionReusableView {
+    static var reuseIdentifier: String {
+        return String(describing: Self.self)
+    }
+}
+
+extension UICollectionView {
+    func register<T: UICollectionViewCell>(cell: T.Type) {
+        register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func register<T: UICollectionReusableView>(header: T.Type) {
+        
+        register(
+            T.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func register<T: UICollectionReusableView>(footer: T.Type) {
+        register(
+            T.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: T.reuseIdentifier)
+    }
+    
+}
+
+extension UICollectionView {
+    func dequeue<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+}
+
+extension UICollectionView {
+    func dequeue<T: UICollectionReusableView>(
+        header: T.Type,
+        for indexPath: IndexPath
+    ) -> T {
+        return dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+    
+    func dequeue<T: UICollectionReusableView>(
+        footer: T.Type,
+        for indexPath: IndexPath
+    ) -> T {
+        return dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+}
+
 
 extension UIViewController {
     func showMessage(
