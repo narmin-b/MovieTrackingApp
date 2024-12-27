@@ -37,6 +37,10 @@ struct MovieResultDTO: Codable {
 }
 
 extension MovieResultDTO: TitleImageCellProtocol {
+    var overviewString: String {
+        overview
+    }
+    
     var titleString: String {
         title
     }

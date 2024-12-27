@@ -38,6 +38,10 @@ struct TvShowResultDTO: Codable {
 }
 
 extension TvShowResultDTO: TitleImageCellProtocol {
+    var overviewString: String {
+        overview
+    }
+    
     var titleString: String {
         name
     }

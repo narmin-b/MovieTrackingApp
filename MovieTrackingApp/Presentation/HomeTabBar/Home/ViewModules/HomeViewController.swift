@@ -36,6 +36,7 @@ final class HomeViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(cell: TitleImageCell.self)
+        collectionView.register(cell: TrendingTitleCell.self)
         collectionView.register(cell: TitlesSwitchSegmentCell.self)
         collectionView.register(header: ListSectionHeader.self)
         collectionView.backgroundColor = .clear
@@ -121,7 +122,7 @@ final class HomeViewController: BaseViewController {
                         self.loadingView.stopAnimating()
                         self.refreshControl.endRefreshing()
                     case .success:
-                        self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4))
+                        self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4,5))
                     case .error(let error):
                         self.showMessage(title: "Error", message: error)
                 }
@@ -172,6 +173,8 @@ extension HomeViewController {
             switch sectionIndex {
             case 0:
                 section = self.layout.titlesSegmentSection()
+            case 1:
+                section = self.layout.trendingSection()
             default:
                 section = self.layout.titlesSection()
                 
@@ -205,18 +208,20 @@ extension HomeViewController: UICollectionViewDelegate,
                 switch section {
                 case 0: return 1
                 case 1 : return viewModel.getNowPlayingMovieItems()
-                case 2: return viewModel.getTopRatedMovieItems()
-                case 3: return viewModel.getPopularMovieItems()
-                case 4: return viewModel.getUpcomingMovieItems()
+                case 2: return viewModel.getNowPlayingMovieItems()
+                case 3: return viewModel.getTopRatedMovieItems()
+                case 4: return viewModel.getPopularMovieItems()
+                case 5: return viewModel.getUpcomingMovieItems()
                 default: return viewModel.getNowPlayingMovieItems()
                 }
             case true:
                 switch section {
                 case 0: return 1
                 case 1 : return viewModel.getOnTheAirTvShowItems()
-                case 2: return viewModel.getTopRatedTvShowItems()
-                case 3: return viewModel.getPopularTvShowItems()
-                case 4: return viewModel.getAiringTodayTvShowItems()
+                case 2: return viewModel.getOnTheAirTvShowItems()
+                case 3: return viewModel.getTopRatedTvShowItems()
+                case 4: return viewModel.getPopularTvShowItems()
+                case 5: return viewModel.getAiringTodayTvShowItems()
                 default: return viewModel.getNowPlayingMovieItems()
                 }
             }
@@ -224,7 +229,7 @@ extension HomeViewController: UICollectionViewDelegate,
             
     func numberOfSections(
         in collectionView: UICollectionView
-    ) -> Int { 5 }
+    ) -> Int { 6 }
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -237,21 +242,26 @@ extension HomeViewController: UICollectionViewDelegate,
                     cell.delegate = self
                     return cell
                 case 1:
-                    let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
+                    let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
                     let item = viewModel.getNowPlayingMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTopRatedMovieProtocol(index: indexPath.item)
+                    let item = viewModel.getNowPlayingMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 3:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getPopularMovieProtocol(index: indexPath.item)
+                    let item = viewModel.getTopRatedMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 4:
+                    let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
+                    let item = viewModel.getPopularMovieProtocol(index: indexPath.item)
+                    cell.configureCell(model: item)
+                    return cell
+                case 5:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
                     let item = viewModel.getUpcomingMoviesProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
@@ -267,21 +277,26 @@ extension HomeViewController: UICollectionViewDelegate,
                     cell.delegate = self
                     return cell
                 case 1:
-                    let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
+                    let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
                     let item = viewModel.getOnTheAirTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTopRatedTvShowProtocol(index: indexPath.item)
+                    let item = viewModel.getOnTheAirTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 3:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getPopularTvShowProtocol(index: indexPath.item)
+                    let item = viewModel.getTopRatedTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 4:
+                    let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
+                    let item = viewModel.getPopularTvShowProtocol(index: indexPath.item)
+                    cell.configureCell(model: item)
+                    return cell
+                case 5:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
                     let item = viewModel.getAiringTodayTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
@@ -309,6 +324,9 @@ extension HomeViewController: UICollectionViewDelegate,
             case 4:
                 let item = viewModel.getNowPlayingMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
+            case 5:
+                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                viewModel.showMovieDetail(movieID: item)
             default:
                 break
             }
@@ -325,12 +343,14 @@ extension HomeViewController: UICollectionViewDelegate,
         case false:
             switch indexPath.section {
             case 1:
-                header.configure(with: "Now Playing Movies")
+                header.configure(with: "Trending Movies")
             case 2:
-                header.configure(with: "Top Rated Movies")
+                header.configure(with: "Now Playing Movies")
             case 3:
-                header.configure(with: "Popular Movies")
+                header.configure(with: "Top Rated Movies")
             case 4:
+                header.configure(with: "Popular Movies")
+            case 5:
                 header.configure(with: "Upcoming Movies")
             default:
                 break
@@ -338,12 +358,14 @@ extension HomeViewController: UICollectionViewDelegate,
         case true:
             switch indexPath.section {
             case 1:
-                header.configure(with: "On The Air")
+                header.configure(with: "Trending Tv Shows")
             case 2:
-                header.configure(with: "Top Rated Tv Shows")
+                header.configure(with: "On The Air")
             case 3:
-                header.configure(with: "Popular Tv Shows")
+                header.configure(with: "Top Rated Tv Shows")
             case 4:
+                header.configure(with: "Popular Tv Shows")
+            case 5:
                 header.configure(with: "Airing Today")
             default:
                 break
@@ -359,26 +381,26 @@ extension HomeViewController: UICollectionViewDelegate,
         switch selectedSegmentBool {
         case false:
             switch section {
-            case 1:
-                viewModel.showAllItems(listType: .movie(.nowPlaying))
             case 2:
-                viewModel.showAllItems(listType: .movie(.topRated))
+                viewModel.showAllItems(listType: .movie(.nowPlaying))
             case 3:
-                viewModel.showAllItems(listType: .movie(.popular))
+                viewModel.showAllItems(listType: .movie(.topRated))
             case 4:
+                viewModel.showAllItems(listType: .movie(.popular))
+            case 5:
                 viewModel.showAllItems(listType: .movie(.upcoming))
             default:
                 break
             }
         case true:
             switch section {
-            case 1:
-                viewModel.showAllItems(listType: .tvShow(.onTheAir))
             case 2:
-                viewModel.showAllItems(listType: .tvShow(.topRated))
+                viewModel.showAllItems(listType: .tvShow(.onTheAir))
             case 3:
-                viewModel.showAllItems(listType: .tvShow(.popular))
+                viewModel.showAllItems(listType: .tvShow(.topRated))
             case 4:
+                viewModel.showAllItems(listType: .tvShow(.popular))
+            case 5:
                 viewModel.showAllItems(listType: .tvShow(.airingToday))
             default:
                 break
@@ -423,6 +445,6 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
         }
-        listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4))
+        listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4, 5))
     }
 }
