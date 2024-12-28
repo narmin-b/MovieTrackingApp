@@ -10,7 +10,21 @@ import Foundation
 final class MovieListsAPIService: MovieListsUseCase {
     private let apiService = CoreAPIManager.instance
     
-    func getNowPlayingMovies(page: Int, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+    func getTrendingMovies(time: Time, completion: @escaping (TrendingMovieDTO?, String?) -> Void) {
+        apiService.request(type: TrendingMovieDTO.self,
+                          url: MovieListsHelper.trending(time: time).endpoint,
+                           method: .GET) { [weak self] result in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error.localizedDescription)
+            }
+        }
+    }
+    
+    func getNowPlayingMovies(page: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
         apiService.request(type: MovieListsDTO.self,
                            url: MovieListsHelper.nowPlaying(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -24,7 +38,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getPopularMovies(page: Int, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+    func getPopularMovies(page: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
         apiService.request(type: MovieListsDTO.self,
                            url: MovieListsHelper.popular(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -38,7 +52,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getTopRatedMovies(page: Int, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+    func getTopRatedMovies(page: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
         apiService.request(type: MovieListsDTO.self,
                            url: MovieListsHelper.topRated(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -52,7 +66,7 @@ final class MovieListsAPIService: MovieListsUseCase {
         }
     }
     
-    func getUpcomingMovies(page: Int, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+    func getUpcomingMovies(page: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
         apiService.request(type: MovieListsDTO.self,
                            url: MovieListsHelper.upcoming(page: page).endpoint,
                            method: .GET) { [weak self] result in

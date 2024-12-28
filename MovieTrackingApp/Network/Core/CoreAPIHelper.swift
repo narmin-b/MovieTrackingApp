@@ -20,8 +20,8 @@ final class CoreAPIHelper {
     private init() {}
     private let baseURL = "https://api.themoviedb.org/3/"
     
-    func makeURL(path: String, suffix: Int) -> URL? {
-        let urlString = baseURL + path + String(suffix)
+    func makeURL(path: String, suffix: String) -> URL? {
+        let urlString = baseURL + path + suffix
         return URL(string:urlString)
     }
     

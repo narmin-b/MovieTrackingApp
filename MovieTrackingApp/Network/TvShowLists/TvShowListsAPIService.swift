@@ -9,8 +9,22 @@ import Foundation
 
 final class TvShowListsAPIService: TvShowListsUseCase {
     private let apiService = CoreAPIManager.instance
+    
+    func getTrendingTvShows(time: Time, completion: @escaping(TrendingTvShowDTO?, String?) -> Void) {
+        apiService.request(type: TrendingTvShowDTO.self,
+                           url: TvShowListsHelper.trending(time: time).endpoint,
+                           method: .GET) { [weak self] result in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error.localizedDescription)
+            }
+        }
+    }
 
-    func getAiringTodayTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+    func getAiringTodayTvShows(page: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
         apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.airingToday(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -24,7 +38,7 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getPopularTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+    func getPopularTvShows(page: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
         apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.popular(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -38,7 +52,7 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getTopRatedTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+    func getTopRatedTvShows(page: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
         apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.topRated(page: page).endpoint,
                            method: .GET) { [weak self] result in
@@ -52,7 +66,7 @@ final class TvShowListsAPIService: TvShowListsUseCase {
         }
     }
     
-    func getOnTheAirTvShows(page: Int, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+    func getOnTheAirTvShows(page: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
         apiService.request(type: TvShowListsDTO.self,
                            url: TvShowListsHelper.onTheAir(page: page).endpoint,
                            method: .GET) { [weak self] result in

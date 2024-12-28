@@ -19,12 +19,12 @@ final class TitlesSwitchSegmentCell: UICollectionViewCell {
         segment.anchorSize(.init(width: 0, height: 52))
         segment.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont(name: "NexaRegular", size: 20) ?? UIFont.systemFont(ofSize: 16)
+            NSAttributedString.Key.font: UIFont(name: "NexaRegular", size: 16) ?? UIFont.systemFont(ofSize: 16)
         ], for: .normal)
         
         segment.setTitleTextAttributes([
             NSAttributedString.Key.foregroundColor: UIColor.black,
-            NSAttributedString.Key.font: UIFont(name: "Nexa-Bold", size: 28) ?? UIFont.boldSystemFont(ofSize: 16)
+            NSAttributedString.Key.font: UIFont(name: "Nexa-Bold", size: 24) ?? UIFont.boldSystemFont(ofSize: 16)
         ], for: .selected)
         
         segment.selectedSegmentTintColor = .secondaryHighlight

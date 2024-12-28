@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum Time: String {
+    case week
+    case day
+}
+
 enum MovieListType {
     case nowPlaying
     case popular
@@ -39,6 +44,7 @@ final class HomeViewController: BaseViewController {
         collectionView.register(cell: TrendingTitleCell.self)
         collectionView.register(cell: TitlesSwitchSegmentCell.self)
         collectionView.register(header: ListSectionHeader.self)
+        collectionView.register(header: TrendingSegmentHeader.self)
         collectionView.backgroundColor = .clear
         collectionView.refreshControl = refreshControl
         return collectionView
@@ -63,6 +69,7 @@ final class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModel
     private let layout: HomeCollectionLayout
     private var selectedSegmentBool: Bool = false
+    private var selectedTrendingSegmentTime: Time = .week
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -78,6 +85,7 @@ final class HomeViewController: BaseViewController {
         super.viewDidLoad()
         configureViewModel()
         
+        viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
         viewModel.getNowPlayingMovies()
         viewModel.getPopularMovies()
         viewModel.getTopRatedMovies()
@@ -132,11 +140,13 @@ final class HomeViewController: BaseViewController {
     
     @objc private func reloadPage() {
         if selectedSegmentBool {
+            viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
             viewModel.getOnTheAirTvShows()
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
         } else {
+            viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()
@@ -175,6 +185,17 @@ extension HomeViewController {
                 section = self.layout.titlesSegmentSection()
             case 1:
                 section = self.layout.trendingSection()
+                
+                let headerSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .estimated(50)
+                )
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+                section.boundarySupplementaryItems = [header]
             default:
                 section = self.layout.titlesSection()
                 
@@ -207,7 +228,7 @@ extension HomeViewController: UICollectionViewDelegate,
             case false:
                 switch section {
                 case 0: return 1
-                case 1 : return viewModel.getNowPlayingMovieItems()
+                case 1 : return viewModel.getTrendingMovieItems()
                 case 2: return viewModel.getNowPlayingMovieItems()
                 case 3: return viewModel.getTopRatedMovieItems()
                 case 4: return viewModel.getPopularMovieItems()
@@ -217,7 +238,7 @@ extension HomeViewController: UICollectionViewDelegate,
             case true:
                 switch section {
                 case 0: return 1
-                case 1 : return viewModel.getOnTheAirTvShowItems()
+                case 1 : return viewModel.getTrendingTvShowItems()
                 case 2: return viewModel.getOnTheAirTvShowItems()
                 case 3: return viewModel.getTopRatedTvShowItems()
                 case 4: return viewModel.getPopularTvShowItems()
@@ -243,7 +264,7 @@ extension HomeViewController: UICollectionViewDelegate,
                     return cell
                 case 1:
                     let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getNowPlayingMovieProtocol(index: indexPath.item)
+                    let item = viewModel.getTrendingMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
@@ -278,7 +299,7 @@ extension HomeViewController: UICollectionViewDelegate,
                     return cell
                 case 1:
                     let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getOnTheAirTvShowProtocol(index: indexPath.item)
+                    let item = viewModel.getTrendingTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
@@ -313,19 +334,19 @@ extension HomeViewController: UICollectionViewDelegate,
         didSelectItemAt indexPath: IndexPath) {
             switch indexPath.section {
             case 1:
-                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                let item = viewModel.getTrendingMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
             case 2:
                 let item = viewModel.getNowPlayingMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
             case 3:
-                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                let item = viewModel.getPopularMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
             case 4:
-                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                let item = viewModel.getTopRatedMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
             case 5:
-                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                let item = viewModel.getUpcomingMovie(index: indexPath.item)
                 viewModel.showMovieDetail(movieID: item)
             default:
                 break
@@ -337,44 +358,77 @@ extension HomeViewController: UICollectionViewDelegate,
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
-        let header: ListSectionHeader = collectionView.dequeue(header: ListSectionHeader.self, for: indexPath)
-        
+        if indexPath.section == 1 {
+            let trendingHeader: TrendingSegmentHeader = collectionView.dequeue(header: TrendingSegmentHeader.self, for: indexPath)
+            
+            trendingHeader.trendingSegmentClicked = { [weak self] segment in
+                guard let self = self else { return }
+                trendingSegmentClicked(segmentIndex: segment)
+            }
+            return trendingHeader
+        } else {
+            let header: ListSectionHeader = collectionView.dequeue(header: ListSectionHeader.self, for: indexPath)
+            
+            switch selectedSegmentBool {
+            case false:
+                switch indexPath.section {
+                case 2:
+                    header.configure(with: "Now Playing Movies")
+                case 3:
+                    header.configure(with: "Top Rated Movies")
+                case 4:
+                    header.configure(with: "Popular Movies")
+                case 5:
+                    header.configure(with: "Upcoming Movies")
+                default:
+                    break
+                }
+            case true:
+                switch indexPath.section {
+                case 2:
+                    header.configure(with: "On The Air")
+                case 3:
+                    header.configure(with: "Top Rated Tv Shows")
+                case 4:
+                    header.configure(with: "Popular Tv Shows")
+                case 5:
+                    header.configure(with: "Airing Today")
+                default:
+                    break
+                }
+            }
+            
+            header.seeAllButtonAction = { [weak self] in
+                guard let self = self else { return }
+                seeAllButtonClicked(section: indexPath.section)
+            }
+            return header
+        }
+    }
+    
+    fileprivate func trendingSegmentClicked(segmentIndex: Int){
         switch selectedSegmentBool {
         case false:
-            switch indexPath.section {
-            case 1:
-                header.configure(with: "Trending Movies")
-            case 2:
-                header.configure(with: "Now Playing Movies")
-            case 3:
-                header.configure(with: "Top Rated Movies")
-            case 4:
-                header.configure(with: "Popular Movies")
-            case 5:
-                header.configure(with: "Upcoming Movies")
-            default:
-                break
+            if segmentIndex == 0 {
+                selectedTrendingSegmentTime = .week
+                viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
+                listCollectionView.reloadSections(.init(arrayLiteral: 1))
+            } else {
+                selectedTrendingSegmentTime = .day
+                viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
+                listCollectionView.reloadSections(.init(arrayLiteral: 1))
             }
         case true:
-            switch indexPath.section {
-            case 1:
-                header.configure(with: "Trending Tv Shows")
-            case 2:
-                header.configure(with: "On The Air")
-            case 3:
-                header.configure(with: "Top Rated Tv Shows")
-            case 4:
-                header.configure(with: "Popular Tv Shows")
-            case 5:
-                header.configure(with: "Airing Today")
-            default:
-                break
+            if segmentIndex == 0 {
+                selectedTrendingSegmentTime = .week
+                viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
+                listCollectionView.reloadSections(.init(arrayLiteral: 1))
+            } else {
+                selectedTrendingSegmentTime = .day
+                viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
+                listCollectionView.reloadSections(.init(arrayLiteral: 1))
             }
         }
-        header.seeAllButtonAction = {
-            self.seeAllButtonClicked(section: indexPath.section)
-        }
-        return header
     }
     
     fileprivate func seeAllButtonClicked(section: Int){
@@ -435,11 +489,13 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
         selectedSegmentBool.toggle()
         
         if selectedSegmentBool {
+            viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
             viewModel.getOnTheAirTvShows()
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
         } else {
+            viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()

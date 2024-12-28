@@ -8,7 +8,7 @@
 import Foundation
 
 enum MovieDetailHelper {
-    case movie(id: Int)
+    case movie(id: String)
     
     var endpoint: URL? {
         switch self {

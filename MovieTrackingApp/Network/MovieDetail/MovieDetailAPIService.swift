@@ -10,7 +10,7 @@ import Foundation
 final class MovieDetailAPIService: MovieDetailUseCase {
     private let apiService = CoreAPIManager.instance
 
-    func getMovieDetail(id: Int, completion: @escaping (MovieDetailDTO?, String?) -> Void) {
+    func getMovieDetail(id: String, completion: @escaping (MovieDetailDTO?, String?) -> Void) {
         apiService.request(type: MovieDetailDTO.self,
                            url: MovieDetailHelper.movie(id: id).endpoint,
                            method: .GET) { [weak self] result in

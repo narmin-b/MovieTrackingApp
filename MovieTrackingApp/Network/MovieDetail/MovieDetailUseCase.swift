@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MovieDetailUseCase {
-    func getMovieDetail(id: Int, completion: @escaping(MovieDetailDTO?, String?) -> Void)
+    func getMovieDetail(id: String, completion: @escaping(MovieDetailDTO?, String?) -> Void)
 }

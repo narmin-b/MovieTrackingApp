@@ -8,13 +8,16 @@
 import Foundation
 
 enum TvShowListsHelper {
-    case airingToday(page: Int)
-    case onTheAir(page: Int)
-    case popular(page: Int)
-    case topRated(page: Int)
+    case airingToday(page: String)
+    case onTheAir(page: String)
+    case popular(page: String)
+    case topRated(page: String)
+    case trending(time: Time)
     
     var endpoint: URL? {
         switch self {
+        case .trending(let time):
+            return CoreAPIHelper.instance.makeURL(path: "trending/tv/", suffix: time.rawValue)
         case .popular(let page):
             return CoreAPIHelper.instance.makeURL(path: "tv/popular?language=en-US&page=", suffix: page)
         case .airingToday(let page):

@@ -1,5 +1,5 @@
 //
-//  TitlesSectionHeader.swift
+//  ListSectionHeader.swift
 //  MovieTrackingApp
 //
 //  Created by Narmin Baghirova on 27.12.24.

@@ -107,7 +107,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.tvShowListsUse.getOnTheAirTvShows(page: i) { [weak self] dto, error in
+                self.tvShowListsUse.getOnTheAirTvShows(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -126,7 +126,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.tvShowListsUse.getPopularTvShows(page: i) { [weak self] dto, error in
+                self.tvShowListsUse.getPopularTvShows(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -145,7 +145,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.tvShowListsUse.getTopRatedTvShows(page: i) { [weak self] dto, error in
+                self.tvShowListsUse.getTopRatedTvShows(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -164,7 +164,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.tvShowListsUse.getAiringTodayTvShows(page: i) { [weak self] dto, error in
+                self.tvShowListsUse.getAiringTodayTvShows(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -185,7 +185,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.movieListsUse.getNowPlayingMovies(page: i) { [weak self] dto, error in
+                self.movieListsUse.getNowPlayingMovies(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -204,7 +204,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.movieListsUse.getPopularMovies(page: i) { [weak self] dto, error in
+                self.movieListsUse.getPopularMovies(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -223,7 +223,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now()  + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.movieListsUse.getTopRatedMovies(page: i) { [weak self] dto, error in
+                self.movieListsUse.getTopRatedMovies(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {
@@ -242,7 +242,7 @@ final class SeeAllItemsViewModel {
         for i in 1...10 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
                 guard let self = self else { return }
-                self.movieListsUse.getUpcomingMovies(page: i) { [weak self] dto, error in
+                self.movieListsUse.getUpcomingMovies(page: String(i)) { [weak self] dto, error in
                     guard let self = self else { return }
                     requestCallback?(.loaded)
                     if let dto = dto {

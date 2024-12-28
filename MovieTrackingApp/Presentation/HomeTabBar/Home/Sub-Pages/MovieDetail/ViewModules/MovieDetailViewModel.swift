@@ -29,7 +29,7 @@ final class MovieDetailViewModel {
     
     func getMovieDetails() {
         requestCallback?(.loading)
-        movieDetailsUse.getMovieDetail(id: movieID) { [weak self] dto, error in
+        movieDetailsUse.getMovieDetail(id: String(movieID)) { [weak self] dto, error in
             guard let self = self else { return }
             requestCallback?(.loaded)
             if let dto = dto {

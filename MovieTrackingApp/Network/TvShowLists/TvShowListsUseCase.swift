@@ -8,8 +8,9 @@
 import Foundation
 
 protocol TvShowListsUseCase {
-    func getAiringTodayTvShows(page: Int, completion: @escaping(TvShowListsDTO?, String?) -> Void)
-    func getPopularTvShows(page: Int, completion: @escaping(TvShowListsDTO?, String?) -> Void)
-    func getTopRatedTvShows(page: Int, completion: @escaping(TvShowListsDTO?, String?) -> Void)
-    func getOnTheAirTvShows(page: Int, completion: @escaping(TvShowListsDTO?, String?) -> Void)
+    func getTrendingTvShows(time: Time, completion: @escaping(TrendingTvShowDTO?, String?) -> Void)
+    func getAiringTodayTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
+    func getPopularTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
+    func getTopRatedTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
+    func getOnTheAirTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
 }

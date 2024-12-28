@@ -39,23 +39,47 @@ final class HomeViewModel {
     private(set) var popularMoviesDto: [MovieResultDTO] = []
     private(set) var topRatedMoviesDto: [MovieResultDTO] = []
     private(set) var upcomingMoviesDto: [MovieResultDTO] = []
+    private(set) var trendingMovieDto: [TrendingMovieResult] = []
     
     private(set) var onTheAirTvShowsDto: [TvShowResultDTO] = []
     private(set) var popularTvShowsDto: [TvShowResultDTO] = []
     private(set) var airingTodayTvShowsDto: [TvShowResultDTO] = []
     private(set) var topRatedTvShowsDto: [TvShowResultDTO] = []
-    
+    private(set) var trendingTvShowDto: [TrendingTvShowResult] = []
     
     // MARK: Tv Show Lists Functions
     
-    func getOnTheAirTvShows() {
+    func getTrendingTvShows(time: Time) {
         requestCallback?(.loading)
-        tvShowListsUse.getOnTheAirTvShows(page: 1) { [weak self] dto, error in
+        tvShowListsUse.getTrendingTvShows(time: time) { [weak self] dto, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let dto = dto {
-                    print(dto)
+                    self.trendingTvShowDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    func getTrendingTvShowItems() -> Int {
+        return trendingTvShowDto.count
+    }
+    
+    func getTrendingTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
+        return trendingTvShowDto[index]
+    }
+    
+    func getOnTheAirTvShows() {
+        requestCallback?(.loading)
+        tvShowListsUse.getOnTheAirTvShows(page: "1") { [weak self] dto, error in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.requestCallback?(.loaded)
+                if let dto = dto {
                     self.onTheAirTvShowsDto = dto.results
                     self.requestCallback?(.success)
                 } else if let error = error {
@@ -75,7 +99,7 @@ final class HomeViewModel {
     
     func getPopularTvShows() {
         requestCallback?(.loading)
-        tvShowListsUse.getPopularTvShows(page: 1) { [weak self] dto, error in
+        tvShowListsUse.getPopularTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -99,7 +123,7 @@ final class HomeViewModel {
     
     func getAiringTodayTvShows() {
         requestCallback?(.loading)
-        tvShowListsUse.getAiringTodayTvShows(page: 1) { [weak self] dto, error in
+        tvShowListsUse.getAiringTodayTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -123,7 +147,7 @@ final class HomeViewModel {
     
     func getTopRatedTvShows() {
         requestCallback?(.loading)
-        tvShowListsUse.getTopRatedTvShows(page: 1) { [weak self] dto, error in
+        tvShowListsUse.getTopRatedTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -147,9 +171,37 @@ final class HomeViewModel {
     
     // MARK: Movie Lists Functions
     
+    func getTrendingMovies(time: Time) {
+        requestCallback?(.loading)
+        movieListsUse.getTrendingMovies(time: time) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.requestCallback?(.loaded)
+                if let dto = dto {
+                    self.trendingMovieDto = dto.results
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    func getTrendingMovieItems() -> Int {
+        return trendingMovieDto.count
+    }
+    
+    func getTrendingMovie(index: Int) -> Int {
+        return trendingMovieDto[index].id
+    }
+    
+    func getTrendingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
+        return trendingMovieDto[index]
+    }
+    
     func getNowPlayingMovies() {
         requestCallback?(.loading)
-        movieListsUse.getNowPlayingMovies(page: 1) { [weak self] dto, error in
+        movieListsUse.getNowPlayingMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -177,7 +229,7 @@ final class HomeViewModel {
         
     func getPopularMovies() {
         requestCallback?(.loading)
-        movieListsUse.getPopularMovies(page: 1) { [weak self] dto, error in
+        movieListsUse.getPopularMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -205,7 +257,7 @@ final class HomeViewModel {
     
     func getTopRatedMovies() {
         requestCallback?(.loading)
-        movieListsUse.getTopRatedMovies(page: 1) { [weak self] dto, error in
+        movieListsUse.getTopRatedMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
@@ -233,7 +285,7 @@ final class HomeViewModel {
     
     func getUpcomingMovies() {
         requestCallback?(.loading)
-        movieListsUse.getUpcomingMovies(page: 1) { [weak self] dto, error in
+        movieListsUse.getUpcomingMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.requestCallback?(.loaded)
