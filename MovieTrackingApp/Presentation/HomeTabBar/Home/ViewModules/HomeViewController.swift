@@ -124,15 +124,15 @@ final class HomeViewController: BaseViewController {
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch state {
-                    case .loading:
-                        self.loadingView.startAnimating()
-                    case .loaded:
-                        self.loadingView.stopAnimating()
-                        self.refreshControl.endRefreshing()
-                    case .success:
-                        self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4,5))
-                    case .error(let error):
-                        self.showMessage(title: "Error", message: error)
+                case .loading:
+                    self.loadingView.startAnimating()
+                case .loaded:
+                    self.loadingView.stopAnimating()
+                    self.refreshControl.endRefreshing()
+                case .success:
+                    self.listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4,5))
+                case .error(let error):
+                    self.showMessage(title: "Error", message: error)
                 }
             }
         }
@@ -361,9 +361,11 @@ extension HomeViewController: UICollectionViewDelegate,
         if indexPath.section == 1 {
             let trendingHeader: TrendingSegmentHeader = collectionView.dequeue(header: TrendingSegmentHeader.self, for: indexPath)
             
+            trendingHeader.updateSegment(selectedIndex: (selectedTrendingSegmentTime == .week ? 0 : 1))
+            
             trendingHeader.trendingSegmentClicked = { [weak self] segment in
                 guard let self = self else { return }
-                trendingSegmentClicked(segmentIndex: segment)
+                self.trendingSegmentClicked(segmentIndex: segment)
             }
             return trendingHeader
         } else {
@@ -407,27 +409,12 @@ extension HomeViewController: UICollectionViewDelegate,
     }
     
     fileprivate func trendingSegmentClicked(segmentIndex: Int){
+        selectedTrendingSegmentTime = (segmentIndex == 0) ? .week : .day
         switch selectedSegmentBool {
         case false:
-            if segmentIndex == 0 {
-                selectedTrendingSegmentTime = .week
                 viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-                listCollectionView.reloadSections(.init(arrayLiteral: 1))
-            } else {
-                selectedTrendingSegmentTime = .day
-                viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-                listCollectionView.reloadSections(.init(arrayLiteral: 1))
-            }
         case true:
-            if segmentIndex == 0 {
-                selectedTrendingSegmentTime = .week
                 viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
-                listCollectionView.reloadSections(.init(arrayLiteral: 1))
-            } else {
-                selectedTrendingSegmentTime = .day
-                viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
-                listCollectionView.reloadSections(.init(arrayLiteral: 1))
-            }
         }
     }
     
@@ -501,6 +488,5 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
         }
-        listCollectionView.reloadSections(.init(arrayLiteral: 1,2,3,4, 5))
     }
 }

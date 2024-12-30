@@ -46,6 +46,7 @@ final class TrendingSegmentHeader: UICollectionReusableView {
         return stack
     }()
     
+    private var selectedTime: Int = 0
     var trendingSegmentClicked: ((Int) -> Void)?
     
     override init(frame: CGRect) {
@@ -56,6 +57,10 @@ final class TrendingSegmentHeader: UICollectionReusableView {
     func setUpConstrains() {
         addSubViews(titleListLabelStack)
         titleListLabelStack.fillSuperview()
+    }
+    
+    func updateSegment(selectedIndex: Int){
+        segmentView.selectedSegmentIndex = selectedIndex
     }
     
     @objc fileprivate func segmentClicked(){
