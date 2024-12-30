@@ -25,10 +25,12 @@ final class AuthCoordinator: Coordinator {
 
 extension AuthCoordinator: AuthNavigation {
     func showLogin() {
-        print(#function)
+        let vc = LoginViewController(viewModel: .init(navigation: self))
+        showController(vc: vc)
     }
     
     func showSignUp() {
-        print(#function)
+        let vc = SignupViewController(viewModel: .init(navigation: self))
+        showController(vc: vc)
     }
 }

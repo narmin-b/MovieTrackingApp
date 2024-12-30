@@ -1,5 +1,5 @@
 //
-//  LoginViewModel.swift
+//  SignupViewModel.swift
 //  MovieTrackingApp
 //
 //  Created by Narmin Baghirova on 30.12.24.
@@ -7,8 +7,10 @@
 
 import Foundation
 
-final class LaunchViewModel {
+final class SignupViewModel {
     enum ViewState {
+        case loading
+        case loaded
         case success
         case error(message: String)
     }
@@ -19,13 +21,4 @@ final class LaunchViewModel {
     init(navigation: AuthNavigation) {
         self.navigation = navigation
     }
-    
-    func showLoginController() {
-        navigation?.showLogin()
-    }
-    
-    func showSignupController() {
-        navigation?.showSignUp()
-    }
-    
 }

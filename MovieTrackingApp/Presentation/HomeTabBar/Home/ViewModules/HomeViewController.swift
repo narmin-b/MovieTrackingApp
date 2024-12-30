@@ -102,7 +102,6 @@ final class HomeViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        configureNavigationBarTitle(labelStr: "Home", with: 1)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
@@ -154,6 +153,13 @@ final class HomeViewController: BaseViewController {
         }
     }
     
+    fileprivate func logoNavBarConfiguration() {
+        let logo = UIImage(named: "logoMain")
+        let imageView = UIImageView(image:logo)
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
+    }
+    
     fileprivate func configureNavigationBarTitle(labelStr: String, with offset: CGFloat) {
         let navigationView = UIView()
         navigationView.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +170,7 @@ final class HomeViewController: BaseViewController {
         label.font = UIFont(name: "Nexa-Bold", size: 20)
         label.textColor = .white.withAlphaComponent(offset)
         label.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         navigationView.addSubview(label)
         label.centerXToView(to: navigationView)
         label.centerToYView(to: navigationView)
@@ -456,14 +462,14 @@ extension HomeViewController: UICollectionViewDelegate,
         } else {
             labelStr = "Movies"
         }
-        var offset = scrollView.contentOffset.y / 200
+        var offset = scrollView.contentOffset.y / 150
 
         if offset > 1 {
             offset = 1
             configureNavigationBarTitle(labelStr: labelStr, with: offset)
         } else {
             if offset <= 0 {
-                configureNavigationBarTitle(labelStr: "Home", with: 1)
+                logoNavBarConfiguration()
             } else {
                 configureNavigationBarTitle(labelStr: labelStr, with: offset)
             }

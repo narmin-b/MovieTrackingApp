@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  SignupViewController.swift
 //  MovieTrackingApp
 //
 //  Created by Narmin Baghirova on 30.12.24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LoginViewController: BaseViewController {
+final class SignupViewController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
         view.color = .white
@@ -18,9 +18,9 @@ final class LoginViewController: BaseViewController {
         return view
     }()
     
-    private let viewModel: LoginViewModel
+    private let viewModel: SignupViewModel
     
-    init(viewModel: LoginViewModel) {
+    init(viewModel: SignupViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

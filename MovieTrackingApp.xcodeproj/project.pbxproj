@@ -37,6 +37,8 @@
 		11609A8B2D22CF6F00365915 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A862D22CF6F00365915 /* LoginViewModel.swift */; };
 		11609A922D22D58A00365915 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A8F2D22D58A00365915 /* LaunchViewController.swift */; };
 		11609A932D22D58A00365915 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A902D22D58A00365915 /* LaunchViewModel.swift */; };
+		11609A972D23076E00365915 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A942D23076E00365915 /* SignupViewController.swift */; };
+		11609A982D23076E00365915 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A952D23076E00365915 /* SignupViewModel.swift */; };
 		119027312D17283F00B0B9DD /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272D2D17283F00B0B9DD /* SearchCoordinator.swift */; };
 		119027322D17283F00B0B9DD /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272E2D17283F00B0B9DD /* SearchViewModel.swift */; };
 		119027332D17283F00B0B9DD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272F2D17283F00B0B9DD /* SearchViewController.swift */; };
@@ -118,6 +120,8 @@
 		11609A862D22CF6F00365915 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		11609A8F2D22D58A00365915 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		11609A902D22D58A00365915 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
+		11609A942D23076E00365915 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		11609A952D23076E00365915 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		1190272D2D17283F00B0B9DD /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		1190272E2D17283F00B0B9DD /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1190272F2D17283F00B0B9DD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 		11609A8D2D22D0CB00365915 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				11609A962D23076E00365915 /* ViewModules */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -328,6 +333,15 @@
 			children = (
 				11609A8F2D22D58A00365915 /* LaunchViewController.swift */,
 				11609A902D22D58A00365915 /* LaunchViewModel.swift */,
+			);
+			path = ViewModules;
+			sourceTree = "<group>";
+		};
+		11609A962D23076E00365915 /* ViewModules */ = {
+			isa = PBXGroup;
+			children = (
+				11609A942D23076E00365915 /* SignupViewController.swift */,
+				11609A952D23076E00365915 /* SignupViewModel.swift */,
 			);
 			path = ViewModules;
 			sourceTree = "<group>";
@@ -834,6 +848,8 @@
 				11CC75592D15D1B600903217 /* Coordinator.swift in Sources */,
 				11609A882D22CF6F00365915 /* LoginViewController.swift in Sources */,
 				11609A892D22CF6F00365915 /* AuthNavigation.swift in Sources */,
+				11609A972D23076E00365915 /* SignupViewController.swift in Sources */,
+				11609A982D23076E00365915 /* SignupViewModel.swift in Sources */,
 				11609A8A2D22CF6F00365915 /* AuthCoordinator.swift in Sources */,
 				11609A8B2D22CF6F00365915 /* LoginViewModel.swift in Sources */,
 				11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */,
