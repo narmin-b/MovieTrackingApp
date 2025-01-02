@@ -51,4 +51,8 @@ final class LoginViewModel {
     func startHomeScreen() {
         navigation?.showHomeScreen()
     }
+    
+    func showShowSignUpScreen() {
+        navigation?.showSignUp()
+    }
 }

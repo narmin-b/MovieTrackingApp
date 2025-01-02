@@ -18,6 +18,19 @@ final class SignupViewController: BaseViewController {
         return view
     }()
     
+    private lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "logoIcon"))
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Create An Account!", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 32)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var emailLabel: UILabel = {
         let label = ReusableLabel(labelText: "Email", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +162,7 @@ final class SignupViewController: BaseViewController {
         configureNavigationBar()
         
         view.backgroundColor = .backgroundMain
-        view.addSubViews(loadingView, singupInfoStackView, signupButton, loginStack)
+        view.addSubViews(loadingView, logoImageView, titleLabel, singupInfoStackView, signupButton, loginStack)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -161,11 +174,24 @@ final class SignupViewController: BaseViewController {
     override func configureConstraint() {
         loadingView.fillSuperviewSafeAreaLayoutGuide()
         
-        singupInfoStackView.anchor(
+        logoImageView.centerXToSuperview()
+        logoImageView.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
+            padding: .init(all: 8)
+        )
+        logoImageView.anchorSize(.init(width: (view.frame.width/3), height: (view.frame.width/3)))
+        
+        titleLabel.centerXToSuperview()
+        titleLabel.anchor(
+            top: logoImageView.bottomAnchor,
+            padding: .init(all: 4)
+        )
+        
+        singupInfoStackView.anchor(
+            top: titleLabel.bottomAnchor,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,
-            padding: .init(top: view.frame.height/8, left: 24, bottom: 0, right: -24)
+            padding: .init(top: 32, left: 24, bottom: 0, right: -24)
         )
         
         emailTextfield.anchorSize(.init(width: 0, height: 48))

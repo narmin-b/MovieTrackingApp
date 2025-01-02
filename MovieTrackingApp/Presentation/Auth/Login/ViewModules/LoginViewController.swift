@@ -19,7 +19,7 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "logoMain"))
+        let imageView = UIImageView(image: UIImage(named: "logoIcon"))
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -158,12 +158,12 @@ final class LoginViewController: BaseViewController {
             top: view.safeAreaLayoutGuide.topAnchor,
             padding: .init(all: 8)
         )
-        logoImageView.anchorSize(.init(width: (view.frame.width/3)*2, height: (view.frame.width/3)))
+        logoImageView.anchorSize(.init(width: (view.frame.width/3), height: (view.frame.width/3)))
         
         titleLabel.centerXToSuperview()
         titleLabel.anchor(
             top: logoImageView.bottomAnchor,
-            padding: .init(all: 8)
+            padding: .init(all: 4)
         )
         
         loginInfoStackView.anchor(
@@ -221,9 +221,6 @@ final class LoginViewController: BaseViewController {
     }
     
     @objc fileprivate func registerButtonTapped() {
-        print(#function)
-//        let controller = RegisterViewController(viewModel: RegisterViewModel())
-//        controller.delegate = self
-//        navigationController?.pushViewController(controller, animated: true)
+        viewModel.showShowSignUpScreen()
     }
 }
