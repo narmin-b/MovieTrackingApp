@@ -10,4 +10,5 @@ import Foundation
 protocol AuthNavigation: AnyObject {
     func showLogin()
     func showSignUp()
+    func showHomeScreen()
 }

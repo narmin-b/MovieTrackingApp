@@ -22,7 +22,7 @@ class ReusableTextField: UITextField {
     
     init(placeholder: String!,
          iconName: String?,
-         placeholderSize: CGFloat = 12,
+         placeholderSize: CGFloat = 16,
          placeholderFont: String = "Futura",
          placeholderColor: UIColor = .gray,
          iconSetting: Int = 10,
@@ -48,7 +48,7 @@ class ReusableTextField: UITextField {
     }
     
     init(placeholder: String!,
-         placeholderSize: CGFloat = 12,
+         placeholderSize: CGFloat = 16,
          placeholderFont: String = "Futura",
          placeholderColor: UIColor = .gray,
          cornerRadius: CGFloat = 12,
@@ -72,7 +72,9 @@ class ReusableTextField: UITextField {
     }
     
     private func configurePlaceholder() {
-        attributedPlaceholder = NSAttributedString(string: placeholderTitle, attributes: [.foregroundColor: placeholderColor.withAlphaComponent(0.4), .font: UIFont(name: placeholderFont, size: placeholderSize)!])
+        let attributes = [NSAttributedString.Key.baselineOffset : NSNumber(-2.0), .foregroundColor: placeholderColor.withAlphaComponent(0.4), .font: UIFont(name: placeholderFont, size: placeholderSize)!]
+
+        attributedPlaceholder = NSAttributedString(string: placeholderTitle, attributes: attributes)
         layer.borderColor = borderColor.cgColor
         layer.borderWidth = borderWidth
         layer.cornerRadius = cornerRad
@@ -87,7 +89,7 @@ class ReusableTextField: UITextField {
     fileprivate func iconUISetting(_ iconName: String, x: Int = 10) -> UIView {
         let icon = UIImageView(image: UIImage(systemName: iconName))
         icon.tintColor = iconTintColor
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: icon.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: icon.frame.height))
         icon.frame = CGRect(x: CGFloat(integerLiteral: x), y: 0, width: icon.frame.width, height: icon.frame.height)
         paddingView.addSubview(icon)
         return paddingView

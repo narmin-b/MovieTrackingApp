@@ -175,8 +175,24 @@ extension UIStackView {
     }
 }
 extension String {
+    func doesContainUppercase() -> Bool {
+        let capitalLetterRegEx  = ".*[A-Z]+.*"
+        var stringPredicate = NSPredicate(format:"SELF MATCHES %@", capitalLetterRegEx)
+        return  stringPredicate.evaluate(with: self)
+    }
+    
+    func doesContainDigit() -> Bool {
+        let numberRegEx = ".*[0-9]+.*"
+        let stringPredicate = NSPredicate(format: "SELF MATCHES %@", numberRegEx)
+        return stringPredicate.evaluate(with: self)
+    }
+    
     func isValidPassword() -> Bool {
-        count > 8
+        self.isValidPasswordMask() && self.doesContainDigit() && self.doesContainUppercase()
+    }
+    
+    func isValidPasswordMask() -> Bool  {
+        count > 6
     }
     
     func isValidEmailMask() -> Bool  {

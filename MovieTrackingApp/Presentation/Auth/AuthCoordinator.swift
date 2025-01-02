@@ -33,4 +33,9 @@ extension AuthCoordinator: AuthNavigation {
         let vc = SignupViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
     }
+    
+    func showHomeScreen() {
+        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+        tabBar.start()
+    }
 }

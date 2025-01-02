@@ -81,15 +81,21 @@ final class HomeViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureViewModel()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        configureViewModel()
         viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
         viewModel.getNowPlayingMovies()
         viewModel.getPopularMovies()
         viewModel.getTopRatedMovies()
         viewModel.getUpcomingMovies()
+        loadingView.startAnimating()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.isAllLoaded()
     }
     
     override func configureView() {
@@ -144,12 +150,14 @@ final class HomeViewController: BaseViewController {
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
+            viewModel.isAllLoaded()
         } else {
             viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
+            viewModel.isAllLoaded()
         }
     }
     
@@ -419,8 +427,10 @@ extension HomeViewController: UICollectionViewDelegate,
         switch selectedSegmentBool {
         case false:
                 viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
+                viewModel.isAllLoaded()
         case true:
                 viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
+                viewModel.isAllLoaded()
         }
     }
     
@@ -487,12 +497,14 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
+            viewModel.isAllLoaded()
         } else {
             viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
+            viewModel.isAllLoaded()
         }
     }
 }

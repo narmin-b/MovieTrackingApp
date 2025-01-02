@@ -15,9 +15,10 @@ class ReusableButton: UIButton {
     private var titleSize: CGFloat
     private var titleFont: String
     private var onAction: (() -> Void)
+    private var borderColor: UIColor
+    private var borderWidth: CGFloat
     
-    
-    init(title: String!, onAction: (@escaping () -> Void), cornerRad: CGFloat = 12, bgColor: UIColor = .gray, titleColor: UIColor = .white, titleSize: CGFloat = 16, titleFont: String = "Futura") {
+    init(title: String!, onAction: (@escaping () -> Void), cornerRad: CGFloat = 12, bgColor: UIColor = .gray, titleColor: UIColor = .white, titleSize: CGFloat = 16, titleFont: String = "Futura", borderColor: UIColor = .clear, borderWidth: CGFloat = 0) {
         self.title = title
         self.onAction = onAction
         self.bgColor = bgColor
@@ -25,6 +26,8 @@ class ReusableButton: UIButton {
         self.titleColor = titleColor
         self.titleSize = titleSize
         self.titleFont = titleFont
+        self.borderWidth = borderWidth
+        self.borderColor = borderColor
         super.init(frame: .zero)
         configureButton()
     }
@@ -40,6 +43,8 @@ class ReusableButton: UIButton {
         layer.cornerRadius = cornerRad
         titleLabel?.textAlignment = .center
         layer.masksToBounds = true
+        layer.borderColor = borderColor.cgColor
+        layer.borderWidth = borderWidth
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
        

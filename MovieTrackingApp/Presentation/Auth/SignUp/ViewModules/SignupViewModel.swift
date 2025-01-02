@@ -21,4 +21,8 @@ final class SignupViewModel {
     init(navigation: AuthNavigation) {
         self.navigation = navigation
     }
+    
+    func createUser(email: String, password: String, username: String) {
+        FirebaseHelper.shared.createUserWithEmailUsername(email: email, username: username, password: password)
+    }
 }

@@ -31,6 +31,14 @@ final class HomeViewModel {
     func showAllItems(listType: HomeListType) {
         navigation?.showAllItems(listType: listType)
     }
+    
+    func isAllLoaded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if self.section1Loaded && self.section2Loaded && self.section3Loaded && self.section4Loaded && self.section5Loaded {
+                self.requestCallback?(.loaded)
+            }
+        }
+    }
         
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
@@ -47,6 +55,12 @@ final class HomeViewModel {
     private(set) var topRatedTvShowsDto: [TvShowResultDTO] = []
     private(set) var trendingTvShowDto: [TrendingTvShowResult] = []
     
+    private var section1Loaded: Bool = false
+    private var section2Loaded: Bool = false
+    private var section3Loaded: Bool = false
+    private var section4Loaded: Bool = false
+    private var section5Loaded: Bool = false
+    
     // MARK: Tv Show Lists Functions
     
     func getTrendingTvShows(time: Time) {
@@ -54,9 +68,10 @@ final class HomeViewModel {
         tvShowListsUse.getTrendingTvShows(time: time) { [weak self] dto, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.trendingTvShowDto = dto.results
+                    self.section1Loaded = true
+                    print(self.section1Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -78,9 +93,10 @@ final class HomeViewModel {
         tvShowListsUse.getOnTheAirTvShows(page: "1") { [weak self] dto, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.onTheAirTvShowsDto = dto.results
+                    self.section2Loaded = true
+                    print(self.section2Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -102,9 +118,10 @@ final class HomeViewModel {
         tvShowListsUse.getPopularTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.popularTvShowsDto = dto.results
+                    self.section3Loaded = true
+                    print(self.section3Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -126,9 +143,10 @@ final class HomeViewModel {
         tvShowListsUse.getAiringTodayTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.airingTodayTvShowsDto = dto.results
+                    self.section4Loaded = true
+                    print(self.section4Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -150,9 +168,10 @@ final class HomeViewModel {
         tvShowListsUse.getTopRatedTvShows(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.topRatedTvShowsDto = dto.results
+                    self.section5Loaded = true
+                    print(self.section5Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -176,9 +195,10 @@ final class HomeViewModel {
         movieListsUse.getTrendingMovies(time: time) { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.trendingMovieDto = dto.results
+                    self.section1Loaded = true
+                    print(self.section1Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -204,9 +224,10 @@ final class HomeViewModel {
         movieListsUse.getNowPlayingMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.nowPlayingDto = dto.results
+                    self.section2Loaded = true
+                    print(self.section2Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -232,9 +253,10 @@ final class HomeViewModel {
         movieListsUse.getPopularMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.popularMoviesDto = dto.results
+                    self.section3Loaded = true
+                    print(self.section3Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -260,9 +282,10 @@ final class HomeViewModel {
         movieListsUse.getTopRatedMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.topRatedMoviesDto = dto.results
+                    self.section4Loaded = true
+                    print(self.section4Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -288,9 +311,10 @@ final class HomeViewModel {
         movieListsUse.getUpcomingMovies(page: "1") { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.requestCallback?(.loaded)
                 if let dto = dto {
                     self.upcomingMoviesDto = dto.results
+                    self.section5Loaded = true
+                    print(self.section5Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
