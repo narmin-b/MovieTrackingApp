@@ -175,9 +175,13 @@ extension UIStackView {
     }
 }
 extension String {
+    var containsWhitespace : Bool {
+        return(self.rangeOfCharacter(from: .whitespacesAndNewlines) != nil)
+    }
+    
     func doesContainUppercase() -> Bool {
         let capitalLetterRegEx  = ".*[A-Z]+.*"
-        var stringPredicate = NSPredicate(format:"SELF MATCHES %@", capitalLetterRegEx)
+        let stringPredicate = NSPredicate(format:"SELF MATCHES %@", capitalLetterRegEx)
         return  stringPredicate.evaluate(with: self)
     }
     
@@ -188,11 +192,11 @@ extension String {
     }
     
     func isValidPassword() -> Bool {
-        self.isValidPasswordMask() && self.doesContainDigit() && self.doesContainUppercase()
+        self.isValidPasswordMask() && self.doesContainDigit() && self.doesContainUppercase() && !self.containsWhitespace
     }
     
     func isValidPasswordMask() -> Bool  {
-        count > 6
+        count >= 6 && count <= 4096
     }
     
     func isValidEmailMask() -> Bool  {
@@ -206,7 +210,7 @@ extension String {
     }
     
     func isValidName() -> Bool {
-        count > 2
+        count > 2 && !self.containsWhitespace
     }
 }
 
@@ -214,5 +218,18 @@ extension UIImageView {
     func loadImageURL(url: String) {
         guard let url = URL(string: url) else {return}
         self.sd_setImage(with: url)
+    }
+}
+
+extension UITextField {
+    func errorBorderOff() {
+        self.layer.borderWidth = 0
+        self.layer.masksToBounds = false
+    }
+    
+    func errorBorderOn() {
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.masksToBounds = true
     }
 }

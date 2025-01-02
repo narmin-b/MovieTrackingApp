@@ -25,4 +25,8 @@ final class SignupViewModel {
     func createUser(email: String, password: String, username: String) {
         FirebaseHelper.shared.createUserWithEmailUsername(email: email, username: username, password: password)
     }
+    
+    func showLoginScreen() {
+        navigation?.showLogin()
+    }
 }

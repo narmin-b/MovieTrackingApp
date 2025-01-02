@@ -79,6 +79,7 @@ final class SignupViewController: BaseViewController {
     
     private lazy var passwordTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Password", iconName: "lock", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        textfield.delegate = self
         
         let rightIcon = UIImageView(image: UIImage(systemName: "eye.fill"))
         rightIcon.tintColor = .accentMain
@@ -95,6 +96,32 @@ final class SignupViewController: BaseViewController {
         
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
+    }()
+    
+    private lazy var passReqLabel: UILabel = {
+        let label = ReusableLabel(labelText: "• Must Contain 6 Characters", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var passUpcaseReqLabel: UILabel = {
+        let label = ReusableLabel(labelText: "• Must Contain An Uppercase", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var passNumReqLabel: UILabel = {
+        let label = ReusableLabel(labelText: "• Must Contain A Number", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var passwordRequirementsStack: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [passReqLabel, passUpcaseReqLabel, passNumReqLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var passwordStackView: UIStackView = {
@@ -149,6 +176,10 @@ final class SignupViewController: BaseViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    deinit {
+        print(#function)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -162,7 +193,7 @@ final class SignupViewController: BaseViewController {
         configureNavigationBar()
         
         view.backgroundColor = .backgroundMain
-        view.addSubViews(loadingView, logoImageView, titleLabel, singupInfoStackView, signupButton, loginStack)
+        view.addSubViews(loadingView, logoImageView, titleLabel, singupInfoStackView, passwordRequirementsStack, signupButton, loginStack)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -198,8 +229,14 @@ final class SignupViewController: BaseViewController {
         usernameTextfield.anchorSize(.init(width: 0, height: 48))
         passwordTextfield.anchorSize(.init(width: 0, height: 48))
         
-        signupButton.anchor(
+        passwordRequirementsStack.anchor(
             top: singupInfoStackView.bottomAnchor,
+            leading: view.leadingAnchor,
+            padding: .init(top: 8, left: 28, bottom: 0, right: 0)
+        )
+        
+        signupButton.anchor(
+            top: passwordRequirementsStack.bottomAnchor,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,
             padding: .init(top: 32, left: 24, bottom: 0, right: -24)
@@ -231,10 +268,6 @@ final class SignupViewController: BaseViewController {
         }
     }
     
-    @objc fileprivate func signupButtonClicked() {
-        viewModel.createUser(email: emailTextfield.text!, password: passwordTextfield.text!, username: usernameTextfield.text!)
-    }
-    
     @objc fileprivate func imageTapped(_ tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as? UIImageView
         
@@ -243,7 +276,61 @@ final class SignupViewController: BaseViewController {
     }
     
     @objc fileprivate func loginButtonTapped() {
-        print(#function)
-//        navigationController?.popViewController(animated: true)
+        viewModel.showLoginScreen()
+    }
+    
+    @objc fileprivate func signupButtonClicked() {
+        checkInputRequirements()
+    }
+    
+    fileprivate func checkInputRequirements() {
+        let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        
+        if usernameText.isValidName() && emailText.isValidEmail() && passwordText.isValidPassword() {
+            viewModel.createUser(email: emailTextfield.text!, password: passwordTextfield.text!, username: usernameTextfield.text!)
+        } else {
+            if !usernameText.isValidName() {
+                usernameTextfield.errorBorderOn()
+            } else {
+                usernameTextfield.errorBorderOff()
+            }
+            if !emailText.isValidEmail() {
+                emailTextfield.errorBorderOn()
+            } else {
+                emailTextfield.errorBorderOff()
+            }
+            if !passwordText.isValidPassword() {
+                passwordTextfield.errorBorderOn()
+            } else {
+                passwordTextfield.errorBorderOff()
+            }
+        }
+    }
+    
+    fileprivate func checkPassWordRequirements() {
+        let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if passwordText.isValidPasswordMask() {
+            passReqLabel.textColor = .systemGreen
+        } else {
+            passReqLabel.textColor = .white
+        }
+        if passwordText.doesContainDigit() {
+            passNumReqLabel.textColor = .systemGreen
+        } else {
+            passNumReqLabel.textColor = .white
+        }
+        if passwordText.doesContainUppercase() {
+            passUpcaseReqLabel.textColor = .systemGreen
+        } else {
+            passUpcaseReqLabel.textColor = .white
+        }
+    }
+}
+
+extension SignupViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        checkPassWordRequirements()
     }
 }
