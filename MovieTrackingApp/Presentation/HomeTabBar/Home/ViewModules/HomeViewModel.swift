@@ -71,7 +71,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.trendingTvShowDto = dto.results
                     self.section1Loaded = true
-                    print(self.section1Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -96,7 +95,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.onTheAirTvShowsDto = dto.results
                     self.section2Loaded = true
-                    print(self.section2Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -121,7 +119,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.popularTvShowsDto = dto.results
                     self.section3Loaded = true
-                    print(self.section3Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -146,7 +143,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.airingTodayTvShowsDto = dto.results
                     self.section4Loaded = true
-                    print(self.section4Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -171,7 +167,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.topRatedTvShowsDto = dto.results
                     self.section5Loaded = true
-                    print(self.section5Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -198,7 +193,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.trendingMovieDto = dto.results
                     self.section1Loaded = true
-                    print(self.section1Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -227,7 +221,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.nowPlayingDto = dto.results
                     self.section2Loaded = true
-                    print(self.section2Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -256,7 +249,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.popularMoviesDto = dto.results
                     self.section3Loaded = true
-                    print(self.section3Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -285,7 +277,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.topRatedMoviesDto = dto.results
                     self.section4Loaded = true
-                    print(self.section4Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -314,7 +305,6 @@ final class HomeViewModel {
                 if let dto = dto {
                     self.upcomingMoviesDto = dto.results
                     self.section5Loaded = true
-                    print(self.section5Loaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))

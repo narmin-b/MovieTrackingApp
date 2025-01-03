@@ -20,8 +20,8 @@ final class LoginViewModel {
     
     private var model: UserDataModel = UserDataModel()
     
-    func setInput(username: String, email: String) {
-        model.username = username
+    func setInput(email: String, password: String) {
+        model.password = password
         model.email = email
     }
         
@@ -29,20 +29,18 @@ final class LoginViewModel {
         self.navigation = navigation
     }
     
-    func checkLogin(email: String, password: String) {
+    func checkLogin() {
         requestCallback?(.loading)
         DispatchQueue.main.async {
-            FirebaseHelper.auth.signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            FirebaseHelper.auth.signIn(withEmail: self.model.email ?? "", password: self.model.password ?? "") { [weak self] authResult, error in
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let error = error {
                     self.requestCallback?(.error(message: error.localizedDescription))
-                    return
                 }
                 if (authResult?.user) != nil {
                     print(authResult?.user.displayName ?? "")
                     self.requestCallback?(.success)
-                    return
                 }
             }
         }

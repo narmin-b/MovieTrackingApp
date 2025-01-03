@@ -151,7 +151,10 @@ final class LoginViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        navigationItem.backBarButtonItem = backItem
+        navigationController?.navigationBar.tintColor = .primaryHighlight
     }
     
     override func configureConstraint() {
@@ -213,15 +216,30 @@ final class LoginViewController: BaseViewController {
         }
     }
     
-    @objc fileprivate func loginButtonClicked() {
-        viewModel.checkLogin(email: emailTextfield.text?.lowercased() ?? "", password: passwordTextfield.text ?? "")
-    }
-    
     @objc fileprivate func imageTapped(_ tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as? UIImageView
         
         tappedImage?.image = UIImage(systemName: passwordTextfield.isSecureTextEntry ? "eye.fill" : "eye.slash.fill")
         passwordTextfield.isSecureTextEntry.toggle()
+    }
+    
+    @objc fileprivate func loginButtonClicked() {
+        guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
+        if checkInput(email: email, password: password) {
+            logUserIn()
+        } else {
+            showMessage(title: "Wrong Input", message: "Email or Password is wrong")
+        }
+    }
+    
+    fileprivate func logUserIn() {
+        guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
+        viewModel.setInput(email: email, password: password)
+        viewModel.checkLogin()
+    }
+    
+    fileprivate func checkInput(email: String, password: String) -> Bool {
+        return email.isValidEmail() && password.isValidPassword()
     }
     
     @objc fileprivate func registerButtonTapped() {

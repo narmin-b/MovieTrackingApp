@@ -187,6 +187,7 @@ final class SignupViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
+        removeErrorBorder()
     }
     
     override func configureView() {
@@ -198,7 +199,10 @@ final class SignupViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        navigationItem.backBarButtonItem = backItem
+        navigationController?.navigationBar.tintColor = .primaryHighlight
     }
     
     
@@ -283,29 +287,41 @@ final class SignupViewController: BaseViewController {
         checkInputRequirements()
     }
     
+    fileprivate func removeErrorBorder() {
+        usernameTextfield.errorBorderOff()
+        emailTextfield.errorBorderOff()
+        passwordTextfield.errorBorderOff()
+    }
+    
+    fileprivate func createUserWithPassword(email: String, password: String, username: String) {
+        viewModel.createUser(email: email, password: password, username: username)
+    }
+    
     fileprivate func checkInputRequirements() {
-        let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        guard let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         
         if usernameText.isValidName() && emailText.isValidEmail() && passwordText.isValidPassword() {
-            viewModel.createUser(email: emailTextfield.text!, password: passwordTextfield.text!, username: usernameTextfield.text!)
+            createUserWithPassword(email: emailText, password: passwordText, username: usernameText)
         } else {
-            if !usernameText.isValidName() {
-                usernameTextfield.errorBorderOn()
-            } else {
-                usernameTextfield.errorBorderOff()
-            }
-            if !emailText.isValidEmail() {
-                emailTextfield.errorBorderOn()
-            } else {
-                emailTextfield.errorBorderOff()
-            }
-            if !passwordText.isValidPassword() {
-                passwordTextfield.errorBorderOn()
-            } else {
-                passwordTextfield.errorBorderOff()
-            }
+            checkErrorBorders(email: emailText, password: passwordText, username: usernameText)
+        }
+    }
+    
+    fileprivate func checkErrorBorders(email: String, password: String, username: String) {
+        if !username.isValidName() {
+            usernameTextfield.errorBorderOn()
+        } else {
+            usernameTextfield.errorBorderOff()
+        }
+        if !email.isValidEmail() {
+            emailTextfield.errorBorderOn()
+        } else {
+            emailTextfield.errorBorderOff()
+        }
+        if !password.isValidPassword() {
+            passwordTextfield.errorBorderOn()
+        } else {
+            passwordTextfield.errorBorderOff()
         }
     }
     
@@ -331,6 +347,8 @@ final class SignupViewController: BaseViewController {
 
 extension SignupViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        checkPassWordRequirements()
+        if textField == passwordTextfield {
+            checkPassWordRequirements()
+        }
     }
 }

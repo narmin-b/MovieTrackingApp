@@ -62,9 +62,10 @@ final class LaunchViewController: BaseViewController {
         view.addSubViews(logoImageView, buttonStack)
     }
     
-    fileprivate func configureNavigationBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+    fileprivate func configureNavigationBar() {        
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        navigationItem.backBarButtonItem = backItem
     }
     
     override func configureConstraint() {

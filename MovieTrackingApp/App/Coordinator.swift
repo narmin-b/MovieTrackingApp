@@ -29,4 +29,10 @@ extension Coordinator {
     func showController(vc: UIViewController) {
         navigationController.show(vc, sender: nil)
     }
+    
+    func cleanHistory() {
+        let viewCount = navigationController.viewControllers.count
+        guard viewCount > 2 else { return }
+        navigationController.viewControllers.remove(at: 1)
+    }
 }

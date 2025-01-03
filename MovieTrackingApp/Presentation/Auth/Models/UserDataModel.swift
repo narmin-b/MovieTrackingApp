@@ -10,4 +10,5 @@ import Foundation
 struct UserDataModel {
     var email: String?
     var username: String?
+    var password: String?
 }
