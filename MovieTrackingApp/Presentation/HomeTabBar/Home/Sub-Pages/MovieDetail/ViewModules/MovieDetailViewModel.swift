@@ -19,17 +19,19 @@ final class MovieDetailViewModel {
     var requestCallback : ((ViewState) -> Void?)?
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
     
-    private var movieID: Int
+    private var id: Int
+    private var mediaType: MediaType
     private(set) var movieDetails: MovieDetailDTO?
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     
-    init(movieID: Int) {
-        self.movieID = movieID
+    init(mediaType: MediaType, id: Int) {
+        self.id = id
+        self.mediaType = mediaType
     }
     
     func getMovieDetails() {
         requestCallback?(.loading)
-        movieDetailsUse.getMovieDetail(id: String(movieID)) { [weak self] dto, error in
+        movieDetailsUse.getMovieDetail(id: String(id)) { [weak self] dto, error in
             guard let self = self else { return }
             requestCallback?(.loaded)
             if let dto = dto {
@@ -59,9 +61,4 @@ final class MovieDetailViewModel {
             return originCountryStr
         }
     }
-    
-//    func getMovieName() -> String {
-//        print(movie?.idInt)
-//        return movie?.titleStr ?? ""
-//    }
 }

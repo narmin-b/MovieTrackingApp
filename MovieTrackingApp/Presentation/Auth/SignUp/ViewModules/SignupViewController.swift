@@ -212,9 +212,9 @@ final class SignupViewController: BaseViewController {
         logoImageView.centerXToSuperview()
         logoImageView.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
-            padding: .init(all: 8)
+            padding: .init(all: .zero)
         )
-        logoImageView.anchorSize(.init(width: (view.frame.width/3), height: (view.frame.width/3)))
+        logoImageView.anchorSize(.init(width: (view.frame.width/3.5), height: (view.frame.width/3.5)))
         
         titleLabel.centerXToSuperview()
         titleLabel.anchor(

@@ -7,7 +7,12 @@
 
 import Foundation
 
+enum MediaType: String {
+    case movie
+    case tvShow
+}
+
 protocol HomeNavigation: AnyObject {
-    func showDetails(movieID: Int)
+    func showDetails(mediaType: MediaType, id: Int)
     func showAllItems(listType: HomeListType)
 }

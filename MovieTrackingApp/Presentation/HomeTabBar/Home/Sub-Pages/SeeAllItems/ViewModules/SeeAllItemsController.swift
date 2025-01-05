@@ -23,7 +23,7 @@ final class SeeAllItemsController: BaseViewController {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 4
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 4, right: 4)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 4, right: 8)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "ImageCollectionViewCell")
         collectionView.delegate = self
@@ -92,7 +92,7 @@ final class SeeAllItemsController: BaseViewController {
                 case .success:
                     print("success")
                     self.allMoviesCollectionView.reloadData()
-                case .error(message: let message):
+                case .error(message: _):
                     print("couldnt retrieve")
 //                    self.showMessage(title: message)
                 }
@@ -148,7 +148,7 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width-24)/4, height: (collectionView.bounds.width-24)/8*3)
+        return CGSize(width: (collectionView.bounds.width-28)/4, height: (collectionView.bounds.width-28)/8*3)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -10,15 +10,34 @@ import UIKit
 
 final class HomeCollectionLayout {
     func titlesSegmentSection()-> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(48))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(48)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 4,
+            bottom: 0,
+            trailing: 4
+        )
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 0,
+            bottom: 8,
+            trailing: 0
+        )
         section.orthogonalScrollingBehavior = .continuous
 
         return section
@@ -27,23 +46,42 @@ final class HomeCollectionLayout {
     func trendingSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+//        item.contentInsets = NSDirectionalEdgeInsets(
+//            top: 0,
+//            leading: 18,
+//            bottom: 0,
+//            trailing: 10
+//        )
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.6),
-            heightDimension: .fractionalHeight(0.4)
+            widthDimension: .absolute((UIScreen.current.bounds.width) * 0.6),
+            heightDimension: .absolute((UIScreen.current.bounds.width) * 0.6 + 48)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 4,
+            leading: 8,
+            bottom: 4,
+            trailing: 4
+        )
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 4, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 8,
+            bottom: 0,
+            trailing: 8
+        )
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(32)), elementKind: "UICollectionElementKindSectionHeader", alignment: .top),
+            .init(
+                layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(32)),
+                elementKind: "UICollectionElementKindSectionHeader",
+                alignment: .top
+            ),
         ]
 //        section.visibleItemsInvalidationHandler = { items, contentOffset, environment in
 //            let center = contentOffset.x + environment.container.contentSize.width / 2
@@ -57,18 +95,42 @@ final class HomeCollectionLayout {
     }
     
     func titlesSection()-> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute((UIScreen.main.bounds.width - 48) * 0.3 * 2))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 4, trailing: 4)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute((UIScreen.main.bounds.width) * 0.35),
+            heightDimension: .absolute((UIScreen.main.bounds.width) * 0.6)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 4,
+            bottom: 4,
+            trailing: 4
+        )
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 4, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 4,
+            bottom: 4,
+            trailing: 4
+        )
         section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [
-            .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(32)), elementKind: "UICollectionElementKindSectionHeader", alignment: .top),
+            .init(
+                layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                  heightDimension: .absolute(32)),
+                elementKind: "UICollectionElementKindSectionHeader",
+                alignment: .top
+            ),
         ]
         
         return section

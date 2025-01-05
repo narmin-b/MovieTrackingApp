@@ -32,6 +32,10 @@ final class SeeAllItemsViewModel {
         self.listType = listType
     }
     
+    func showMovieDetail(mediaType: MediaType, id: Int) {
+        navigation?.showDetails(mediaType: mediaType, id: id)
+    }
+    
     func getAllItems() -> Int {
         return resultList.count
     }

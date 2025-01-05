@@ -93,6 +93,7 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print((UIScreen.current.bounds.width) * 0.6)
     }
     
     override func configureView() {
@@ -341,25 +342,22 @@ extension HomeViewController: UICollectionViewDelegate,
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
+            var item: Int = 0
             switch indexPath.section {
             case 1:
-                let item = viewModel.getTrendingMovie(index: indexPath.item)
-                viewModel.showMovieDetail(movieID: item)
+                item = viewModel.getTrendingMovie(index: indexPath.item)
             case 2:
-                let item = viewModel.getNowPlayingMovie(index: indexPath.item)
-                viewModel.showMovieDetail(movieID: item)
+                item = viewModel.getNowPlayingMovie(index: indexPath.item)
             case 3:
-                let item = viewModel.getPopularMovie(index: indexPath.item)
-                viewModel.showMovieDetail(movieID: item)
+                item = viewModel.getPopularMovie(index: indexPath.item)
             case 4:
-                let item = viewModel.getTopRatedMovie(index: indexPath.item)
-                viewModel.showMovieDetail(movieID: item)
+                item = viewModel.getTopRatedMovie(index: indexPath.item)
             case 5:
-                let item = viewModel.getUpcomingMovie(index: indexPath.item)
-                viewModel.showMovieDetail(movieID: item)
+                item = viewModel.getUpcomingMovie(index: indexPath.item)
             default:
                 break
             }
+            viewModel.showMovieDetail(mediaType: .movie, id: item)
         }
         
     func collectionView(

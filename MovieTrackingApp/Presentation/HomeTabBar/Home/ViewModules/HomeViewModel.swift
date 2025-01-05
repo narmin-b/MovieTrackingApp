@@ -24,8 +24,8 @@ final class HomeViewModel {
         self.navigation = navigation
     }
     
-    func showMovieDetail(movieID: Int) {
-        navigation?.showDetails(movieID: movieID)
+    func showMovieDetail(mediaType: MediaType, id: Int) {
+        navigation?.showDetails(mediaType: mediaType, id: id)
     }
     
     func showAllItems(listType: HomeListType) {
@@ -66,11 +66,11 @@ final class HomeViewModel {
     }
     
     func getTrendingTvShowItems() -> Int {
-        return trendingTvShowDto.count
+        return trendingTvShowDto.count == 0 ? 10 : trendingTvShowDto.count
     }
     
     func getTrendingTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return trendingTvShowDto[index]
+        return trendingTvShowDto.count == 0 ? DemoMovieTitleImageCell() : trendingTvShowDto[index]
     }
     
     func getOnTheAirTvShows() {
@@ -90,11 +90,11 @@ final class HomeViewModel {
     }
     
     func getOnTheAirTvShowItems() -> Int {
-        return onTheAirTvShowsDto.count
+        return onTheAirTvShowsDto.count == 0 ? 10 : onTheAirTvShowsDto.count
     }
     
     func getOnTheAirTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return onTheAirTvShowsDto[index]
+        return onTheAirTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : onTheAirTvShowsDto[index]
     }
     
     func getPopularTvShows() {
@@ -114,11 +114,11 @@ final class HomeViewModel {
     }
       
     func getPopularTvShowItems() -> Int {
-        return popularTvShowsDto.count
+        return popularTvShowsDto.count == 0 ? 10 : popularTvShowsDto.count
     }
     
     func getPopularTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return popularTvShowsDto[index]
+        return popularTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : popularTvShowsDto[index]
     }
     
     func getAiringTodayTvShows() {
@@ -138,11 +138,11 @@ final class HomeViewModel {
     }
       
     func getAiringTodayTvShowItems() -> Int {
-        return airingTodayTvShowsDto.count
+        return airingTodayTvShowsDto.count == 0 ? 10 : airingTodayTvShowsDto.count
     }
     
     func getAiringTodayTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return airingTodayTvShowsDto[index]
+        return airingTodayTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : airingTodayTvShowsDto[index]
     }
     
     func getTopRatedTvShows() {
@@ -162,11 +162,11 @@ final class HomeViewModel {
     }
       
     func getTopRatedTvShowItems() -> Int {
-        return topRatedTvShowsDto.count
+        return topRatedTvShowsDto.count == 0 ? 10 : topRatedMoviesDto.count
     }
     
     func getTopRatedTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return topRatedTvShowsDto[index]
+        return topRatedTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : topRatedTvShowsDto[index]
     }
     
     // MARK: Movie Lists Functions
@@ -188,7 +188,7 @@ final class HomeViewModel {
     }
     
     func getTrendingMovieItems() -> Int {
-        return trendingMovieDto.count
+        return trendingMovieDto.count == 0 ? 10 : trendingMovieDto.count
     }
     
     func getTrendingMovie(index: Int) -> Int {
@@ -196,7 +196,7 @@ final class HomeViewModel {
     }
     
     func getTrendingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return trendingMovieDto[index]
+        return trendingMovieDto.count == 0 ? DemoMovieTitleImageCell() : trendingMovieDto[index]
     }
     
     func getNowPlayingMovies() {
@@ -216,7 +216,7 @@ final class HomeViewModel {
     }
     
     func getNowPlayingMovieItems() -> Int {
-        return nowPlayingDto.count
+        return nowPlayingDto.count == 0 ? 10 : nowPlayingDto.count
     }
     
     func getNowPlayingMovie(index: Int) -> Int {
@@ -224,7 +224,7 @@ final class HomeViewModel {
     }
     
     func getNowPlayingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return nowPlayingDto[index]
+        return nowPlayingDto.count == 0 ? DemoMovieTitleImageCell() : nowPlayingDto[index]
     }
         
     func getPopularMovies() {
@@ -244,11 +244,11 @@ final class HomeViewModel {
     }
     
     func getPopularMovieItems() -> Int {
-        return popularMoviesDto.count
+        return popularMoviesDto.count == 0 ? 10 : popularMoviesDto.count
     }
     
     func getPopularMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return popularMoviesDto[index]
+        return popularMoviesDto.count == 0 ? DemoMovieTitleImageCell() : popularMoviesDto[index]
     }
     
     func getPopularMovie(index: Int) -> Int {
@@ -272,7 +272,7 @@ final class HomeViewModel {
     }
     
     func getTopRatedMovieItems() -> Int {
-        return topRatedMoviesDto.count
+        return topRatedMoviesDto.count == 0 ? 10 : topRatedMoviesDto.count
     }
     
     func getTopRatedMovie(index: Int) -> Int {
@@ -280,7 +280,7 @@ final class HomeViewModel {
     }
     
     func getTopRatedMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return topRatedMoviesDto[index]
+        return topRatedMoviesDto.count == 0 ? DemoMovieTitleImageCell() : topRatedMoviesDto[index]
     }
     
     func getUpcomingMovies() {
@@ -300,11 +300,11 @@ final class HomeViewModel {
     }
     
     func getUpcomingMovieItems() -> Int {
-        return upcomingMoviesDto.count
+        return upcomingMoviesDto.count == 0 ? 10 : upcomingMoviesDto.count
     }
     
     func getUpcomingMoviesProtocol(index: Int) -> TitleImageCellProtocol? {
-        return upcomingMoviesDto[index]
+        return upcomingMoviesDto.count == 0 ? DemoMovieTitleImageCell() : upcomingMoviesDto[index]
     }
     
     func getUpcomingMovie(index: Int) -> Int {
