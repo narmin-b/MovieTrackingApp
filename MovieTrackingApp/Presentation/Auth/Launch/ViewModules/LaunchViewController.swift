@@ -62,7 +62,7 @@ final class LaunchViewController: BaseViewController {
         view.addSubViews(logoImageView, buttonStack)
     }
     
-    fileprivate func configureNavigationBar() {        
+    fileprivate func configureNavigationBar() {
         let backItem = UIBarButtonItem()
         backItem.title = ""
         navigationItem.backBarButtonItem = backItem

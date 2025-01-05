@@ -73,6 +73,7 @@ final class LoginViewController: BaseViewController {
         rightIcon.isUserInteractionEnabled = true
         rightIcon.addGestureRecognizer(tapGestureRecognizer)
         
+        textfield.isSecureTextEntry = true
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -85,8 +86,37 @@ final class LoginViewController: BaseViewController {
         return stackView
     }()
     
+    private lazy var loggedButtonImage: UIImageView = {
+        let image = UIImageView(image: UIImage(systemName: "square"))
+        image.contentMode = .scaleAspectFit
+        image.tintColor = .white
+        image.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keepLoggedInTapped))
+        image.addGestureRecognizer(tapGesture)
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private lazy var loggedLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Keep me logged in", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keepLoggedInTapped))
+        label.addGestureRecognizer(tapGesture)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var loggedStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [loggedButtonImage, loggedLabel])
+        stack.axis = .horizontal
+        stack.spacing = 2
+        stack.alignment = .leading
+        stack.distribution = .fillProportionally
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
     private lazy var loginInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [emailStackView, passwordStackView])
+        let stackView = UIStackView(arrangedSubviews: [emailStackView, passwordStackView, loggedStack])
         stackView.axis = .vertical
         stackView.spacing = 12
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +167,8 @@ final class LoginViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var isKeepLoggedIn: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
@@ -182,6 +214,10 @@ final class LoginViewController: BaseViewController {
         
         emailTextfield.anchorSize(.init(width: 0, height: 48))
         passwordTextfield.anchorSize(.init(width: 0, height: 48))
+        
+        loggedLabel.centerYToView(to: loggedButtonImage)
+        loggedButtonImage.anchorSize(.init(width: 24, height: 24))
+        loggedStack.anchorSize(.init(width: 0, height: 24))
         
         loginButton.anchor(
             top: loginInfoStackView.bottomAnchor,
@@ -240,6 +276,17 @@ final class LoginViewController: BaseViewController {
     
     fileprivate func checkInput(email: String, password: String) -> Bool {
         return email.isValidEmail() && password.isValidPassword()
+    }
+    
+    @objc fileprivate func keepLoggedInTapped() {
+        isKeepLoggedIn.toggle()
+
+        let imageName = isKeepLoggedIn ? "checkmark.square" : "square"
+        loggedButtonImage.setSymbolImage(UIImage(systemName: imageName) ?? UIImage(), contentTransition: .automatic, options: .nonRepeating) { _ in
+        }
+        
+        UserDefaultsHelper.setBool(key: "isLoggedIn", value: isKeepLoggedIn)
+        print(UserDefaultsHelper.getBool(key: "isLoggedIn"))
     }
     
     @objc fileprivate func registerButtonTapped() {

@@ -83,19 +83,16 @@ final class HomeViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         configureViewModel()
         viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
         viewModel.getNowPlayingMovies()
         viewModel.getPopularMovies()
         viewModel.getTopRatedMovies()
         viewModel.getUpcomingMovies()
-        loadingView.startAnimating()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.isAllLoaded()
     }
     
     override func configureView() {
@@ -150,14 +147,12 @@ final class HomeViewController: BaseViewController {
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
-            viewModel.isAllLoaded()
         } else {
             viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
-            viewModel.isAllLoaded()
         }
     }
     
@@ -181,7 +176,7 @@ final class HomeViewController: BaseViewController {
         
         navigationView.addSubview(label)
         label.centerXToView(to: navigationView)
-        label.centerToYView(to: navigationView)
+        label.centerYToView(to: navigationView)
 
         navigationItem.titleView = navigationView
     }
@@ -242,7 +237,7 @@ extension HomeViewController: UICollectionViewDelegate,
             case false:
                 switch section {
                 case 0: return 1
-                case 1 : return viewModel.getTrendingMovieItems()
+                case 1: return viewModel.getTrendingMovieItems()
                 case 2: return viewModel.getNowPlayingMovieItems()
                 case 3: return viewModel.getTopRatedMovieItems()
                 case 4: return viewModel.getPopularMovieItems()
@@ -257,7 +252,7 @@ extension HomeViewController: UICollectionViewDelegate,
                 case 3: return viewModel.getTopRatedTvShowItems()
                 case 4: return viewModel.getPopularTvShowItems()
                 case 5: return viewModel.getAiringTodayTvShowItems()
-                default: return viewModel.getNowPlayingMovieItems()
+                default: return viewModel.getOnTheAirTvShowItems()
                 }
             }
         }
@@ -379,6 +374,7 @@ extension HomeViewController: UICollectionViewDelegate,
             
             trendingHeader.trendingSegmentClicked = { [weak self] segment in
                 guard let self = self else { return }
+                print(#function)
                 self.trendingSegmentClicked(segmentIndex: segment)
             }
             return trendingHeader
@@ -427,10 +423,8 @@ extension HomeViewController: UICollectionViewDelegate,
         switch selectedSegmentBool {
         case false:
                 viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-                viewModel.isAllLoaded()
         case true:
                 viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
-                viewModel.isAllLoaded()
         }
     }
     
@@ -497,14 +491,12 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
             viewModel.getPopularTvShows()
             viewModel.getAiringTodayTvShows()
             viewModel.getTopRatedTvShows()
-            viewModel.isAllLoaded()
         } else {
             viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
             viewModel.getNowPlayingMovies()
             viewModel.getPopularMovies()
             viewModel.getTopRatedMovies()
             viewModel.getUpcomingMovies()
-            viewModel.isAllLoaded()
         }
     }
 }

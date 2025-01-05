@@ -251,7 +251,7 @@ extension UIView {
             ).isActive = size.height != 0
         }
     
-    public func centerToYView(
+    public func centerYToView(
         to view: UIView,
         size: CGSize = .zero,
         yConstant: CGFloat = 0) {

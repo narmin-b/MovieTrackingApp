@@ -150,7 +150,7 @@ final class MovieDetailController: BaseViewController {
        
         navgationView.addSubview(label)
         label.centerXToView(to: navgationView)
-        label.centerToYView(to: navgationView)
+        label.centerYToView(to: navgationView)
 
         navigationItem.titleView = navgationView
     }

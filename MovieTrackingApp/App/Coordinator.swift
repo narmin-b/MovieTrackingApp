@@ -30,7 +30,7 @@ extension Coordinator {
         navigationController.show(vc, sender: nil)
     }
     
-    func cleanHistory() {
+    func deletePreviousController() {
         let viewCount = navigationController.viewControllers.count
         guard viewCount > 2 else { return }
         navigationController.viewControllers.remove(at: 1)

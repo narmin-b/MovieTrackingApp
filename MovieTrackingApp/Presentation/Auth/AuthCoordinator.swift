@@ -27,13 +27,13 @@ extension AuthCoordinator: AuthNavigation {
     func showLogin() {
         let vc = LoginViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
-        cleanHistory()
+        deletePreviousController()
     }
     
     func showSignUp() {
         let vc = SignupViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
-        cleanHistory()
+        deletePreviousController()
 
     }
     

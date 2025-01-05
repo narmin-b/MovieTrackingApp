@@ -20,6 +20,7 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
+        isLogin = UserDefaultsHelper.getBool(key: "isLoggedIn")
         if isLogin {
             showHome()
         } else {
