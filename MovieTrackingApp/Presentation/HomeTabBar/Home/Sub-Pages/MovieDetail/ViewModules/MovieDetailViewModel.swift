@@ -18,15 +18,18 @@ final class MovieDetailViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
+    private weak var navigation: HomeNavigation?
     
     private var id: Int
     private var mediaType: MediaType
-    private(set) var movieDetails: MovieDetailDTO?
+    private(set) var movieDetails: MovieDetailProtocol?
+    
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     
-    init(mediaType: MediaType, id: Int) {
+    init(mediaType: MediaType, id: Int, navigation: HomeNavigation) {
         self.id = id
         self.mediaType = mediaType
+        self.navigation = navigation
     }
     
     func getMovieDetails() {
@@ -44,6 +47,7 @@ final class MovieDetailViewModel {
     }
     
     func getBackdropImage() -> String {
+        print(movieDetails?.titleStr)
         return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
     }
     

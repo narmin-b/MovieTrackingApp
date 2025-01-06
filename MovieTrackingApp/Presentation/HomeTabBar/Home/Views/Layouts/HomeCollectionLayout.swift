@@ -49,13 +49,7 @@ final class HomeCollectionLayout {
             heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(
-//            top: 0,
-//            leading: 18,
-//            bottom: 0,
-//            trailing: 10
-//        )
-
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute((UIScreen.current.bounds.width) * 0.6),
             heightDimension: .absolute((UIScreen.current.bounds.width) * 0.6 + 48)
@@ -70,7 +64,7 @@ final class HomeCollectionLayout {
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0,
+            top: 4,
             leading: 8,
             bottom: 0,
             trailing: 8

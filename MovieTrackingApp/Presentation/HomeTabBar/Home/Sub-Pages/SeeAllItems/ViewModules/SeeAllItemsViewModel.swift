@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum ResultType {
     case movie(MovieResultDTO)
@@ -28,16 +29,27 @@ final class SeeAllItemsViewModel {
     private var resultList: [ResultType] = []
     private var listType: HomeListType
     
-    init(listType: HomeListType) {
+    init(listType: HomeListType, navigation: HomeNavigation) {
         self.listType = listType
+        self.navigation = navigation
     }
     
     func showMovieDetail(mediaType: MediaType, id: Int) {
-        navigation?.showDetails(mediaType: mediaType, id: id)
+        navigation?.showDetails(mediaType: mediaType, id: id, nav: navigation!)
     }
     
     func getAllItems() -> Int {
         return resultList.count
+    }
+    
+    func getItem(index: Int) -> Int {
+        let result = resultList[index]
+        switch result {
+        case .movie(let movieDTO):
+            return movieDTO.id
+        case .tvShow(let tvShowDTO):
+            return tvShowDTO.id
+        }
     }
     
     func getAllItemsProtocol(index: Int) -> TitleImageCellProtocol? {

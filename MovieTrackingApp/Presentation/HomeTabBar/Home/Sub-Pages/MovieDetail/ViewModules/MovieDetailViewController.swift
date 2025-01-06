@@ -25,7 +25,9 @@ final class MovieDetailController: BaseViewController {
     private lazy var backdropImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+//        imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "testing")
+        imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -126,33 +128,26 @@ final class MovieDetailController: BaseViewController {
         let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageView, initInfoStackView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
-        scrollStack.backgroundColor = .clear
+        scrollStack.backgroundColor = .red
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
         return scrollStack
     }()
     
     private let viewModel: MovieDetailViewModel?
         
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel?.getMovieDetails()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViewModel()
     }
     
     fileprivate func configureNavigationBar() {
-        let navgationView = UIView()
-        navgationView.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.text = "Movies"
-        label.sizeToFit()
-        label.textAlignment = .center
-        label.font = UIFont(name: "Nexa-Bold", size: 20)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-       
-        navgationView.addSubview(label)
-        label.centerXToView(to: navgationView)
-        label.centerYToView(to: navgationView)
-
-        navigationItem.titleView = navgationView
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     init(viewModel: MovieDetailViewModel?) {
@@ -166,36 +161,28 @@ final class MovieDetailController: BaseViewController {
     
     fileprivate func configureViewModel() {
         viewModel?.requestCallback = { [weak self] state in
-            guard let self = self else {return}
-            switch state {
-            case .loading:
-                print(#function)
-
-//                DispatchQueue.main.async {
-//                    self.loadingView.startAnimating()
-//                }
-            case .loaded:
-                print(#function)
-
-//                DispatchQueue.main.async {
-//                    self.loadingView.stopAnimating()
-//                }
-            case .success:
-                print(#function)
-
-//                DispatchQueue.main.async {
-//                }
-            case .error(message: let message):
-                showMessage(title: message)
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch state {
+                case .loading:
+                    self.loadingView.startAnimating()
+                case .loaded:
+                    self.loadingView.stopAnimating()
+                case .success:
+                    print("success called")
+                    self.configureDetails()
+                case .error(message: let message):
+                    self.showMessage(title: message)
+                }
             }
         }
     }
     
     override func configureView() {
         view.backgroundColor = .backgroundMain
-        view.addSubViews(scrollView/*backdropImageView, posterImageView, initInfoStackView, infoCollectionView*/)
+        view.addSubViews(scrollView) /*, posterImageView, initInfoStackView, infoCollectionView*/
 //        titleLabel.text = viewModel?.getMovieName()
-        configureDetails()
+//        configureDetails()
     }
     
     override func configureConstraint() {
@@ -209,6 +196,7 @@ final class MovieDetailController: BaseViewController {
             padding: .init(all: .zero)
         )
         
+        scrollStack.anchorSize(to: scrollView)
         scrollStack.anchor(
             top: scrollView.topAnchor,
             leading: scrollView.leadingAnchor,
@@ -217,13 +205,15 @@ final class MovieDetailController: BaseViewController {
             padding: .init(all: .zero)
         )
         
+//        backdropImageView.fillSuperview()
+        
         backdropImageView.anchor(
             top: scrollStack.topAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 0, left: 0, bottom: 0, right: 0)
         )
-        backdropImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         posterImageView.anchor(
             top: backdropImageView.topAnchor,
@@ -244,8 +234,8 @@ final class MovieDetailController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 0, bottom: 0, right: 0)
         )
-//        titleLabel.centerXToSuperview()
-//        titleLabel.centerYToSuperview()
+////        titleLabel.centerXToSuperview()
+////        titleLabel.centerYToSuperview()
     }
         
     override func configureTargets() {

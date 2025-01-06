@@ -25,13 +25,13 @@ final class HomeCoordinator: Coordinator {
 
 extension HomeCoordinator: HomeNavigation {
     func showAllItems(listType: HomeListType) {
-        let vc = SeeAllItemsController(viewModel: .init(listType: listType))
+        let vc = SeeAllItemsController(viewModel: .init(listType: listType, navigation: self))
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }
     
-    func showDetails(mediaType: MediaType, id: Int) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id))
+    func showDetails(mediaType: MediaType, id: Int, nav: HomeNavigation) {
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self))
         showController(vc: vc)
     }
 }

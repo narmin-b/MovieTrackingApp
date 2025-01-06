@@ -349,9 +349,9 @@ extension HomeViewController: UICollectionViewDelegate,
             case 2:
                 item = viewModel.getNowPlayingMovie(index: indexPath.item)
             case 3:
-                item = viewModel.getPopularMovie(index: indexPath.item)
-            case 4:
                 item = viewModel.getTopRatedMovie(index: indexPath.item)
+            case 4:
+                item = viewModel.getPopularMovie(index: indexPath.item)
             case 5:
                 item = viewModel.getUpcomingMovie(index: indexPath.item)
             default:

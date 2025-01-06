@@ -14,6 +14,7 @@ final class TabBarController: UITabBarController {
     }
     
     fileprivate func configureUI() {
+        view.backgroundColor = .backgroundMain
         tabBar.backgroundColor = .accentMain
         tabBar.isTranslucent = false
         tabBar.barTintColor = .accentMain

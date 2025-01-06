@@ -151,7 +151,11 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
         return CGSize(width: (collectionView.bounds.width-28)/4, height: (collectionView.bounds.width-28)/8*3)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("movie")
-    }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
+//            guard let item = viewModel?.getItem(index: indexPath.item) else { return }
+            viewModel?.showMovieDetail(mediaType: .movie, id: 123)
+            print("test")
+        }
 }

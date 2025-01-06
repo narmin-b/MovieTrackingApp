@@ -98,8 +98,9 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var loggedLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Keep me logged in", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        let label = ReusableLabel(labelText: "Keep me logged in", labelColor: .white, labelFont: "NexaRegular", labelSize: 16)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keepLoggedInTapped))
+        label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tapGesture)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -215,9 +216,8 @@ final class LoginViewController: BaseViewController {
         emailTextfield.anchorSize(.init(width: 0, height: 48))
         passwordTextfield.anchorSize(.init(width: 0, height: 48))
         
-        loggedLabel.centerYToView(to: loggedButtonImage)
-        loggedButtonImage.anchorSize(.init(width: 24, height: 24))
-        loggedStack.anchorSize(.init(width: 0, height: 24))
+        loggedLabel.centerYToView(to: loggedStack)
+        loggedButtonImage.anchorSize(.init(width: 28, height: 28))
         
         loginButton.anchor(
             top: loginInfoStackView.bottomAnchor,
