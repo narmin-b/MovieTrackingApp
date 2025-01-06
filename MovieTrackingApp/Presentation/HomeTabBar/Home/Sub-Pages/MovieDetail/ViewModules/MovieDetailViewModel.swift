@@ -47,20 +47,23 @@ final class MovieDetailViewModel {
     }
     
     func getBackdropImage() -> String {
-        print(movieDetails?.titleStr)
         return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
+    }
+    
+    func getPosterImage() -> String {
+        return baseImageUrl + (movieDetails?.posterPathStr ?? "")
     }
     
     func getTitleForCell(field: InfoList) -> String {
         switch field {
         case .genre:
             var genreStr = movieDetails?.genresArr.first ?? ""
-            var genreArray = movieDetails?.genresArr.dropFirst()
+            let genreArray = movieDetails?.genresArr.dropFirst()
             genreArray?.forEach { genreStr += ", " + $0 }
             return genreStr
         case .originCountry:
             var originCountryStr = movieDetails?.originCountryStr.first ?? ""
-            var originCountryArray = movieDetails?.originCountryStr.dropFirst()
+            let originCountryArray = movieDetails?.originCountryStr.dropFirst()
             originCountryArray?.forEach { originCountryStr += ", " + $0 }
             return originCountryStr
         }

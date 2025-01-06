@@ -25,17 +25,27 @@ final class MovieDetailController: BaseViewController {
     private lazy var backdropImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-//        imageView.clipsToBounds = true
         imageView.image = UIImage(named: "testing")
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private lazy var posterImageView: UIImageView = {
+    private lazy var posterImageView: UIView = {
+        let imageView = UIView()
+        imageView.addSubview(posterImageViewDetail)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var posterImageViewDetail: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 0.3
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.image = UIImage(named: "testing")
         imageView.anchorSize(.init(width: 120, height: 180))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -47,15 +57,9 @@ final class MovieDetailController: BaseViewController {
         return label
     }()
     
-//    private let genreLabel: UILabel = {
-//        let label = ReusableLabel(labelText: "Genre Test")
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-    
     private lazy var languageLabel: UILabel = {
         let label = ReusableLabel(labelText: "Language Test")
-//        label.attributedText = configureLabel(icon: "star", text: "Rating")
+        label.attributedText = configureLabel(icon: "star", text: "Rating")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -128,7 +132,7 @@ final class MovieDetailController: BaseViewController {
         let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageView, initInfoStackView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
-        scrollStack.backgroundColor = .red
+        scrollStack.backgroundColor = .clear
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
         return scrollStack
     }()
@@ -148,6 +152,7 @@ final class MovieDetailController: BaseViewController {
     fileprivate func configureNavigationBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     init(viewModel: MovieDetailViewModel?) {
@@ -180,16 +185,14 @@ final class MovieDetailController: BaseViewController {
     
     override func configureView() {
         view.backgroundColor = .backgroundMain
-        view.addSubViews(scrollView) /*, posterImageView, initInfoStackView, infoCollectionView*/
-//        titleLabel.text = viewModel?.getMovieName()
-//        configureDetails()
+        view.addSubViews(scrollView)
     }
     
     override func configureConstraint() {
         loadingView.fillSuperview()
         
         scrollView.anchor(
-            top: view.safeAreaLayoutGuide.topAnchor,
+            top: view.topAnchor,
             leading: view.leadingAnchor,
             bottom: view.safeAreaLayoutGuide.bottomAnchor,
             trailing: view.trailingAnchor,
@@ -205,13 +208,11 @@ final class MovieDetailController: BaseViewController {
             padding: .init(all: .zero)
         )
         
-//        backdropImageView.fillSuperview()
-        
         backdropImageView.anchor(
             top: scrollStack.topAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            padding: .init(top: -5, left: 0, bottom: 0, right: 0)
         )
         backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
@@ -219,7 +220,8 @@ final class MovieDetailController: BaseViewController {
             top: backdropImageView.topAnchor,
             padding: .init(top: 50, left: 0, bottom: 0, right: 0)
         )
-        posterImageView.centerXToSuperview()
+        posterImageView.anchorSize(.init(width: 120, height: 180))
+        posterImageViewDetail.centerXToSuperview()
         
         initInfoStackView.anchor(
             top: posterImageView.bottomAnchor,
@@ -243,8 +245,12 @@ final class MovieDetailController: BaseViewController {
     }
     
     fileprivate func configureDetails() {
-        let imageURL = viewModel?.getBackdropImage() ?? ""
+        guard let imageURL = viewModel?.getBackdropImage() else { return }
         backdropImageView.loadImageURL(url: imageURL)
+        backdropImageView.alpha = 0.5
+        
+        guard let posterURL = viewModel?.getPosterImage() else { return }
+        posterImageViewDetail.loadImageURL(url: posterURL)
     }
     
     fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {

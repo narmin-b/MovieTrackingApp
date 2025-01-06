@@ -357,6 +357,7 @@ extension HomeViewController: UICollectionViewDelegate,
             default:
                 break
             }
+            print(item)
             viewModel.showMovieDetail(mediaType: .movie, id: item)
         }
         
