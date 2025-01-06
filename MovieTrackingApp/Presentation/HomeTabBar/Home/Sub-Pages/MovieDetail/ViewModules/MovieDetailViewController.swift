@@ -7,7 +7,8 @@
 
 import UIKit
 enum InfoList: String, CaseIterable {
-    case genre, originCountry
+    case genre = "Genre"
+    case originCountry = "Origin Country"
 }
 
 
@@ -27,18 +28,19 @@ final class MovieDetailController: BaseViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "testing")
         imageView.backgroundColor = .white
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private lazy var posterImageView: UIView = {
-        let imageView = UIView()
-        imageView.addSubview(posterImageViewDetail)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    private lazy var posterImageContainerView: UIView = {
+        let view = UIView()
+        view.addSubViews(posterImageView, titleLabel)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-    private lazy var posterImageViewDetail: UIImageView = {
+    private lazy var posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -52,7 +54,10 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Title Test")
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 28, numOfLines: 2)
+        label.textAlignment = .center
+        label.lineBreakMode = .byTruncatingTail
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -129,7 +134,7 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageView, initInfoStackView, infoCollectionView])
+        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -142,6 +147,14 @@ final class MovieDetailController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel?.getMovieDetails()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Ensure the gradient matches the imageView's frame
+        if let gradientLayer = backdropImageView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) as? CAGradientLayer {
+            gradientLayer.frame = backdropImageView.bounds
+        }
     }
     
     override func viewDidLoad() {
@@ -216,15 +229,20 @@ final class MovieDetailController: BaseViewController {
         )
         backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        posterImageView.anchor(
+        posterImageContainerView.anchor(
             top: backdropImageView.topAnchor,
             padding: .init(top: 50, left: 0, bottom: 0, right: 0)
         )
-        posterImageView.anchorSize(.init(width: 120, height: 180))
-        posterImageViewDetail.centerXToSuperview()
+        posterImageContainerView.anchorSize(.init(width: 120, height: 200))
+        posterImageView.centerXToSuperview()
+        titleLabel.anchor(
+            top: posterImageView.bottomAnchor,
+            padding: .init(all: 8)
+        )
+        titleLabel.centerXToSuperview()
         
         initInfoStackView.anchor(
-            top: posterImageView.bottomAnchor,
+            top: posterImageContainerView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 0, bottom: 0, right: 0)
@@ -236,8 +254,6 @@ final class MovieDetailController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 0, bottom: 0, right: 0)
         )
-////        titleLabel.centerXToSuperview()
-////        titleLabel.centerYToSuperview()
     }
         
     override func configureTargets() {
@@ -250,7 +266,9 @@ final class MovieDetailController: BaseViewController {
         backdropImageView.alpha = 0.5
         
         guard let posterURL = viewModel?.getPosterImage() else { return }
-        posterImageViewDetail.loadImageURL(url: posterURL)
+        posterImageView.loadImageURL(url: posterURL)
+        
+        titleLabel.text = viewModel?.getMovieTitle()
     }
     
     fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {

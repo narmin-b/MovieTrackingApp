@@ -46,6 +46,10 @@ final class MovieDetailViewModel {
         }
     }
     
+    func getMovieTitle() -> String {
+        return movieDetails?.titleStr ?? ""
+    }
+    
     func getBackdropImage() -> String {
         return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
     }
