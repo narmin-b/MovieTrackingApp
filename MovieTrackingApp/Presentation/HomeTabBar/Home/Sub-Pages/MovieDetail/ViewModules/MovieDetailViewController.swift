@@ -371,7 +371,13 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return MovieInfoList.allCases.count * 2
+        let mediaType = viewModel?.getMediaType() ?? .movie
+        switch mediaType {
+        case .movie:
+            return MovieInfoList.allCases.count * 2
+        case .tvShow:
+            return TvShowInfoList.allCases.count * 2
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -379,6 +385,7 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         let mediaType = viewModel?.getMediaType() ?? .movie
+
         switch mediaType {
         case .movie:
             let field = MovieInfoList.allCases[indexPath.item / 2]
@@ -392,7 +399,7 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
             }
         case .tvShow:
             let field = TvShowInfoList.allCases[indexPath.item / 2]
-            
+            print(indexPath.item / 2)
             if(indexPath.item % 2 == 0) {
                 cell.configureFieldCell(title: field)
             }

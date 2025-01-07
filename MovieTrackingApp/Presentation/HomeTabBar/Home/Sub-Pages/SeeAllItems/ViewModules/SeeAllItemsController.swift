@@ -157,8 +157,17 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
-            guard let item = viewModel?.getItem(index: indexPath.item) else { return }
-            viewModel?.showMovieDetail(mediaType: .movie, id: item)
+            let mediaType = viewModel?.getMediatype()
+            switch mediaType {
+            case .movie:
+                guard let item = viewModel?.getItem(index: indexPath.item) else { return }
+                viewModel?.showMovieDetail(mediaType: .movie, id: item)
+            case .tvShow:
+                guard let item = viewModel?.getItem(index: indexPath.item) else { return }
+                viewModel?.showMovieDetail(mediaType: .tvShow, id: item)
+            case .none:
+                return
+            }
         }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

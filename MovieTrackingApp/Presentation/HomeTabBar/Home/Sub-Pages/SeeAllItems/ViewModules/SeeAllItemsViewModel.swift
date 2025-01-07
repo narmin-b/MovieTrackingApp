@@ -49,6 +49,15 @@ final class SeeAllItemsViewModel {
         return resultList.count
     }
     
+    func getMediatype() -> MediaType {
+        switch listType {
+        case .movie(let movie):
+            return .movie
+        case .tvShow(let tvShow):
+            return .tvShow
+        }
+    }
+    
     func getItem(index: Int) -> Int {
         let result = resultList[index]
         switch result {
