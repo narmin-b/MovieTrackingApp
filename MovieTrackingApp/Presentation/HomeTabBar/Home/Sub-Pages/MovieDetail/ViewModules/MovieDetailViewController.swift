@@ -6,12 +6,18 @@
 //
 
 import UIKit
-enum InfoList: String, CaseIterable {
+enum MovieInfoList: String, CaseIterable {
     case genre = "Genres"
     case originCountry = "Origin Country"
     case vote = "Vote Average"
 }
 
+enum TvShowInfoList: String, CaseIterable {
+    case genre = "Genres"
+    case originCountry = "Origin Country"
+    case vote = "Vote Average"
+    case numOfEpisodes = "Number Of Episodes"
+}
 
 final class MovieDetailController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
@@ -148,7 +154,7 @@ final class MovieDetailController: BaseViewController {
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel?.getMovieDetails()
+        viewModel?.getDetails()
     }
     
     override func viewDidLoad() {
@@ -274,10 +280,8 @@ final class MovieDetailController: BaseViewController {
             top: overviewContainerView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 10, left: 0, bottom: 0, right: 0)
+            padding: .init(top: 10, left: 12, bottom: 0, right: 16)
         )
-        
-        
     }
         
     override func configureTargets() {
@@ -285,23 +289,45 @@ final class MovieDetailController: BaseViewController {
     }
     
     fileprivate func configureDetails() {
-        guard let imageURL = viewModel?.getBackdropImage() else { return }
-        if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
-        else { backdropImageView.loadImageURL(url: imageURL) }
-        backdropImageView.alpha = 0.5
-        
-        guard let posterURL = viewModel?.getPosterImage() else { return }
-        if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
-        else { posterImageView.loadImageURL(url: posterURL) }
-        
-        titleLabel.text = viewModel?.getMovieTitle()
-        
-        runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getRuntime() ?? 0) + " min")
-        
-        languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getLanguage() ?? "Language")
-        releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getReleaseDate() ?? "Date")
-        
-        overviewLabel.text = viewModel?.getOverview()
+        let mediaType = viewModel?.getMediaType() ?? .movie
+        switch mediaType {
+        case .movie:
+            guard let imageURL = viewModel?.getMovieBackdropImage() else { return }
+            if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
+            else { backdropImageView.loadImageURL(url: imageURL) }
+            backdropImageView.alpha = 0.5
+            
+            guard let posterURL = viewModel?.getMoviePosterImage() else { return }
+            if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
+            else { posterImageView.loadImageURL(url: posterURL) }
+            
+            titleLabel.text = viewModel?.getMovieTitle()
+            
+            runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getMovieRuntime() ?? 0) + " min")
+            
+            languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getMovieLanguage() ?? "Language")
+            releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
+            
+            overviewLabel.text = viewModel?.getMovieOverview()
+        case .tvShow:
+            guard let imageURL = viewModel?.getTvShowBackdropImage() else { return }
+            if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
+            else { backdropImageView.loadImageURL(url: imageURL) }
+            backdropImageView.alpha = 0.5
+            
+            guard let posterURL = viewModel?.getTvShowPosterImage() else { return }
+            if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
+            else { posterImageView.loadImageURL(url: posterURL) }
+            
+            titleLabel.text = viewModel?.getTvShowTitle()
+            
+            runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getTvShowSeasons() ?? 0) + " seasons")
+            
+            languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getTvShowLanguage() ?? "Language")
+            releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getTvShowReleaseDate() ?? "Date")
+            
+            overviewLabel.text = viewModel?.getTvShowOverview()
+        }
     }
     
     fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {
@@ -345,22 +371,35 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return InfoList.allCases.count * 2
+        return MovieInfoList.allCases.count * 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieDetailCollectionViewCell", for: indexPath) as? MovieDetailCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        let field = InfoList.allCases[indexPath.item / 2]
-        
-        if(indexPath.item % 2 == 0) {
-            cell.configureFieldCell(title: field)
-        }
-        else {
-            let title = viewModel?.getTitleForCell(field: field) ?? ""
-            cell.configureCell(title: title)
+        let mediaType = viewModel?.getMediaType() ?? .movie
+        switch mediaType {
+        case .movie:
+            let field = MovieInfoList.allCases[indexPath.item / 2]
+            
+            if(indexPath.item % 2 == 0) {
+                cell.configureFieldCell(title: field)
+            }
+            else {
+                let title = viewModel?.getTitleForMovieCell(field: field) ?? ""
+                cell.configureCell(title: title)
+            }
+        case .tvShow:
+            let field = TvShowInfoList.allCases[indexPath.item / 2]
+            
+            if(indexPath.item % 2 == 0) {
+                cell.configureFieldCell(title: field)
+            }
+            else {
+                let title = viewModel?.getTitleForTvShowCell(field: field) ?? ""
+                cell.configureCell(title: title)
+            }
         }
 
         return cell

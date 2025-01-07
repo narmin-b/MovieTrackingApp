@@ -115,7 +115,7 @@ extension MovieDetailDTO: MovieDetailProtocol {
     }
     
     var genresArr: [String] {
-        return genres.map { $0.name ?? "" }
+        genres.map { $0.name ?? "" }
     }
     
     var idInt: Int {

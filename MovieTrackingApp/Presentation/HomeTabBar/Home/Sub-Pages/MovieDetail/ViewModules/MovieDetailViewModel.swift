@@ -18,11 +18,14 @@ final class MovieDetailViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
+    private var tvShowDetailsUse: TvShowDetailUseCase = TvShowDetailAPIService()
+
     private weak var navigation: HomeNavigation?
     
     private var id: Int
     private var mediaType: MediaType
     private(set) var movieDetails: MovieDetailProtocol?
+    private(set) var tvShowDetails: TvShowDetailProtocol?
     
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     
@@ -32,49 +35,72 @@ final class MovieDetailViewModel {
         self.navigation = navigation
     }
     
-    func getMovieDetails() {
-        requestCallback?(.loading)
-        movieDetailsUse.getMovieDetail(id: String(id)) { [weak self] dto, error in
-            guard let self = self else { return }
-            if let dto = dto {
-                movieDetails = dto
-                requestCallback?(.success)
-                requestCallback?(.loaded)
-            } else if let error = error {
-                requestCallback?(.error(message: error))
+    func getMediaType() -> MediaType {
+        return mediaType
+    }
+        
+    func getDetails() {
+        switch mediaType {
+        case .movie:
+            requestCallback?(.loading)
+            movieDetailsUse.getMovieDetail(id: String(id)) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    movieDetails = dto
+                    requestCallback?(.success)
+                    requestCallback?(.loaded)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        case .tvShow:
+            requestCallback?(.loading)
+            tvShowDetailsUse.getTvShowDetail(id: String(id)) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    tvShowDetails = dto
+                    print(dto)
+                    requestCallback?(.success)
+                    requestCallback?(.loaded)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
             }
         }
+        
     }
+    
+    //MARK: Movie Detail Functions
     
     func getMovieTitle() -> String {
         return movieDetails?.titleStr ?? ""
     }
     
-    func getBackdropImage() -> String {
+    func getMovieBackdropImage() -> String {
         return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
     }
     
-    func getPosterImage() -> String {
+    func getMoviePosterImage() -> String {
         return baseImageUrl + (movieDetails?.posterPathStr ?? "")
     }
     
-    func getRuntime() -> Int {
+    func getMovieRuntime() -> Int {
         return movieDetails?.runtimeInt ?? 0
     }
     
-    func getLanguage() -> String {
+    func getMovieLanguage() -> String {
         return movieDetails?.spokenLanguagesLng.map{$0.englishName ?? ""}.first ?? ""
     }
     
-    func getReleaseDate() -> String {
+    func getMovieReleaseDate() -> String {
         return movieDetails?.releaseDateStr ?? ""
     }
     
-    func getOverview() -> String {
+    func getMovieOverview() -> String {
         return movieDetails?.overviewStr ?? ""
     }
     
-    func getTitleForCell(field: InfoList) -> String {
+    func getTitleForMovieCell(field: MovieInfoList) -> String {
         switch field {
         case .genre:
             var genreStr = movieDetails?.genresArr.first ?? ""
@@ -90,6 +116,57 @@ final class MovieDetailViewModel {
             let voteAverage = movieDetails?.voteAverageDbl ?? 0
             let voteCount = movieDetails?.voteCountInt
             return "\(voteAverage)  (\(voteCount ?? 0))"
+        }
+    }
+    
+    //MARK: Tv Show Detail Functions
+    
+    func getTvShowTitle() -> String {
+        return tvShowDetails?.nameStr ?? ""
+    }
+    
+    func getTvShowBackdropImage() -> String {
+        return baseImageUrl + (tvShowDetails?.backdropPathStr ?? "")
+    }
+    
+    func getTvShowPosterImage() -> String {
+        return baseImageUrl + (tvShowDetails?.posterPathStr ?? "")
+    }
+    
+    func getTvShowSeasons() -> Int {
+        return tvShowDetails?.numberOfSeasonsInt ?? 0
+    }
+  
+    func getTvShowLanguage() -> String {
+        return (tvShowDetails?.spokenLanguagesArr.map{$0.englishName ?? ""} ?? []).first ?? ""
+    }
+    
+    func getTvShowReleaseDate() -> String {
+        return tvShowDetails?.firstAirDateStr ?? ""
+    }
+    
+    func getTvShowOverview() -> String {
+        return tvShowDetails?.overviewStr ?? ""
+    }
+    
+    func getTitleForTvShowCell(field: TvShowInfoList) -> String {
+        switch field {
+        case .genre:
+            var genreStr = tvShowDetails?.genresArr.first ?? ""
+            let genreArray = tvShowDetails?.genresArr.dropFirst()
+            genreArray?.forEach { genreStr += ", " + $0 }
+            return genreStr
+        case .originCountry:
+            var originCountryStr = tvShowDetails?.originCountryStrArr.first ?? "" //.originCountryStr.first ?? ""
+            let originCountryArray = tvShowDetails?.originCountryStrArr.dropFirst()
+            originCountryArray?.forEach { originCountryStr += ", " + $0 }
+            return originCountryStr
+        case .vote:
+            let voteAverage = tvShowDetails?.voteAverageDbl ?? 0
+            let voteCount = tvShowDetails?.voteCountInt
+            return "\(voteAverage)  (\(voteCount ?? 0))"
+        case .numOfEpisodes:
+            return String(tvShowDetails?.numberOfEpisodesInt ?? 0)
         }
     }
 }

@@ -44,10 +44,15 @@ class MovieDetailCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         
         contentView.addSubview(titleLabel)
-        titleLabel.fillSuperview(padding: .init(top: 0, left: 12, bottom: 0, right: 0))
+        titleLabel.fillSuperview(padding: .init(all: .zero))
     }
     
-    func configureFieldCell(title: InfoList) {
+    func configureFieldCell(title: MovieInfoList) {
+        titleLabel.text = title.rawValue.capitalized + ":"
+        titleLabel.font = UIFont(name: "Nexa-Bold", size: 20)
+    }
+    
+    func configureFieldCell(title: TvShowInfoList) {
         titleLabel.text = title.rawValue.capitalized + ":"
         titleLabel.font = UIFont(name: "Nexa-Bold", size: 20)
     }

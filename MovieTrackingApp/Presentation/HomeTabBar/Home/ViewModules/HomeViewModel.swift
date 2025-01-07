@@ -24,7 +24,7 @@ final class HomeViewModel {
         self.navigation = navigation
     }
     
-    func showMovieDetail(mediaType: MediaType, id: Int) {
+    func showTitleDetail(mediaType: MediaType, id: Int) {
         navigation?.showDetails(mediaType: mediaType, id: id, nav: navigation!)
     }
     
@@ -73,6 +73,10 @@ final class HomeViewModel {
         return trendingTvShowDto.count == 0 ? DemoMovieTitleImageCell() : trendingTvShowDto[index]
     }
     
+    func getTrendingTvShowItem(index: Int) -> Int {
+        return trendingTvShowDto[index].id
+    }
+    
     func getOnTheAirTvShows() {
         requestCallback?(.loading)
         tvShowListsUse.getOnTheAirTvShows(page: "1") { [weak self] dto, error in
@@ -95,6 +99,10 @@ final class HomeViewModel {
     
     func getOnTheAirTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
         return onTheAirTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : onTheAirTvShowsDto[index]
+    }
+    
+    func getOnTheAirTvShowItem(index: Int) -> Int {
+        return onTheAirTvShowsDto[index].id
     }
     
     func getPopularTvShows() {
@@ -121,6 +129,10 @@ final class HomeViewModel {
         return popularTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : popularTvShowsDto[index]
     }
     
+    func getPopularTvShowItem(index: Int) -> Int {
+        return popularTvShowsDto[index].id
+    }
+    
     func getAiringTodayTvShows() {
         requestCallback?(.loading)
         tvShowListsUse.getAiringTodayTvShows(page: "1") { [weak self] dto, error in
@@ -145,6 +157,10 @@ final class HomeViewModel {
         return airingTodayTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : airingTodayTvShowsDto[index]
     }
     
+    func getAiringTodayTvShowItem(index: Int) -> Int {
+        return airingTodayTvShowsDto[index].id
+    }
+    
     func getTopRatedTvShows() {
         requestCallback?(.loading)
         tvShowListsUse.getTopRatedTvShows(page: "1") { [weak self] dto, error in
@@ -167,6 +183,10 @@ final class HomeViewModel {
     
     func getTopRatedTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
         return topRatedTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : topRatedTvShowsDto[index]
+    }
+    
+    func getTopRatedTvShowItem(index: Int) -> Int {
+        return topRatedTvShowsDto[index].id
     }
     
     // MARK: Movie Lists Functions

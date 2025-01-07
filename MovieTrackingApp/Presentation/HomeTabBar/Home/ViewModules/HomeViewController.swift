@@ -348,22 +348,42 @@ extension HomeViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
             var item: Int = 0
-            switch indexPath.section {
-            case 1:
-                item = viewModel.getTrendingMovie(index: indexPath.item)
-            case 2:
-                item = viewModel.getNowPlayingMovie(index: indexPath.item)
-            case 3:
-                item = viewModel.getTopRatedMovie(index: indexPath.item)
-            case 4:
-                item = viewModel.getPopularMovie(index: indexPath.item)
-            case 5:
-                item = viewModel.getUpcomingMovie(index: indexPath.item)
-            default:
-                break
+            switch selectedSegmentBool {
+            case false:
+                switch indexPath.section {
+                case 1:
+                    item = viewModel.getTrendingMovie(index: indexPath.item)
+                case 2:
+                    item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                case 3:
+                    item = viewModel.getTopRatedMovie(index: indexPath.item)
+                case 4:
+                    item = viewModel.getPopularMovie(index: indexPath.item)
+                case 5:
+                    item = viewModel.getUpcomingMovie(index: indexPath.item)
+                default:
+                    break
+                }
+                print(item)
+                viewModel.showTitleDetail(mediaType: .movie, id: item)
+            case true:
+                switch indexPath.section {
+                case 1:
+                    item = viewModel.getTrendingTvShowItem(index: indexPath.item)
+                case 2:
+                    item = viewModel.getOnTheAirTvShowItem(index: indexPath.item)
+                case 3:
+                    item = viewModel.getTopRatedTvShowItem(index: indexPath.item)
+                case 4:
+                    item = viewModel.getPopularTvShowItem(index: indexPath.item)
+                case 5:
+                    item = viewModel.getAiringTodayTvShowItem(index: indexPath.item)
+                default:
+                    break
+                }
+                print(item)
+                viewModel.showTitleDetail(mediaType: .tvShow, id: item)
             }
-            print(item)
-            viewModel.showMovieDetail(mediaType: .movie, id: item)
         }
         
     func collectionView(
