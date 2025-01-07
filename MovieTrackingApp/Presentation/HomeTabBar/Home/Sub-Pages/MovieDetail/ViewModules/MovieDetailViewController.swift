@@ -18,7 +18,7 @@ final class MovieDetailController: BaseViewController {
         view.color = .black
         view.tintColor = .black
         view.hidesWhenStopped = true
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -149,14 +149,6 @@ final class MovieDetailController: BaseViewController {
         viewModel?.getMovieDetails()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // Ensure the gradient matches the imageView's frame
-        if let gradientLayer = backdropImageView.layer.sublayers?.first(where: { $0 is CAGradientLayer }) as? CAGradientLayer {
-            gradientLayer.frame = backdropImageView.bounds
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
@@ -166,6 +158,7 @@ final class MovieDetailController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: <#T##UIView#>)
     }
     
     init(viewModel: MovieDetailViewModel?) {
@@ -187,7 +180,7 @@ final class MovieDetailController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    print("success called")
+                    self.infoCollectionView.reloadData()
                     self.configureDetails()
                 case .error(message: let message):
                     self.showMessage(title: message)
@@ -198,7 +191,8 @@ final class MovieDetailController: BaseViewController {
     
     override func configureView() {
         view.backgroundColor = .backgroundMain
-        view.addSubViews(scrollView)
+        view.addSubViews(loadingView, scrollView)
+        view.bringSubviewToFront(loadingView)
     }
     
     override func configureConstraint() {

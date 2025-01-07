@@ -36,10 +36,10 @@ final class MovieDetailViewModel {
         requestCallback?(.loading)
         movieDetailsUse.getMovieDetail(id: String(id)) { [weak self] dto, error in
             guard let self = self else { return }
-            requestCallback?(.loaded)
             if let dto = dto {
                 movieDetails = dto
                 requestCallback?(.success)
+                requestCallback?(.loaded)
             } else if let error = error {
                 requestCallback?(.error(message: error))
             }

@@ -68,7 +68,7 @@ final class SeeAllItemsController: BaseViewController {
 
         let backButton = UIBarButtonItem()
         backButton.title = ""
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        navigationItem.backBarButtonItem = backButton
     }
     
     init(viewModel: SeeAllItemsViewModel?) {
@@ -154,8 +154,7 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath) {
-//            guard let item = viewModel?.getItem(index: indexPath.item) else { return }
-            viewModel?.showMovieDetail(mediaType: .movie, id: 123)
-            print("test")
+            guard let item = viewModel?.getItem(index: indexPath.item) else { return }
+            viewModel?.showMovieDetail(mediaType: .movie, id: item)
         }
 }

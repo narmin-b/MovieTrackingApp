@@ -10,7 +10,6 @@ import Foundation
 protocol MovieDetailProtocol {
     var adultBool: Bool {get}
     var backdropPathStr: String {get}
-    var belongsToCollectionArr: BelongsToCollection {get}
     var budgetInt: Int {get}
     var genresArr: [String] {get}
     var homepageStr: String {get}
