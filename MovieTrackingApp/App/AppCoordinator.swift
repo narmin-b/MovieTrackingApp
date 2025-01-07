@@ -13,7 +13,7 @@ final class AppCoordinator: Coordinator {
     var children: [Coordinator] = []
     var navigationController: UINavigationController
     
-    var isLogin: Bool = false
+    private var isLogin: Bool = false
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController

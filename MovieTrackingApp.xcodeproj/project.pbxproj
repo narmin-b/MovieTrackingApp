@@ -41,6 +41,7 @@
 		11609A972D23076E00365915 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A942D23076E00365915 /* SignupViewController.swift */; };
 		11609A982D23076E00365915 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A952D23076E00365915 /* SignupViewModel.swift */; };
 		11609A9C2D23FDBD00365915 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A9B2D23FDBD00365915 /* FirebaseHelper.swift */; };
+		118CE4362D2D704600EF70EC /* TvShowDetailDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */; };
 		119027312D17283F00B0B9DD /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272D2D17283F00B0B9DD /* SearchCoordinator.swift */; };
 		119027322D17283F00B0B9DD /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272E2D17283F00B0B9DD /* SearchViewModel.swift */; };
 		119027332D17283F00B0B9DD /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1190272F2D17283F00B0B9DD /* SearchViewController.swift */; };
@@ -127,6 +128,7 @@
 		11609A942D23076E00365915 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		11609A952D23076E00365915 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		11609A9B2D23FDBD00365915 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowDetailDTO.swift; sourceTree = "<group>"; };
 		1190272D2D17283F00B0B9DD /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		1190272E2D17283F00B0B9DD /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1190272F2D17283F00B0B9DD /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			children = (
 				11DA8AEA2D19DBDB009529D6 /* MovieDetailProtocol.swift */,
 				114D705E2D1AEA24006C167B /* MovieDetailDTO.swift */,
+				118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				113DDE4B2D18279700AB95E1 /* SeeAllItemsController.swift in Sources */,
 				11C07A222D1C34CF00F0D90A /* TvShowListsAPIService.swift in Sources */,
 				11609A762D20386900365915 /* TrendingMovieDTO.swift in Sources */,
+				118CE4362D2D704600EF70EC /* TvShowDetailDTO.swift in Sources */,
 				113DDE512D184B9B00AB95E1 /* ImageCollectionViewCell.swift in Sources */,
 				11CC755B2D15D2AF00903217 /* AppCoordinator.swift in Sources */,
 				11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */,

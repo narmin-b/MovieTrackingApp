@@ -8,11 +8,8 @@
 import Foundation
 
 protocol MovieDetailProtocol {
-    var adultBool: Bool {get}
     var backdropPathStr: String {get}
-    var budgetInt: Int {get}
     var genresArr: [String] {get}
-    var homepageStr: String {get}
     var idInt: Int {get}
     var imdbIDStr: String {get}
     var originCountryStr: [String] {get}

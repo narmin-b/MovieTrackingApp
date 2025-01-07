@@ -7,8 +7,9 @@
 
 import UIKit
 enum InfoList: String, CaseIterable {
-    case genre = "Genre"
+    case genre = "Genres"
     case originCountry = "Origin Country"
+    case vote = "Vote Average"
 }
 
 
@@ -70,12 +71,14 @@ final class MovieDetailController: BaseViewController {
     
     private lazy var runtimeLabel: UILabel = {
         let label = ReusableLabel(labelText: "Overview Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var releaseDateLabel: UILabel = {
         let label = ReusableLabel(labelText: "Release Date Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -83,31 +86,12 @@ final class MovieDetailController: BaseViewController {
     private lazy var initInfoStackView: UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [languageLabel, runtimeLabel, releaseDateLabel])
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
         stackView.spacing = 4
         stackView.backgroundColor = .clear
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
-    }()
-    
-    private lazy var voteCountLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Vote Count Test")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var voteAverageLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Vote Average Test")
-        label.attributedText = configureLabel(icon: "star", text: "Rating")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var overviewLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Overview Test")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
     }()
     
     private lazy var infoCollectionView: UICollectionView = {
@@ -127,6 +111,21 @@ final class MovieDetailController: BaseViewController {
         return collectionView
     }()
     
+    private lazy var overviewContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .accentMain.withAlphaComponent(0.7)
+        view.addSubview(overviewLabel)
+        view.layer.cornerRadius = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var overviewLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Overview Test", labelColor: .white, labelFont: "NexaRegular", labelSize: 16, numOfLines: 0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
@@ -136,7 +135,7 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, infoCollectionView])
+        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, infoCollectionView, overviewContainerView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -204,7 +203,7 @@ final class MovieDetailController: BaseViewController {
             leading: view.leadingAnchor,
             bottom: view.safeAreaLayoutGuide.bottomAnchor,
             trailing: view.trailingAnchor,
-            padding: .init(all: .zero)
+            padding: .init(top: 0, left: 0, bottom: -16, right: 0)
         )
         
         scrollStack.anchorSize(to: scrollView)
@@ -259,6 +258,20 @@ final class MovieDetailController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 0, bottom: 0, right: 0)
         )
+        
+        overviewContainerView.anchor(
+            top: infoCollectionView.bottomAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(all: 12)
+        )
+        overviewLabel.anchor(
+            top: overviewContainerView.topAnchor,
+            leading: overviewContainerView.leadingAnchor,
+            bottom: overviewContainerView.bottomAnchor,
+            trailing: overviewContainerView.trailingAnchor,
+            padding: .init(all: 8)
+        )
     }
         
     override func configureTargets() {
@@ -281,6 +294,8 @@ final class MovieDetailController: BaseViewController {
         
         languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getLanguage() ?? "Language")
         releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getReleaseDate() ?? "Date")
+        
+        overviewLabel.text = viewModel?.getOverview()
     }
     
     fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {

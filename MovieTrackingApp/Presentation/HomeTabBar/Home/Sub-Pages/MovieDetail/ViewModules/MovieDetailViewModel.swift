@@ -70,6 +70,10 @@ final class MovieDetailViewModel {
         return movieDetails?.releaseDateStr ?? ""
     }
     
+    func getOverview() -> String {
+        return movieDetails?.overviewStr ?? ""
+    }
+    
     func getTitleForCell(field: InfoList) -> String {
         switch field {
         case .genre:
@@ -82,6 +86,10 @@ final class MovieDetailViewModel {
             let originCountryArray = movieDetails?.originCountryStr.dropFirst()
             originCountryArray?.forEach { originCountryStr += ", " + $0 }
             return originCountryStr
+        case .vote:
+            let voteAverage = movieDetails?.voteAverageDbl ?? 0
+            let voteCount = movieDetails?.voteCountInt
+            return "\(voteAverage)  (\(voteCount ?? 0))"
         }
     }
 }

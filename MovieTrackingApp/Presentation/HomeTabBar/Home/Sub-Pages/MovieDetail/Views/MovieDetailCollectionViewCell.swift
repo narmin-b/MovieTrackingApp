@@ -9,7 +9,7 @@ import UIKit
 
 class MovieDetailCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelSize: 24, numOfLines: 2)
+        let label = ReusableLabel(labelText: "Test", labelSize: 24, numOfLines: 0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         return label
@@ -44,16 +44,16 @@ class MovieDetailCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         
         contentView.addSubview(titleLabel)
-        titleLabel.fillSuperview(padding: .init(all: 12))
+        titleLabel.fillSuperview(padding: .init(top: 0, left: 12, bottom: 0, right: 0))
     }
     
     func configureFieldCell(title: InfoList) {
         titleLabel.text = title.rawValue.capitalized + ":"
-        titleLabel.font = UIFont(name: "Futura", size: 20)
+        titleLabel.font = UIFont(name: "Nexa-Bold", size: 20)
     }
     
     func configureCell(title: String) {
         titleLabel.text = title
-        titleLabel.font = UIFont(name: "Futura", size: 16)
+        titleLabel.font = UIFont(name: "NexaRegular", size: 16)
     }
 }

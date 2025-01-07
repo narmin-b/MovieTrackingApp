@@ -39,6 +39,8 @@ extension AuthCoordinator: AuthNavigation {
     
     func showHomeScreen() {
         let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+        tabBar.parentCoordinator = self
+        children.append(tabBar)
         tabBar.start()
         childDidFinish(self)
     }

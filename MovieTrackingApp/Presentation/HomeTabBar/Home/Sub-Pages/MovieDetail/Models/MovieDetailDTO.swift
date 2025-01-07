@@ -114,73 +114,86 @@ extension MovieDetailDTO: MovieDetailProtocol {
         backdropPath ?? ""
     }
     
-    var budgetInt: Int {
-        budget ?? 0
-    }
-    
     var genresArr: [String] {
         return genres.map { $0.name ?? "" }
     }
-    var homepageStr: String {
-        homepage ?? ""
-    }
+    
     var idInt: Int {
         id ?? 0
     }
+    
     var imdbIDStr: String {
         imdbID ?? ""
     }
+    
     var originCountryStr: [String] {
         originCountry ?? []
     }
+    
     var originalLanguageStr: String {
         originalLanguage ?? ""
     }
+    
     var originalTitleStr: String {
         originalTitle ?? ""
     }
+    
     var overviewStr: String {
         overview ?? ""
     }
+    
     var popularityDbl: Double {
         popularity ?? 0
     }
+    
     var posterPathStr: String {
         posterPath ?? ""
     }
+    
     var productionCompaniesArr: [ProductionCompany] {
         productionCompanies
     }
+    
     var productionCountriesArr: [ProductionCountry] {
         productionCountries
     }
+    
     var releaseDateStr: String {
         releaseDate ?? ""
     }
+    
     var revenueInt: Int {
         revenue ?? 0
     }
+    
     var runtimeInt: Int {
         runtime ?? 0
     }
+    
     var spokenLanguagesLng: [SpokenLanguage] {
         spokenLanguages
     }
+    
     var statusStr: String {
         status ?? ""
     }
+    
     var taglineStr: String {
         tagline ?? ""
     }
+    
     var titleStr: String {
         title ?? ""
     }
+    
     var videoBool: Bool {
         video ?? false
     }
+    
     var voteAverageDbl: Double {
         voteAverage ?? 0
     }
+    
     var voteCountInt: Int {
         voteCount ?? 0
     }
