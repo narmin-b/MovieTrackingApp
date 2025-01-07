@@ -34,6 +34,10 @@ final class SeeAllItemsViewModel {
         self.navigation = navigation
     }
     
+    func goBack() {
+        navigation?.popController()
+    }
+    
     func showMovieDetail(mediaType: MediaType, id: Int) {
         navigation?.showDetails(mediaType: mediaType, id: id, nav: navigation!)
     }

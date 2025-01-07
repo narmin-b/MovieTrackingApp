@@ -9,7 +9,7 @@ import UIKit
 
 class MovieDetailCollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelSize: 24)
+        let label = ReusableLabel(labelText: "Test", labelSize: 24, numOfLines: 2)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         return label

@@ -15,8 +15,8 @@ enum InfoList: String, CaseIterable {
 final class MovieDetailController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
-        view.color = .black
-        view.tintColor = .black
+        view.color = .white
+        view.tintColor = .white
         view.hidesWhenStopped = true
         view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -26,9 +26,8 @@ final class MovieDetailController: BaseViewController {
     private lazy var backdropImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "testing")
-        imageView.backgroundColor = .white
-        
+        imageView.image = UIImage(named: "baseBackdrop")
+        imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -36,6 +35,8 @@ final class MovieDetailController: BaseViewController {
     private lazy var posterImageContainerView: UIView = {
         let view = UIView()
         view.addSubViews(posterImageView, titleLabel)
+        view.backgroundColor = .clear
+        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -47,7 +48,7 @@ final class MovieDetailController: BaseViewController {
         imageView.layer.cornerRadius = 8
         imageView.layer.borderWidth = 0.3
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.image = UIImage(named: "testing")
+        imageView.image = UIImage(named: "basePoster")
         imageView.anchorSize(.init(width: 120, height: 180))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -56,36 +57,36 @@ final class MovieDetailController: BaseViewController {
     private lazy var titleLabel: UILabel = {
         let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 28, numOfLines: 2)
         label.textAlignment = .center
-        label.lineBreakMode = .byTruncatingTail
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var languageLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Language Test")
-        label.attributedText = configureLabel(icon: "star", text: "Rating")
+        let label = ReusableLabel(labelText: "Language Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var runtimeLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Overview Test")
+        let label = ReusableLabel(labelText: "Overview Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var releaseDateLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Release Date Test")
+        let label = ReusableLabel(labelText: "Release Date Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var initInfoStackView: UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [languageLabel, runtimeLabel, releaseDateLabel])
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.spacing = 4
+        stackView.backgroundColor = .clear
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -98,6 +99,7 @@ final class MovieDetailController: BaseViewController {
     
     private lazy var voteAverageLabel: UILabel = {
         let label = ReusableLabel(labelText: "Vote Average Test")
+        label.attributedText = configureLabel(icon: "star", text: "Rating")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -158,7 +160,6 @@ final class MovieDetailController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: <#T##UIView#>)
     }
     
     init(viewModel: MovieDetailViewModel?) {
@@ -219,18 +220,27 @@ final class MovieDetailController: BaseViewController {
             top: scrollStack.topAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: -5, left: 0, bottom: 0, right: 0)
+            padding: .init(all: .zero)
         )
-        backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         posterImageContainerView.anchor(
             top: backdropImageView.topAnchor,
+            leading: scrollStack.leadingAnchor,
+            bottom: titleLabel.bottomAnchor,
+            trailing: scrollStack.trailingAnchor,
             padding: .init(top: 50, left: 0, bottom: 0, right: 0)
         )
-        posterImageContainerView.anchorSize(.init(width: 120, height: 200))
+        
+        posterImageView.anchor(
+            top: posterImageContainerView.topAnchor,
+            padding: .init(all: 0)
+        )
         posterImageView.centerXToSuperview()
+    
         titleLabel.anchor(
             top: posterImageView.bottomAnchor,
+            leading: posterImageContainerView.leadingAnchor,
+            trailing: posterImageContainerView.trailingAnchor,
             padding: .init(all: 8)
         )
         titleLabel.centerXToSuperview()
@@ -239,8 +249,9 @@ final class MovieDetailController: BaseViewController {
             top: posterImageContainerView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 10, left: 0, bottom: 0, right: 0)
+            padding: .init(top: 10, left: 24, bottom: 0, right: 24)
         )
+        initInfoStackView.centerXToView(to: scrollView)
         
         infoCollectionView.anchor(
             top: initInfoStackView.bottomAnchor,
@@ -256,22 +267,30 @@ final class MovieDetailController: BaseViewController {
     
     fileprivate func configureDetails() {
         guard let imageURL = viewModel?.getBackdropImage() else { return }
-        backdropImageView.loadImageURL(url: imageURL)
+        if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
+        else { backdropImageView.loadImageURL(url: imageURL) }
         backdropImageView.alpha = 0.5
         
         guard let posterURL = viewModel?.getPosterImage() else { return }
-        posterImageView.loadImageURL(url: posterURL)
+        if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
+        else { posterImageView.loadImageURL(url: posterURL) }
         
         titleLabel.text = viewModel?.getMovieTitle()
+        
+        runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getRuntime() ?? 0) + " min")
+        
+        languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getLanguage() ?? "Language")
+        releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getReleaseDate() ?? "Date")
     }
     
     fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {
         let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: icon)
+        imageAttachment.image = UIImage(systemName: icon)?.withTintColor(.primaryHighlight)
         imageAttachment.bounds = CGRect(x: 0, y: 0, width: 12, height: 12)
         
         let attributedText = NSMutableAttributedString(string: "")
         attributedText.append(NSAttributedString(attachment: imageAttachment))
+        attributedText.append(NSAttributedString(string: " "))
         attributedText.append(NSAttributedString(string: text))
         
         return attributedText

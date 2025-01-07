@@ -30,6 +30,10 @@ extension Coordinator {
         navigationController.show(vc, sender: nil)
     }
     
+    func popControllerBack() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func deletePreviousController() {
         let viewCount = navigationController.viewControllers.count
         guard viewCount > 2 else { return }

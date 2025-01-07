@@ -58,6 +58,18 @@ final class MovieDetailViewModel {
         return baseImageUrl + (movieDetails?.posterPathStr ?? "")
     }
     
+    func getRuntime() -> Int {
+        return movieDetails?.runtimeInt ?? 0
+    }
+    
+    func getLanguage() -> String {
+        return movieDetails?.spokenLanguagesLng.map{$0.englishName ?? ""}.first ?? ""
+    }
+    
+    func getReleaseDate() -> String {
+        return movieDetails?.releaseDateStr ?? ""
+    }
+    
     func getTitleForCell(field: InfoList) -> String {
         switch field {
         case .genre:

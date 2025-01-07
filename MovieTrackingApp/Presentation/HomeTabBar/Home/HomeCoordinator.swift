@@ -34,4 +34,8 @@ extension HomeCoordinator: HomeNavigation {
         let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self))
         showController(vc: vc)
     }
+    
+    func popController() {
+        popControllerBack()
+    }
 }
