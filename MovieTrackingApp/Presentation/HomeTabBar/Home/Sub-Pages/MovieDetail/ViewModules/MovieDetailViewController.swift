@@ -135,7 +135,7 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, infoCollectionView, overviewContainerView])
+        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, overviewContainerView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -201,7 +201,7 @@ final class MovieDetailController: BaseViewController {
         scrollView.anchor(
             top: view.topAnchor,
             leading: view.leadingAnchor,
-            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            bottom: view.bottomAnchor,
             trailing: view.trailingAnchor,
             padding: .init(top: 0, left: 0, bottom: -16, right: 0)
         )
@@ -252,15 +252,8 @@ final class MovieDetailController: BaseViewController {
         )
         initInfoStackView.centerXToView(to: scrollView)
         
-        infoCollectionView.anchor(
-            top: initInfoStackView.bottomAnchor,
-            leading: scrollStack.leadingAnchor,
-            trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 10, left: 0, bottom: 0, right: 0)
-        )
-        
         overviewContainerView.anchor(
-            top: infoCollectionView.bottomAnchor,
+//            top: infoCollectionView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
             padding: .init(all: 12)
@@ -272,6 +265,15 @@ final class MovieDetailController: BaseViewController {
             trailing: overviewContainerView.trailingAnchor,
             padding: .init(all: 8)
         )
+        
+        infoCollectionView.anchor(
+            top: overviewContainerView.bottomAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(top: 10, left: 0, bottom: 0, right: 0)
+        )
+        
+        
     }
         
     override func configureTargets() {
