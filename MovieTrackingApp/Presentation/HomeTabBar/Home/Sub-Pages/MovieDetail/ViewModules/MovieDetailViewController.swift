@@ -130,6 +130,7 @@ final class MovieDetailController: BaseViewController {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         scrollView.addSubview(scrollStack)
+        scrollView.delegate = self
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -164,6 +165,10 @@ final class MovieDetailController: BaseViewController {
     init(viewModel: MovieDetailViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    deinit {
+        viewModel?.requestCallback = nil
     }
     
     required init?(coder: NSCoder) {
@@ -253,7 +258,6 @@ final class MovieDetailController: BaseViewController {
         initInfoStackView.centerXToView(to: scrollView)
         
         overviewContainerView.anchor(
-//            top: infoCollectionView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
             padding: .init(all: 12)
@@ -312,6 +316,27 @@ final class MovieDetailController: BaseViewController {
         
         return attributedText
     }
+    
+    fileprivate func configureNavigationBarTitle(labelStr: String, with offset: CGFloat) {
+        let navigationView = UIView()
+        navigationView.backgroundColor = .clear
+        navigationView.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.text = labelStr
+        label.sizeToFit()
+        label.textAlignment = .center
+        label.font = UIFont(name: "Nexa-Bold", size: 20)
+        label.textColor = .white.withAlphaComponent(offset)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        navigationView.addSubview(label)
+        label.centerXToView(to: navigationView)
+        label.centerYToView(to: navigationView)
+
+        navigationItem.titleView = navigationView
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.backgroundColor = .backgroundMain
+    }
 }
 
 extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -348,5 +373,22 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 0, bottom: 80, right: 0)
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let labelStr = viewModel?.getMovieTitle() ?? ""
+//        var offset = scrollView.contentOffset.y / 150
+//
+//        print(offset)
+//        if offset > 1.8 {
+//            offset = 1
+//            configureNavigationBarTitle(labelStr: labelStr, with: offset)
+//        } else {
+//            if offset <= 0.5 {
+//                configureNavigationBar()
+//            } else {
+//                configureNavigationBarTitle(labelStr: labelStr, with: offset)
+//            }
+//        }
+//    }
 }
 

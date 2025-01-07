@@ -35,17 +35,18 @@ final class SeeAllItemsController: BaseViewController {
     }()
     
     private let viewModel: SeeAllItemsViewModel?
+    private var isPageLoaded: Bool = true
+
     
     deinit {
         viewModel?.requestCallback = nil
-        print("deinit")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
         
-        viewModel?.getList()
+        viewModel?.getInitialList()
     }
     
     fileprivate func configureNavigationBar() {
@@ -90,11 +91,13 @@ final class SeeAllItemsController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    print("success")
                     self.allMoviesCollectionView.reloadData()
-                case .error(message: _):
-                    print("couldnt retrieve")
-//                    self.showMessage(title: message)
+                case .morePageLoading:
+                    self.isPageLoaded = false
+                case .morePageLoaded:
+                    self.isPageLoaded = true
+                case .error(message: let message):
+                    self.showMessage(title: message)
                 }
             }
         }
@@ -157,4 +160,11 @@ extension SeeAllItemsController: UICollectionViewDelegate, UICollectionViewDataS
             guard let item = viewModel?.getItem(index: indexPath.item) else { return }
             viewModel?.showMovieDetail(mediaType: .movie, id: item)
         }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > (allMoviesCollectionView.contentSize.height - 150 - scrollView.frame.size.height) && isPageLoaded == true {
+            viewModel?.loadMorePage()
+        }
+    }
 }

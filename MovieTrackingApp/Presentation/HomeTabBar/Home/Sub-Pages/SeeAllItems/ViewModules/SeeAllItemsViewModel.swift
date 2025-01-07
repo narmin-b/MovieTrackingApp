@@ -18,6 +18,8 @@ final class SeeAllItemsViewModel {
         case loading
         case loaded
         case success
+        case morePageLoading
+        case morePageLoaded
         case error(message: String)
     }
     
@@ -28,6 +30,7 @@ final class SeeAllItemsViewModel {
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var resultList: [ResultType] = []
     private var listType: HomeListType
+    private var pageNum: Int = 3
     
     init(listType: HomeListType, navigation: HomeNavigation) {
         self.listType = listType
@@ -93,7 +96,34 @@ final class SeeAllItemsViewModel {
         }
     }
     
-    func getList() {
+    func getInitialList() {
+        switch listType {
+        case .movie(let movie):
+            switch movie {
+            case .nowPlaying:
+                getInitialAllNowPlayingMovies()
+            case .popular:
+                getInitialAllPopularMovies()
+            case .topRated:
+                getInitialAllTopRatedMovies()
+            case .upcoming:
+                getInitialAllUpcomingMovies()
+            }
+        case .tvShow(let tvShow):
+            switch tvShow{
+            case .onTheAir:
+                getInitialOnTheAirTvShows()
+            case .popular:
+                getInitialPopularTvShows()
+            case .topRated:
+                getInitialTopRatedTvShows()
+            case .airingToday:
+                getInitialAiringTodayTvShows()
+            }
+        }
+    }
+    
+    fileprivate func getList() {
         switch listType {
         case .movie(let movie):
             switch movie {
@@ -120,158 +150,252 @@ final class SeeAllItemsViewModel {
         }
     }
     
+    func loadMorePage() {
+        pageNum += 1
+        if pageNum >= 500 { return }
+        getList()
+    }
+    
     // MARK: Tv Show Lists Function
     
-    fileprivate func getOnTheAirTvShows() {
+    fileprivate func getInitialOnTheAirTvShows() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.tvShowListsUse.getOnTheAirTvShows(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.tvShowListsUse.getOnTheAirTvShows(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.tvShow($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.tvShow($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getOnTheAirTvShows() {
+        requestCallback?(.morePageLoading)
+        tvShowListsUse.getOnTheAirTvShows(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.tvShow($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
+            }
+        }
+    }
+    
+    fileprivate func getInitialPopularTvShows() {
+        requestCallback?(.loading)
+        for i in 1...3 {
+            self.tvShowListsUse.getPopularTvShows(page: String(i)) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.tvShow($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
     }
     
     fileprivate func getPopularTvShows() {
+        requestCallback?(.morePageLoading)
+        tvShowListsUse.getPopularTvShows(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.tvShow($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
+            }
+        }
+    }
+    
+    fileprivate func getInitialTopRatedTvShows() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.tvShowListsUse.getTopRatedTvShows(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.tvShowListsUse.getPopularTvShows(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.tvShow($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.tvShow($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
             }
         }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
     }
     
     fileprivate func getTopRatedTvShows() {
-        requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
-                guard let self = self else { return }
-                self.tvShowListsUse.getTopRatedTvShows(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.tvShow($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
-                }
+        requestCallback?(.morePageLoading)
+        tvShowListsUse.getTopRatedTvShows(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.tvShow($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
     
-    fileprivate func getAiringTodayTvShows() {
+    fileprivate func getInitialAiringTodayTvShows() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.tvShowListsUse.getAiringTodayTvShows(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.tvShowListsUse.getAiringTodayTvShows(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.tvShow($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.tvShow($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getAiringTodayTvShows() {
+        requestCallback?(.morePageLoading)
+        tvShowListsUse.getAiringTodayTvShows(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.tvShow($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
     
     // MARK: Movie Lists Functions
     
-    fileprivate func getAllNowPlayingMovies() {
+    fileprivate func getInitialAllNowPlayingMovies() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.movieListsUse.getNowPlayingMovies(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.movieListsUse.getNowPlayingMovies(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.movie($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.movie($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getAllNowPlayingMovies() {
+        requestCallback?(.morePageLoading)
+        movieListsUse.getNowPlayingMovies(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.movie($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
     
-    fileprivate func getAllPopularMovies() {
+    fileprivate func getInitialAllPopularMovies() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.movieListsUse.getPopularMovies(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.movieListsUse.getPopularMovies(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.movie($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.movie($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getAllPopularMovies() {
+        requestCallback?(.morePageLoading)
+        movieListsUse.getPopularMovies(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.movie($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
 
-    fileprivate func getAllTopRatedMovies() {
+    fileprivate func getInitialAllTopRatedMovies() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now()  + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.movieListsUse.getTopRatedMovies(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.movieListsUse.getTopRatedMovies(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.movie($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.movie($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getAllTopRatedMovies() {
+        requestCallback?(.morePageLoading)
+        movieListsUse.getTopRatedMovies(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.movie($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
     
-    fileprivate func getAllUpcomingMovies() {
+    fileprivate func getInitialAllUpcomingMovies() {
         requestCallback?(.loading)
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i-1) * 0.3) { [weak self] in
+        for i in 1...3 {
+            self.movieListsUse.getUpcomingMovies(page: String(i)) { [weak self] dto, error in
                 guard let self = self else { return }
-                self.movieListsUse.getUpcomingMovies(page: String(i)) { [weak self] dto, error in
-                    guard let self = self else { return }
-                    requestCallback?(.loaded)
-                    if let dto = dto {
-                        resultList += dto.results.map{ ResultType.movie($0) }
-                        requestCallback?(.success)
-                    } else if let error = error {
-                        requestCallback?(.error(message: error))
-                    }
+                if let dto = dto {
+                    resultList += dto.results.map{ ResultType.movie($0) }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
                 }
+            }
+        }
+        requestCallback?(.loaded)
+        requestCallback?(.success)
+    }
+    
+    fileprivate func getAllUpcomingMovies() {
+        requestCallback?(.morePageLoading)
+        movieListsUse.getUpcomingMovies(page: String(pageNum)) { [weak self] dto, error in
+            guard let self = self else { return }
+            if let dto = dto {
+                resultList += dto.results.map{ ResultType.movie($0) }
+                requestCallback?(.success)
+                requestCallback?(.morePageLoaded)
+            } else if let error = error {
+                requestCallback?(.error(message: error))
             }
         }
     }
