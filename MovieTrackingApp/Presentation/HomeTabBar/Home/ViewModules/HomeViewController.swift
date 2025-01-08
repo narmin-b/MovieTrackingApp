@@ -93,7 +93,6 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print((UIScreen.current.bounds.width) * 0.6)
     }
     
     override func configureView() {

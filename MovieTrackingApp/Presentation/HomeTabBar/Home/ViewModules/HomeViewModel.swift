@@ -25,7 +25,7 @@ final class HomeViewModel {
     }
     
     func showTitleDetail(mediaType: MediaType, id: Int) {
-        navigation?.showDetails(mediaType: mediaType, id: id, nav: navigation!)
+        navigation?.showDetails(mediaType: mediaType, id: id)
     }
     
     func showAllItems(listType: HomeListType) {

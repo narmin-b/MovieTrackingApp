@@ -13,9 +13,12 @@ enum MovieListsHelper {
     case topRated(page: String)
     case upcoming(page: String)
     case trending(time: Time)
+    case search(query: String)
     
     var endpoint: URL? {
         switch self {
+        case .search(let query):
+            return CoreAPIHelper.instance.makeURL(path: "search/movie?query=", suffix: query)
         case .trending(let time):
             return CoreAPIHelper.instance.makeURL(path: "trending/movie/", suffix: time.rawValue)
         case .popular(let page):

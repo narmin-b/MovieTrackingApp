@@ -8,6 +8,10 @@
 import Foundation
 
 struct DemoMovieTitleImageCell: TitleImageCellProtocol {
+    var ratingString: String {
+        "0"
+    }
+    
     var titleString: String {
         "Test"
     }

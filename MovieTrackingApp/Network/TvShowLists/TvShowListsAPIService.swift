@@ -10,6 +10,20 @@ import Foundation
 final class TvShowListsAPIService: TvShowListsUseCase {
     private let apiService = CoreAPIManager.instance
     
+    func getTvShowSearchResults(query: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+        apiService.request(type: TvShowListsDTO.self,
+                           url: TvShowListsHelper.search(query: query).endpoint,
+                           method: .GET) { [weak self] result in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error.localizedDescription)
+            }
+        }
+    }
+    
     func getTrendingTvShows(time: Time, completion: @escaping(TrendingTvShowDTO?, String?) -> Void) {
         apiService.request(type: TrendingTvShowDTO.self,
                            url: TvShowListsHelper.trending(time: time).endpoint,

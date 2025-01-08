@@ -13,4 +13,6 @@ protocol MovieListsUseCase {
     func getPopularMovies(page: String, completion: @escaping(MovieListsDTO?, String?) -> Void)
     func getTopRatedMovies(page: String, completion: @escaping(MovieListsDTO?, String?) -> Void)
     func getUpcomingMovies(page: String, completion: @escaping(MovieListsDTO?, String?) -> Void)
+    func getMovieSearchResults(query: String, completion: @escaping(MovieListsDTO?, String?) -> Void)
+
 }

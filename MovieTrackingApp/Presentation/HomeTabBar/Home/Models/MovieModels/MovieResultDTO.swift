@@ -15,7 +15,8 @@ struct MovieResultDTO: Codable {
     let originalLanguage: String
     let originalTitle, overview: String
     let popularity: Double
-    let posterPath, releaseDate, title: String
+    let posterPath: String?
+    let releaseDate, title: String
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
@@ -46,6 +47,10 @@ extension MovieResultDTO: TitleImageCellProtocol {
     }
     
     var imageString: String {
-        posterPath
+        posterPath ?? ""
+    }
+    
+    var ratingString: String {
+        String(voteAverage)
     }
 }

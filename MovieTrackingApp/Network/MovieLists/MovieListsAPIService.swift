@@ -10,6 +10,20 @@ import Foundation
 final class MovieListsAPIService: MovieListsUseCase {
     private let apiService = CoreAPIManager.instance
     
+    func getMovieSearchResults(query: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+        apiService.request(type: MovieListsDTO.self,
+                           url: MovieListsHelper.search(query: query).endpoint,
+                           method: .GET) { [weak self] result in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error.localizedDescription)
+            }
+        }
+    }
+    
     func getTrendingMovies(time: Time, completion: @escaping (TrendingMovieDTO?, String?) -> Void) {
         apiService.request(type: TrendingMovieDTO.self,
                           url: MovieListsHelper.trending(time: time).endpoint,

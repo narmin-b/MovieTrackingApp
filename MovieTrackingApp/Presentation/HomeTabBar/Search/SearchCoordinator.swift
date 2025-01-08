@@ -22,3 +22,11 @@ final class SearchCoordinator: Coordinator {
         showController(vc: controller)
     }
 }
+
+extension SearchCoordinator: SearchNavigation {
+    func showDetails(mediaType: MediaType, id: Int) {
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id))
+        vc.hidesBottomBarWhenPushed = true
+        showController(vc: vc)
+    }
+}

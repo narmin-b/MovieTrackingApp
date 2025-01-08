@@ -16,7 +16,8 @@ struct TvShowResultDTO: Codable {
     let originalLanguage: String
     let originalName, overview: String
     let popularity: Double
-    let posterPath, firstAirDate, name: String
+    let posterPath: String?
+    let firstAirDate, name: String
     let voteAverage: Double
     let voteCount: Int
 
@@ -38,6 +39,10 @@ struct TvShowResultDTO: Codable {
 }
 
 extension TvShowResultDTO: TitleImageCellProtocol {
+    var ratingString: String {
+        String(voteAverage)
+    }
+    
     var overviewString: String {
         overview
     }
@@ -47,6 +52,6 @@ extension TvShowResultDTO: TitleImageCellProtocol {
     }
     
     var imageString: String {
-        posterPath
+        posterPath ?? ""
     }
 }

@@ -13,7 +13,7 @@ enum MediaType: String {
 }
 
 protocol HomeNavigation: AnyObject {
-    func showDetails(mediaType: MediaType, id: Int, nav: HomeNavigation)
+    func showDetails(mediaType: MediaType, id: Int)
     func showAllItems(listType: HomeListType)
     func popController()
 }

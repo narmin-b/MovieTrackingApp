@@ -54,6 +54,10 @@ struct TrendingTvShowResult: Codable {
 }
 
 extension TrendingTvShowResult: TitleImageCellProtocol {
+    var ratingString: String {
+        String(voteAverage)
+    }
+    
     var titleString: String {
         name
     }

@@ -303,10 +303,10 @@ final class MovieDetailController: BaseViewController {
             
             titleLabel.text = viewModel?.getMovieTitle()
             
-            runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getMovieRuntime() ?? 0) + " min")
+            runtimeLabel.configureLabel(icon: "clock", text: String(viewModel?.getMovieRuntime() ?? 0) + " min")
             
-            languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getMovieLanguage() ?? "Language")
-            releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
+            languageLabel.configureLabel(icon: "globe", text: viewModel?.getMovieLanguage() ?? "Language")
+            releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
             
             overviewLabel.text = viewModel?.getMovieOverview()
         case .tvShow:
@@ -321,26 +321,13 @@ final class MovieDetailController: BaseViewController {
             
             titleLabel.text = viewModel?.getTvShowTitle()
             
-            runtimeLabel.attributedText = configureLabel(icon: "clock", text: String(viewModel?.getTvShowSeasons() ?? 0) + " seasons")
+            runtimeLabel.configureLabel(icon: "clock", text: String(viewModel?.getTvShowSeasons() ?? 0) + " seasons")
             
-            languageLabel.attributedText = configureLabel(icon: "globe", text: viewModel?.getTvShowLanguage() ?? "Language")
-            releaseDateLabel.attributedText = configureLabel(icon: "calendar", text: viewModel?.getTvShowReleaseDate() ?? "Date")
+            languageLabel.configureLabel(icon: "globe", text: viewModel?.getTvShowLanguage() ?? "Language")
+            releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getTvShowReleaseDate() ?? "Date")
             
             overviewLabel.text = viewModel?.getTvShowOverview()
         }
-    }
-    
-    fileprivate func configureLabel(icon: String, text: String) -> NSAttributedString {
-        let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(systemName: icon)?.withTintColor(.primaryHighlight)
-        imageAttachment.bounds = CGRect(x: 0, y: 0, width: 12, height: 12)
-        
-        let attributedText = NSMutableAttributedString(string: "")
-        attributedText.append(NSAttributedString(attachment: imageAttachment))
-        attributedText.append(NSAttributedString(string: " "))
-        attributedText.append(NSAttributedString(string: text))
-        
-        return attributedText
     }
     
     fileprivate func configureNavigationBarTitle(labelStr: String, with offset: CGFloat) {
@@ -419,22 +406,5 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 0, bottom: 80, right: 0)
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let labelStr = viewModel?.getMovieTitle() ?? ""
-//        var offset = scrollView.contentOffset.y / 150
-//
-//        print(offset)
-//        if offset > 1.8 {
-//            offset = 1
-//            configureNavigationBarTitle(labelStr: labelStr, with: offset)
-//        } else {
-//            if offset <= 0.5 {
-//                configureNavigationBar()
-//            } else {
-//                configureNavigationBarTitle(labelStr: labelStr, with: offset)
-//            }
-//        }
-//    }
 }
 

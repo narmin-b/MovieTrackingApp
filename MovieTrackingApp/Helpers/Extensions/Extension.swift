@@ -252,3 +252,30 @@ extension UIScreen {
         UIWindow.current.screen
     }
 }
+
+extension UIButton {
+    func buttonChosen() {
+        backgroundColor = .primaryHighlight
+        titleLabel?.textColor = .black
+    }
+    
+    func buttonUnchosen() {
+        backgroundColor = .accentMain
+        titleLabel?.textColor = .white
+    }
+}
+
+extension UILabel {
+    func configureLabel(icon: String, text: String) {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(systemName: icon)?.withTintColor(.primaryHighlight)
+        imageAttachment.bounds = CGRect(x: 0, y: 0, width: 12, height: 12)
+        
+        let attributedText = NSMutableAttributedString(string: "")
+        attributedText.append(NSAttributedString(attachment: imageAttachment))
+        attributedText.append(NSAttributedString(string: " "))
+        attributedText.append(NSAttributedString(string: text))
+        
+        self.attributedText = attributedText
+    }
+}

@@ -39,6 +39,7 @@ final class LoginViewController: BaseViewController {
     
     private lazy var emailTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        textfield.inputAccessoryView = doneToolBar
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -74,6 +75,7 @@ final class LoginViewController: BaseViewController {
         rightIcon.addGestureRecognizer(tapGestureRecognizer)
         
         textfield.isSecureTextEntry = true
+        textfield.inputAccessoryView = doneToolBar
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -151,6 +153,16 @@ final class LoginViewController: BaseViewController {
         stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
+    }()
+    
+    private lazy var doneToolBar: UIToolbar = {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        keyboardToolbar.items = [flexBarButton, doneBarButton]
+        keyboardToolbar.translatesAutoresizingMaskIntoConstraints = true
+        return keyboardToolbar
     }()
     
     private let viewModel: LoginViewModel
@@ -266,6 +278,10 @@ final class LoginViewController: BaseViewController {
         } else {
             showMessage(title: "Wrong Input", message: "Email or Password is wrong")
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     fileprivate func logUserIn() {

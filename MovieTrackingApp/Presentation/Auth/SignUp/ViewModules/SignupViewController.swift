@@ -39,6 +39,7 @@ final class SignupViewController: BaseViewController {
     
     private lazy var emailTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        textfield.inputAccessoryView = doneToolBar
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -59,6 +60,7 @@ final class SignupViewController: BaseViewController {
     
     private lazy var usernameTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Username", iconName: "person", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        textfield.inputAccessoryView = doneToolBar
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -94,6 +96,7 @@ final class SignupViewController: BaseViewController {
         rightIcon.isUserInteractionEnabled = true
         rightIcon.addGestureRecognizer(tapGestureRecognizer)
         
+        textfield.inputAccessoryView = doneToolBar
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -167,6 +170,16 @@ final class SignupViewController: BaseViewController {
         stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
+    }()
+    
+    private lazy var doneToolBar: UIToolbar = {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        keyboardToolbar.items = [flexBarButton, doneBarButton]
+        keyboardToolbar.translatesAutoresizingMaskIntoConstraints = true
+        return keyboardToolbar
     }()
     
     private let viewModel: SignupViewModel
@@ -285,6 +298,10 @@ final class SignupViewController: BaseViewController {
     
     @objc fileprivate func signupButtonClicked() {
         checkInputRequirements()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     fileprivate func removeErrorBorder() {

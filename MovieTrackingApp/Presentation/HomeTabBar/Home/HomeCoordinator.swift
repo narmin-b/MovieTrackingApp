@@ -30,8 +30,8 @@ extension HomeCoordinator: HomeNavigation {
         showController(vc: vc)
     }
     
-    func showDetails(mediaType: MediaType, id: Int, nav: HomeNavigation) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self))
+    func showDetails(mediaType: MediaType, id: Int) {
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id))
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }

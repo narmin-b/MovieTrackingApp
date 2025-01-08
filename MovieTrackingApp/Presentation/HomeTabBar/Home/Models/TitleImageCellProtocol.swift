@@ -11,4 +11,5 @@ protocol TitleImageCellProtocol {
     var titleString: String {get}
     var imageString: String {get}
     var overviewString: String {get}
+    var ratingString: String {get}
 }

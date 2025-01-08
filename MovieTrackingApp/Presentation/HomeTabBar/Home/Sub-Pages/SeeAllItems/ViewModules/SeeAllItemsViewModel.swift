@@ -42,7 +42,7 @@ final class SeeAllItemsViewModel {
     }
     
     func showMovieDetail(mediaType: MediaType, id: Int) {
-        navigation?.showDetails(mediaType: mediaType, id: id, nav: navigation!)
+        navigation?.showDetails(mediaType: mediaType, id: id)
     }
     
     func getAllItems() -> Int {
@@ -51,9 +51,9 @@ final class SeeAllItemsViewModel {
     
     func getMediatype() -> MediaType {
         switch listType {
-        case .movie(let movie):
+        case .movie(_):
             return .movie
-        case .tvShow(let tvShow):
+        case .tvShow(_):
             return .tvShow
         }
     }

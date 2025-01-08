@@ -20,7 +20,7 @@ final class MovieDetailViewModel {
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
     private var tvShowDetailsUse: TvShowDetailUseCase = TvShowDetailAPIService()
 
-    private weak var navigation: HomeNavigation?
+//    private weak var navigation: HomeNavigation?
     
     private var id: Int
     private var mediaType: MediaType
@@ -29,10 +29,10 @@ final class MovieDetailViewModel {
     
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     
-    init(mediaType: MediaType, id: Int, navigation: HomeNavigation) {
+    init(mediaType: MediaType, id: Int) {
         self.id = id
         self.mediaType = mediaType
-        self.navigation = navigation
+//        self.navigation = navigation
     }
     
     func getMediaType() -> MediaType {
