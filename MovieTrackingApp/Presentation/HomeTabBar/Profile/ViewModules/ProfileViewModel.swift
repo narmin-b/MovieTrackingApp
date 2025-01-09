@@ -27,19 +27,19 @@ final class ProfileViewModel {
         navigation?.showLaunchScreen()
     }
     
-    func loadProfilePictureFromDocuments() -> UIImage? {
+    func loadProfilePictureFromDocuments() -> UIImage {
         requestCallback?(.loading)
         guard let fileNameWithExtension = UserDefaultsHelper.getString(key: "profileImage") else { return UIImage() }
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             print("Failed to access the documents directory.")
             requestCallback?(.error(message: "Profile Picture Not Found"))
-            return nil
+            return UIImage()
         }
         requestCallback?(.loaded)
         
         let fileURL = documentsDirectory.appendingPathComponent(fileNameWithExtension)
         
         requestCallback?(.success)
-        return UIImage(contentsOfFile: fileURL.path)
+        return UIImage(contentsOfFile: fileURL.path) ?? UIImage()
     }
 }

@@ -34,12 +34,12 @@ extension AuthCoordinator: AuthNavigation {
         let vc = SignupViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
         deletePreviousController()
-
     }
     
     func showHomeScreen() {
         let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
         tabBar.parentCoordinator = self
+        tabBar.parentCoordinator = nil
         children.append(tabBar)
         tabBar.start()
         childDidFinish(self)

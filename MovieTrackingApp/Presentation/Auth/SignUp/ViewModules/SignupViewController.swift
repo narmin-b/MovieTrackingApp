@@ -40,6 +40,7 @@ final class SignupViewController: BaseViewController {
     private lazy var emailTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
         textfield.inputAccessoryView = doneToolBar
+        textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -61,6 +62,7 @@ final class SignupViewController: BaseViewController {
     private lazy var usernameTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Username", iconName: "person", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
         textfield.inputAccessoryView = doneToolBar
+        textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -97,6 +99,7 @@ final class SignupViewController: BaseViewController {
         rightIcon.addGestureRecognizer(tapGestureRecognizer)
         
         textfield.inputAccessoryView = doneToolBar
+        textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()

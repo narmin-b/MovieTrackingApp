@@ -40,6 +40,7 @@ final class LoginViewController: BaseViewController {
     private lazy var emailTextfield: UITextField = {
         let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
         textfield.inputAccessoryView = doneToolBar
+        textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -76,6 +77,7 @@ final class LoginViewController: BaseViewController {
         
         textfield.isSecureTextEntry = true
         textfield.inputAccessoryView = doneToolBar
+        textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()

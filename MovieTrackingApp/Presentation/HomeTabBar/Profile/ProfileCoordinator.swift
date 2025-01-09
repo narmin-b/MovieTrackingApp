@@ -25,9 +25,9 @@ final class ProfileCoordinator: Coordinator {
 
 extension ProfileCoordinator: ProfileNavigation {
     func showLaunchScreen() {
+        children.removeAll()
         let authCoordinator = AuthCoordinator(navigationController: navigationController)
         children.append(authCoordinator)
-        authCoordinator.parentCoordinator = self
         authCoordinator.start()
         childDidFinish(self)
     }

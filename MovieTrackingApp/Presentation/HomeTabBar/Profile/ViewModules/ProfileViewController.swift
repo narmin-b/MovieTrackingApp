@@ -30,6 +30,8 @@ class ProfileViewController: BaseViewController {
         imageview.layer.cornerRadius = 60
         imageview.layer.masksToBounds = true
         imageview.isUserInteractionEnabled = true
+        imageview.layer.borderWidth = 1
+        imageview.layer.borderColor = UIColor.lightGray.cgColor
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         imageview.addGestureRecognizer(tapGesture)
         imageview.translatesAutoresizingMaskIntoConstraints = false
