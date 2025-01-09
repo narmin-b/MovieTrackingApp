@@ -29,6 +29,9 @@ class ProfileViewController: BaseViewController {
         imageview.contentMode = .scaleToFill
         imageview.layer.cornerRadius = 60
         imageview.layer.masksToBounds = true
+        imageview.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        imageview.addGestureRecognizer(tapGesture)
         imageview.translatesAutoresizingMaskIntoConstraints = false
         return imageview
     }()
@@ -64,6 +67,7 @@ class ProfileViewController: BaseViewController {
     }
     
     override func configureView() {
+        configureProfile()
         view.backgroundColor = .backgroundMain
         configureNavigationBar()
     
@@ -108,7 +112,7 @@ class ProfileViewController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    self.infoCollectionView.reloadData()
+                    print(#function)
                 case .error(message: let message):
                     self.showMessage(title: message)
                 }
@@ -148,10 +152,69 @@ class ProfileViewController: BaseViewController {
         navigationController?.navigationBar.tintColor = .primaryHighlight
     }
     
+    fileprivate func configureProfile() {
+        profileIcon.image = viewModel?.loadProfilePictureFromDocuments()
+    }
+    
+    @objc fileprivate func imageTapped() {
+        showImagePicker()
+    }
+    
     @objc private func logOutButtonTapped() {
         UserDefaults.standard.set("", forKey: "username")
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
         viewModel?.showLaunchScreen()
+    }
+    
+    func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        return imagePicker
+    }
+    
+    func showImagePicker() {
+        let alertVC = UIAlertController(title: "Choose a Picture", message: "Choose from Library or Camera", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
+            guard let self = self else { return }
+            let cameraImagePicker = self.imagePicker(sourceType: .camera)
+            cameraImagePicker.delegate = self
+            self.present(cameraImagePicker, animated: true)
+        }
+        
+        let libraryAction = UIAlertAction(title: "Library", style: .default) { [weak self] (action) in
+            guard let self = self else { return }
+            let libraryImagePicker = self.imagePicker(sourceType: .photoLibrary)
+            libraryImagePicker.delegate = self
+            self.present(libraryImagePicker, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(cameraAction)
+        alertVC.addAction(libraryAction)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func saveImageToDocuments(image: UIImage, fileNameWithExtension: String) {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Failed to access the documents directory.")
+            return
+        }
+
+        let imagePath = documentsDirectory.appendingPathComponent(fileNameWithExtension)
+
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            print("Failed to convert UIImage to JPEG data.")
+            return
+        }
+
+        do {
+            try imageData.write(to: imagePath)
+            print("Image successfully saved at: \(imagePath)")
+        } catch {
+            print("Error saving image to documents directory: \(error)")
+        }
     }
 }
 
@@ -174,5 +237,15 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width - 8, height: 72)
         
+    }
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        UserDefaultsHelper.setString(key: "profileImage", value: "userProfile.jpeg")
+        saveImageToDocuments(image: image, fileNameWithExtension: "userProfile.jpeg")
+        profileIcon.image = image
+        self.dismiss(animated: true)
     }
 }
