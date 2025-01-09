@@ -86,23 +86,17 @@ class SearchCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(model: TitleImageCellProtocol?) {
-        titleLabel.text = model?.titleString
-        imageView.loadImageURL(url:baseImageURL + (model?.imageString ?? ""))
-        overViewLabel.text = model?.overviewString
-        ratingLabel.configureLabel(icon: "star.fill", text: model?.ratingString ?? "")
+        DispatchQueue.main.async {
+            self.titleLabel.text = model?.titleString
+            self.imageView.loadImageURL(url: self.baseImageURL + (model?.imageString ?? ""))
+            self.overViewLabel.text = model?.overviewString
+            self.ratingLabel.configureLabel(icon: "star.fill", text: model?.ratingString ?? "")
+        }
     }
     
     fileprivate func configureView() {
         contentView.addSubViews(imageView, overviewStackView)
-        
-//        mainStackView.anchor(
-//            top: topAnchor,
-//            leading: trailingAnchor,
-//            bottom: bottomAnchor,
-//            trailing: trailingAnchor,
-//            padding: .init(all: 8)
-//        )
-        
+
         imageView.anchor(
             top: topAnchor,
             leading: leadingAnchor,
@@ -130,10 +124,5 @@ class SearchCollectionViewCell: UICollectionViewCell {
 
         ratingLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         ratingLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-//        titleStackView.anchor(
-//            leading: imageView.trailingAnchor,
-//            trailing: mainStackView.trailingAnchor,
-//            padding: .init(all: 4)
-//        )
     }
 }

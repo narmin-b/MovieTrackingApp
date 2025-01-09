@@ -36,7 +36,6 @@ final class SeeAllItemsController: BaseViewController {
     
     private let viewModel: SeeAllItemsViewModel?
     private var isPageLoaded: Bool = true
-
     
     deinit {
         viewModel?.requestCallback = nil

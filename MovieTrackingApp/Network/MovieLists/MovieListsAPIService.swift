@@ -10,9 +10,9 @@ import Foundation
 final class MovieListsAPIService: MovieListsUseCase {
     private let apiService = CoreAPIManager.instance
     
-    func getMovieSearchResults(query: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
+    func getMovieSearchResults(query: String, page: String, completion: @escaping (MovieListsDTO?, String?) -> Void) {
         apiService.request(type: MovieListsDTO.self,
-                           url: MovieListsHelper.search(query: query).endpoint,
+                           url: MovieListsHelper.search(query: query, page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {

@@ -99,7 +99,7 @@ class SearchViewController: BaseViewController {
         chosenButton?.buttonChosen()
         tvShowSearchButton.buttonUnchosen()
         guard let text = searchTextfield.text else { return }
-        viewModel?.movieSearch(query: text)
+        viewModel?.getList(mediaType: .movie, query: text)
     }
     
     @objc fileprivate func tvShowSearchEnabled() {
@@ -107,11 +107,12 @@ class SearchViewController: BaseViewController {
         chosenButton?.buttonChosen()
         movieSearchButton.buttonUnchosen()
         guard let text = searchTextfield.text else { return }
-        viewModel?.tvShowSearch(query: text)
+        viewModel?.getList(mediaType: .tvShow, query: text)
     }
     
     private let viewModel: SearchViewModel?
     private var chosenButton: UIButton?
+    private var isPageLoaded: Bool = true
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,6 +200,10 @@ class SearchViewController: BaseViewController {
                     self.loadingView.startAnimating()
                 case .loaded:
                     self.loadingView.stopAnimating()
+                case .morePageLoading:
+                    self.isPageLoaded = false
+                case .morePageLoaded:
+                    self.isPageLoaded = true
                 case .success:
                     self.searchResultsCollectionView.reloadData()
                 case .error(message: let message):
@@ -237,7 +242,6 @@ extension SearchViewController: UITextFieldDelegate, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print(collectionView.bounds.height/5)
         return CGSize(width: collectionView.bounds.width - 8, height: (collectionView.bounds.height - 20)/5)
     }
     
@@ -245,9 +249,22 @@ extension SearchViewController: UITextFieldDelegate, UICollectionViewDelegate, U
         guard let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         if !searchText.isEmpty { searchResultsCollectionView.isHidden = false }
         if chosenButton == movieSearchButton {
-            viewModel?.movieSearch(query: searchText)
+            viewModel?.getList(mediaType: .movie, query: searchText)
         } else {
-            viewModel?.tvShowSearch(query: searchText)
+            viewModel?.getList(mediaType: .tvShow, query: searchText) 
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        
+        if position > (searchResultsCollectionView.contentSize.height - 150 - scrollView.frame.size.height) && isPageLoaded == true {
+            guard let searchText = searchTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchText.isEmpty else { return }
+            if chosenButton == movieSearchButton {
+                viewModel?.loadMorePage(mediaType: .movie, query: searchText)
+            } else {
+                viewModel?.loadMorePage(mediaType: .tvShow, query: searchText)
+            }
         }
     }
 }

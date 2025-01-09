@@ -10,9 +10,9 @@ import Foundation
 final class TvShowListsAPIService: TvShowListsUseCase {
     private let apiService = CoreAPIManager.instance
     
-    func getTvShowSearchResults(query: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
+    func getTvShowSearchResults(query: String, page: String, completion: @escaping (TvShowListsDTO?, String?) -> Void) {
         apiService.request(type: TvShowListsDTO.self,
-                           url: TvShowListsHelper.search(query: query).endpoint,
+                           url: TvShowListsHelper.search(query: query, page: page).endpoint,
                            method: .GET) { [weak self] result in
             guard let _ = self else { return }
             switch result {

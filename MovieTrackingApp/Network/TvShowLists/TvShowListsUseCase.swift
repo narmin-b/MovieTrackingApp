@@ -13,5 +13,5 @@ protocol TvShowListsUseCase {
     func getPopularTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
     func getTopRatedTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
     func getOnTheAirTvShows(page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
-    func getTvShowSearchResults(query: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
+    func getTvShowSearchResults(query: String, page: String, completion: @escaping(TvShowListsDTO?, String?) -> Void)
 }

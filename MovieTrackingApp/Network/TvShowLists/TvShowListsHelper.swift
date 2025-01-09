@@ -13,12 +13,12 @@ enum TvShowListsHelper {
     case popular(page: String)
     case topRated(page: String)
     case trending(time: Time)
-    case search(query: String)
+    case search(query: String, page: String)
     
     var endpoint: URL? {
         switch self {
-        case .search(let query):
-            return CoreAPIHelper.instance.makeURL(path: "search/tv?query=", suffix: query)
+        case .search(let query, let page):
+            return CoreAPIHelper.instance.makeURL(path: "search/tv?query=", suffix: query, secondPath: "&page=", secondSuffix: page)
         case .trending(let time):
             return CoreAPIHelper.instance.makeURL(path: "trending/tv/", suffix: time.rawValue)
         case .popular(let page):

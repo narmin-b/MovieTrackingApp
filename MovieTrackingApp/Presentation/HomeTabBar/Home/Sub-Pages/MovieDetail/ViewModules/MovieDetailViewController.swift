@@ -386,7 +386,6 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
             }
         case .tvShow:
             let field = TvShowInfoList.allCases[indexPath.item / 2]
-            print(indexPath.item / 2)
             if(indexPath.item % 2 == 0) {
                 cell.configureFieldCell(title: field)
             }
