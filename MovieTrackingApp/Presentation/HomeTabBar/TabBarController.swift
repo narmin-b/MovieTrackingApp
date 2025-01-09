@@ -23,11 +23,6 @@ final class TabBarController: UITabBarController {
         tabBar.shadowImage = UIImage()
         tabBar.backgroundImage = UIImage()
         tabBar.layer.masksToBounds = true
-//        UITabBarItem.appearance()
-//            .setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], for: .normal)
-//        UITabBarItem.appearance()
-//            .setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-//        
         delegate = self
     }
 }

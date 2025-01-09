@@ -15,5 +15,14 @@ final class ProfileViewModel {
         case error(message: String)
     }
     
-    var listener: ((ViewState) -> Void)?
+    var requestCallback: ((ViewState) -> Void)?
+    private weak var navigation: ProfileNavigation?
+    
+    init(navigation: ProfileNavigation) {
+        self.navigation = navigation
+    }
+    
+    func showLaunchScreen() {
+        navigation?.showLaunchScreen()
+    }
 }

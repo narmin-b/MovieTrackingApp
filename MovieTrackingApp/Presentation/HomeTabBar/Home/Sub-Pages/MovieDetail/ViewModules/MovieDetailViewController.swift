@@ -108,7 +108,7 @@ final class MovieDetailController: BaseViewController {
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MovieDetailCollectionViewCell.self, forCellWithReuseIdentifier: "MovieDetailCollectionViewCell")
+        collectionView.register(cell: MovieDetailCollectionViewCell.self)
         collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self

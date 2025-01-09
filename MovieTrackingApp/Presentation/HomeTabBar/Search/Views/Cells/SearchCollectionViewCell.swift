@@ -62,18 +62,6 @@ class SearchCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-//    private lazy var mainStackView: UIStackView = {
-//        let stackView = UIStackView(arrangedSubviews: [imageView, overviewStackView])
-//        stackView.axis = .horizontal
-//        stackView.spacing = 8
-//        stackView.alignment = .center
-//        stackView.backgroundColor = .blue
-//
-//        stackView.distribution = .fill
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
-//        return stackView
-//    }()
-    
     private var baseImageURL = "https://image.tmdb.org/t/p/w500"
     
     override init(frame: CGRect) {

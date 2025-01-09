@@ -98,6 +98,8 @@
 		11CC75F72D16C32500903217 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 11CC75F62D16C32500903217 /* SDWebImage */; };
 		11CC75F92D16C41800903217 /* TitleImageCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75F82D16C41800903217 /* TitleImageCellProtocol.swift */; };
 		11DA8AEB2D19DBDB009529D6 /* MovieDetailProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DA8AEA2D19DBDB009529D6 /* MovieDetailProtocol.swift */; };
+		11DB76A42D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DB76A32D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift */; };
+		11DB76A62D3053A600326F31 /* ProfileNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DB76A52D3053A600326F31 /* ProfileNavigation.swift */; };
 		11ED735E2D26C74F0039238A /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ED735D2D26C74F0039238A /* UserDataModel.swift */; };
 		11F68AC82D2EF95E002A6B51 /* SearchNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F68AC72D2EF95E002A6B51 /* SearchNavigation.swift */; };
 		11F68ACB2D2F1072002A6B51 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F68ACA2D2F1072002A6B51 /* SearchCollectionViewCell.swift */; };
@@ -187,6 +189,8 @@
 		11CC75E12D16BB4E00903217 /* MovieListsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListsDTO.swift; sourceTree = "<group>"; };
 		11CC75F82D16C41800903217 /* TitleImageCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleImageCellProtocol.swift; sourceTree = "<group>"; };
 		11DA8AEA2D19DBDB009529D6 /* MovieDetailProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailProtocol.swift; sourceTree = "<group>"; };
+		11DB76A32D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoCollectionViewCell.swift; sourceTree = "<group>"; };
+		11DB76A52D3053A600326F31 /* ProfileNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNavigation.swift; sourceTree = "<group>"; };
 		11ED735D2D26C74F0039238A /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		11F68AC72D2EF95E002A6B51 /* SearchNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigation.swift; sourceTree = "<group>"; };
 		11F68ACA2D2F1072002A6B51 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -386,6 +390,7 @@
 		1190272C2D17281300B0B9DD /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				11DB76A52D3053A600326F31 /* ProfileNavigation.swift */,
 				119027362D17295100B0B9DD /* ProfileCoordinator.swift */,
 				119027392D17295100B0B9DD /* ViewModules */,
 				1190273A2D17295100B0B9DD /* Views */,
@@ -430,6 +435,7 @@
 		1190273A2D17295100B0B9DD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				11DB76A22D303FCF00326F31 /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -777,6 +783,14 @@
 			path = MovieLists;
 			sourceTree = "<group>";
 		};
+		11DB76A22D303FCF00326F31 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				11DB76A32D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		11ED735C2D26C7270039238A /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -899,6 +913,7 @@
 				114D70662D1AEFDE006C167B /* MovieDetailHelper.swift in Sources */,
 				111D3A7B2D2AEDCB00590CD7 /* DemoMovieTitleImageCell.swift in Sources */,
 				114D70672D1AEFDE006C167B /* MovieDetailUseCase.swift in Sources */,
+				11DB76A62D3053A600326F31 /* ProfileNavigation.swift in Sources */,
 				114D70682D1AEFDE006C167B /* MovieDetailAPIService.swift in Sources */,
 				11C07A2E2D1C371E00F0D90A /* TvShowResultDTO.swift in Sources */,
 				11CC75592D15D1B600903217 /* Coordinator.swift in Sources */,
@@ -907,6 +922,7 @@
 				11609A972D23076E00365915 /* SignupViewController.swift in Sources */,
 				11609A982D23076E00365915 /* SignupViewModel.swift in Sources */,
 				11609A8A2D22CF6F00365915 /* AuthCoordinator.swift in Sources */,
+				11DB76A42D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift in Sources */,
 				11609A8B2D22CF6F00365915 /* LoginViewModel.swift in Sources */,
 				11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */,
 				113DDE482D18279700AB95E1 /* SeeAllItemsViewModel.swift in Sources */,

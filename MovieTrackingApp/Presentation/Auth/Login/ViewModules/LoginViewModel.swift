@@ -39,7 +39,9 @@ final class LoginViewModel {
                     self.requestCallback?(.error(message: error.localizedDescription))
                 }
                 if (authResult?.user) != nil {
-                    print(authResult?.user.displayName ?? "")
+                    UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
+
+                    UserDefaultsHelper.setString(key: "username", value: authResult?.user.displayName ?? "")
                     self.requestCallback?(.success)
                 }
             }

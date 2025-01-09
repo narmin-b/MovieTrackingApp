@@ -18,7 +18,17 @@ final class ProfileCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = ProfileViewController(viewModel: ProfileViewModel())
+        let controller = ProfileViewController(viewModel: ProfileViewModel(navigation: self))
         showController(vc: controller)
+    }
+}
+
+extension ProfileCoordinator: ProfileNavigation {
+    func showLaunchScreen() {
+        let authCoordinator = AuthCoordinator(navigationController: navigationController)
+        children.append(authCoordinator)
+        authCoordinator.parentCoordinator = self
+        authCoordinator.start()
+        childDidFinish(self)
     }
 }

@@ -161,7 +161,6 @@ class SearchViewController: BaseViewController {
         navigationController?.navigationBar.tintColor = .primaryHighlight
     }
     
-    
     override func configureConstraint() {
         loadingView.anchor(
             top: buttonStackView.bottomAnchor,
