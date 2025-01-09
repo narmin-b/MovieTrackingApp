@@ -18,15 +18,32 @@ final class SearchViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
+    private weak var navigation: SearchNavigation?
     private var pages: Int = 0
     private var currentPage: Int = 1
     
+    init(navigation: SearchNavigation) {
+        self.navigation = navigation
+    }
     
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
     
     private(set) var movieSearchDto: [MovieResultDTO] = []
     private(set) var tvShowSearchDto: [TvShowResultDTO] = []
+    
+    func showMovieDetail(mediaType: MediaType, id: Int) {
+        navigation?.showDetails(mediaType: mediaType, id: id)
+    }
+    
+    func getItem(index: Int, mediaType: MediaType) -> Int {
+        switch mediaType {
+        case .movie:
+            return movieSearchDto[index].id
+        case .tvShow:
+            return tvShowSearchDto[index].id
+        }
+    }
     
     func loadMorePage(mediaType: MediaType, query: String) {
         if currentPage >= pages { return }

@@ -135,26 +135,32 @@ class SearchViewController: BaseViewController {
         
         view.addSubViews(loadingView, searchTextfield, buttonStackView, searchResultsCollectionView)
         view.bringSubviewToFront(loadingView)
-        configureNavigationBarTitle(labelStr: "Search")
+        configureNavigationBar()
     }
     
-    fileprivate func configureNavigationBarTitle(labelStr: String) {
-        let navigationView = UIView()
-        navigationView.translatesAutoresizingMaskIntoConstraints = false
+    fileprivate func configureNavigationBar() {
+        let navgationView = UIView()
+        navgationView.translatesAutoresizingMaskIntoConstraints = false
         let label = UILabel()
-        label.text = labelStr
+        label.text = "Search"
         label.sizeToFit()
         label.textAlignment = .center
         label.font = UIFont(name: "Nexa-Bold", size: 20)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        navigationView.addSubview(label)
-        label.centerXToView(to: navigationView)
-        label.centerYToView(to: navigationView)
+       
+        navgationView.addSubview(label)
+        label.centerXToView(to: navgationView)
+        label.centerYToView(to: navgationView)
 
-        navigationItem.titleView = navigationView
+        navigationItem.titleView = navgationView
+
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationItem.backBarButtonItem = backButton
+        navigationController?.navigationBar.tintColor = .primaryHighlight
     }
+    
     
     override func configureConstraint() {
         loadingView.anchor(
@@ -244,6 +250,20 @@ extension SearchViewController: UITextFieldDelegate, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width - 8, height: (collectionView.bounds.height - 20)/5)
     }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath) {
+            let mediaType: MediaType = chosenButton == movieSearchButton ? .movie : .tvShow
+            switch mediaType {
+            case .movie:
+                guard let item = viewModel?.getItem(index: indexPath.item, mediaType: mediaType) else { return }
+                viewModel?.showMovieDetail(mediaType: .movie, id: item)
+            case .tvShow:
+                guard let item = viewModel?.getItem(index: indexPath.item, mediaType: mediaType) else { return }
+                viewModel?.showMovieDetail(mediaType: .tvShow, id: item)
+            }
+        }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }

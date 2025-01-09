@@ -18,7 +18,7 @@ final class SearchCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = SearchViewController(viewModel: SearchViewModel())
+        let controller = SearchViewController(viewModel: SearchViewModel(navigation: self))
         showController(vc: controller)
     }
 }

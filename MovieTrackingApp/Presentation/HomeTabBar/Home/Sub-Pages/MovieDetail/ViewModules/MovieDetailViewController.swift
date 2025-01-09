@@ -154,6 +154,7 @@ final class MovieDetailController: BaseViewController {
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureNavigationBar()
         viewModel?.getDetails()
     }
     
@@ -328,27 +329,6 @@ final class MovieDetailController: BaseViewController {
             
             overviewLabel.text = viewModel?.getTvShowOverview()
         }
-    }
-    
-    fileprivate func configureNavigationBarTitle(labelStr: String, with offset: CGFloat) {
-        let navigationView = UIView()
-        navigationView.backgroundColor = .clear
-        navigationView.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.text = labelStr
-        label.sizeToFit()
-        label.textAlignment = .center
-        label.font = UIFont(name: "Nexa-Bold", size: 20)
-        label.textColor = .white.withAlphaComponent(offset)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        navigationView.addSubview(label)
-        label.centerXToView(to: navigationView)
-        label.centerYToView(to: navigationView)
-
-        navigationItem.titleView = navigationView
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.backgroundColor = .backgroundMain
     }
 }
 
