@@ -28,14 +28,14 @@ class SearchCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var ratingLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 2)
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var overViewLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 12, numOfLines: 0)
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 12, numOfLines: 4)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,7 +46,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 4
         stackView.alignment = .fill
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -125,7 +125,11 @@ class SearchCollectionViewCell: UICollectionViewCell {
             trailing: overviewStackView.trailingAnchor,
             padding: .init(all: 0)
         )
-        
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
+        ratingLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        ratingLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 //        titleStackView.anchor(
 //            leading: imageView.trailingAnchor,
 //            trailing: mainStackView.trailingAnchor,
