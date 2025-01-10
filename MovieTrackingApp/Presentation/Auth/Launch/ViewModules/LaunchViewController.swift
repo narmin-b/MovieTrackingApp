@@ -82,6 +82,9 @@ final class LaunchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
+        
+        UserDefaultsHelper.setString(key: "email", value: "")
+        UserDefaultsHelper.setString(key: "username", value: "")
     }
     
     override func configureView() {

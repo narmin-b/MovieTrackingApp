@@ -32,12 +32,13 @@ final class SignupViewModel {
                     self.requestCallback?(.loading)
                 case .success:
                     self.requestCallback?(.success)
+                case .successWithReturn(_):
+                    return
                 }
             case .failure(let error):
                 let errorMessage = error.localizedDescription
                 self.requestCallback?(.error(message: errorMessage))
             }
-
         }
     }
     

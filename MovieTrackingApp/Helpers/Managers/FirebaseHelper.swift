@@ -13,6 +13,7 @@ import GoogleSignIn
 
 enum SuccesType {
     case success
+    case successWithReturn(String?)
     case loaded
 }
 
@@ -21,6 +22,18 @@ final class FirebaseHelper {
     private init() {}
     static let auth = Auth.auth()
     
+    func signInWithEmail(email: String, password: String, completion: @escaping (Result<SuccesType, Error>) -> Void) {
+        FirebaseHelper.auth.signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let _ = self else { return }
+            completion(.success(.loaded))
+            if error != nil {
+                completion(.failure(NSError(domain: "FirebaseLogInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User Not Found"])))
+            }
+            if (authResult?.user) != nil {
+                completion(.success(.successWithReturn(authResult?.user.displayName)))
+            }
+        }
+    }
     
     func createUserWithEmailUsername(email: String, username: String, password: String, completion: @escaping (Result<SuccesType, Error>) -> Void) {
         FirebaseHelper.auth.createUser(withEmail: email, password: password) { [weak self] authResult, error  in
@@ -81,6 +94,7 @@ final class FirebaseHelper {
                 }
 
                 if let user = authResult?.user {
+                    UserDefaultsHelper.setString(key: "email", value: user.email ?? "")
                     UserDefaultsHelper.setString(key: "username", value: user.displayName ?? "")
                     completion(.success(.success))
                 } else {

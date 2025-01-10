@@ -32,17 +32,22 @@ final class LoginViewModel {
     func checkLogin() {
         requestCallback?(.loading)
         DispatchQueue.main.async {
-            FirebaseHelper.auth.signIn(withEmail: self.model.email ?? "", password: self.model.password ?? "") { [weak self] authResult, error in
-                guard let self = self else { return }
-                self.requestCallback?(.loaded)
-                if let error = error {
-                    self.requestCallback?(.error(message: error.localizedDescription))
-                }
-                if (authResult?.user) != nil {
-                    UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
-                    UserDefaultsHelper.setString(key: "username", value: authResult?.user.displayName ?? "")
-                    
-                    self.requestCallback?(.success)
+            FirebaseHelper.shared.signInWithEmail(email: self.model.email ?? "", password: self.model.password ?? "") { result in
+                switch result {
+                case .success(let field):
+                    switch field {
+                    case .loaded:
+                        self.requestCallback?(.loaded)
+                    case .success:
+                        self.requestCallback?(.success)
+                    case .successWithReturn(let username):
+                        UserDefaultsHelper.setString(key: "username", value: username ?? "")
+                        UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
+                        self.requestCallback?(.success)
+                    }
+                case .failure(let error):
+                    let errorMessage = error.localizedDescription
+                    self.requestCallback?(.error(message: errorMessage))
                 }
             }
         }

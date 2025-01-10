@@ -45,6 +45,8 @@ final class LaunchViewModel {
                     self.requestCallback?(.loaded)
                 case .success:
                     self.requestCallback?(.success)
+                case .successWithReturn(_):
+                    return
                 }
             case .failure(let error):
                 let errorMessage = error.localizedDescription
