@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
+import GoogleSignIn
 
 final class SignupViewController: BaseViewController {
     private lazy var loadingView: UIActivityIndicatorView = {
@@ -280,7 +284,7 @@ final class SignupViewController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    print(#function)
+                    self.showMessage(title: "User created", message: "User created successfully.")
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
                 }
@@ -364,6 +368,7 @@ final class SignupViewController: BaseViewController {
         }
     }
 }
+
 
 extension SignupViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {

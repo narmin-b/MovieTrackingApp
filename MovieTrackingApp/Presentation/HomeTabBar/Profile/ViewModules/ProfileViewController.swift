@@ -114,7 +114,7 @@ class ProfileViewController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    print(#function)
+                    self.viewModel?.showLaunchScreen()
                 case .error(message: let message):
                     self.showMessage(title: message)
                 }
@@ -165,7 +165,7 @@ class ProfileViewController: BaseViewController {
     @objc private func logOutButtonTapped() {
         UserDefaults.standard.set("", forKey: "username")
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        viewModel?.showLaunchScreen()
+        viewModel?.LogUserOut()
     }
     
     func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {

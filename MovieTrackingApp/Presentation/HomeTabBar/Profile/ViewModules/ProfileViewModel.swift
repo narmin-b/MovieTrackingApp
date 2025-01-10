@@ -42,4 +42,16 @@ final class ProfileViewModel {
         requestCallback?(.success)
         return UIImage(contentsOfFile: fileURL.path) ?? UIImage()
     }
+    
+    func LogUserOut() {
+        requestCallback?(.loading)
+        do {
+            try FirebaseHelper.auth.signOut()
+            requestCallback?(.loaded)
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+            requestCallback?(.error(message: signOutError as! String))
+        }
+        requestCallback?(.loaded)
+    }
 }

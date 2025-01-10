@@ -26,7 +26,6 @@ final class HomeTabBarCoordinator: Coordinator {
     
     func start() {
         initializeHomeTabBar()
-        
     }
     
     deinit {

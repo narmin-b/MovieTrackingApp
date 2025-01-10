@@ -40,8 +40,8 @@ final class LoginViewModel {
                 }
                 if (authResult?.user) != nil {
                     UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
-
                     UserDefaultsHelper.setString(key: "username", value: authResult?.user.displayName ?? "")
+                    
                     self.requestCallback?(.success)
                 }
             }

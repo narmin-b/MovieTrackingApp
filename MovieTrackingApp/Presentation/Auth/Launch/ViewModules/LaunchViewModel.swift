@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 final class LaunchViewModel {
     enum ViewState {
+        case loading
+        case loaded
         case success
         case error(message: String)
     }
@@ -28,4 +31,25 @@ final class LaunchViewModel {
         navigation?.showSignUp()
     }
     
+    func startHomeScreen() {
+        navigation?.showHomeScreen()
+    }
+    
+    func createUserWithGoogle(viewController: UIViewController) {
+        requestCallback?(.loading)
+        FirebaseHelper.shared.GoogleSignIn(viewController: viewController) { result in
+            switch result {
+            case .success(let field):
+                switch field {
+                case .loaded:
+                    self.requestCallback?(.loaded)
+                case .success:
+                    self.requestCallback?(.success)
+                }
+            case .failure(let error):
+                let errorMessage = error.localizedDescription
+                self.requestCallback?(.error(message: errorMessage))
+            }
+        }
+    }
 }
