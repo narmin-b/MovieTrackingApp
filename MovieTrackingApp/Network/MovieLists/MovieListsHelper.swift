@@ -18,17 +18,17 @@ enum MovieListsHelper {
     var endpoint: URL? {
         switch self {
         case .search(let query, let page):
-            return CoreAPIHelper.instance.makeURL(path: "search/movie?query=", suffix: query, secondPath: "&page=", secondSuffix: page)
+            return CoreAPIHelper.instance.makeURL(path: "search/movie?query=\(query)&page=\(page)")
         case .trending(let time):
-            return CoreAPIHelper.instance.makeURL(path: "trending/movie/", suffix: time.rawValue)
+            return CoreAPIHelper.instance.makeURL(path: "trending/movie/\(time.rawValue)")
         case .popular(let page):
-            return CoreAPIHelper.instance.makeURL(path: "movie/popular?language=en-US&page=", suffix: page)
+            return CoreAPIHelper.instance.makeURL(path: "movie/popular?language=en-US&page=\(page)")
         case .nowPlaying(let page):
-            return CoreAPIHelper.instance.makeURL(path: "movie/now_playing?language=en-US&page=", suffix: page)
+            return CoreAPIHelper.instance.makeURL(path: "movie/now_playing?language=en-US&page=\(page)")
         case .topRated(let page):
-            return CoreAPIHelper.instance.makeURL(path: "movie/top_rated?language=en-US&page=", suffix: page)
+            return CoreAPIHelper.instance.makeURL(path: "movie/top_rated?language=en-US&page=\(page)")
         case .upcoming(let page):
-            return CoreAPIHelper.instance.makeURL(path: "movie/upcoming?language=en-US&page=", suffix: page)
+            return CoreAPIHelper.instance.makeURL(path: "movie/upcoming?language=en-US&page=\(page)")
         }
     }
 }

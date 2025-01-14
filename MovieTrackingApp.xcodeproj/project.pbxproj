@@ -67,6 +67,8 @@
 		11A9D50B2D144BF200F6284A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D50A2D144BF200F6284A /* HomeViewModel.swift */; };
 		11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D5672D144C4A00F6284A /* UserDefaultsKey.swift */; };
 		11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D5662D144C4A00F6284A /* UserDefaultsHelper.swift */; };
+		11B753822D369EC8006AFFC4 /* TitleVideoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B753812D369EC8006AFFC4 /* TitleVideoDTO.swift */; };
+		11B753842D36BB09006AFFC4 /* TitleVideoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B753832D36BB09006AFFC4 /* TitleVideoProtocol.swift */; };
 		11C07A202D1C34CF00F0D90A /* TvShowListsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C07A1C2D1C34CF00F0D90A /* TvShowListsHelper.swift */; };
 		11C07A212D1C34CF00F0D90A /* TvShowListsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C07A1D2D1C34CF00F0D90A /* TvShowListsUseCase.swift */; };
 		11C07A222D1C34CF00F0D90A /* TvShowListsAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C07A1E2D1C34CF00F0D90A /* TvShowListsAPIService.swift */; };
@@ -166,6 +168,8 @@
 		11A9D50A2D144BF200F6284A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		11A9D5662D144C4A00F6284A /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		11A9D5672D144C4A00F6284A /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		11B753812D369EC8006AFFC4 /* TitleVideoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleVideoDTO.swift; sourceTree = "<group>"; };
+		11B753832D36BB09006AFFC4 /* TitleVideoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleVideoProtocol.swift; sourceTree = "<group>"; };
 		11C07A1C2D1C34CF00F0D90A /* TvShowListsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowListsHelper.swift; sourceTree = "<group>"; };
 		11C07A1D2D1C34CF00F0D90A /* TvShowListsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowListsUseCase.swift; sourceTree = "<group>"; };
 		11C07A1E2D1C34CF00F0D90A /* TvShowListsAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowListsAPIService.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 				114D705E2D1AEA24006C167B /* MovieDetailDTO.swift */,
 				118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */,
 				118CE4392D2D975C00EF70EC /* TvShowDetailProtocol.swift */,
+				11B753812D369EC8006AFFC4 /* TitleVideoDTO.swift */,
+				11B753832D36BB09006AFFC4 /* TitleVideoProtocol.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -933,6 +939,7 @@
 				11609A8B2D22CF6F00365915 /* LoginViewModel.swift in Sources */,
 				11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */,
 				113DDE482D18279700AB95E1 /* SeeAllItemsViewModel.swift in Sources */,
+				11B753842D36BB09006AFFC4 /* TitleVideoProtocol.swift in Sources */,
 				113DDE4B2D18279700AB95E1 /* SeeAllItemsController.swift in Sources */,
 				11C07A222D1C34CF00F0D90A /* TvShowListsAPIService.swift in Sources */,
 				11F68AC82D2EF95E002A6B51 /* SearchNavigation.swift in Sources */,
@@ -943,6 +950,7 @@
 				11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */,
 				11CC75DA2D16B16E00903217 /* MovieListsHelper.swift in Sources */,
 				114D705F2D1AEA24006C167B /* MovieDetailDTO.swift in Sources */,
+				11B753822D369EC8006AFFC4 /* TitleVideoDTO.swift in Sources */,
 				11609A742D20341C00365915 /* TrendingSegmentHeader.swift in Sources */,
 				119027312D17283F00B0B9DD /* SearchCoordinator.swift in Sources */,
 				11609A922D22D58A00365915 /* LaunchViewController.swift in Sources */,

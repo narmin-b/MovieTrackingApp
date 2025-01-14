@@ -33,7 +33,7 @@ final class AppCoordinator: Coordinator {
         
         let authCoordinator = AuthCoordinator(navigationController: navigationController)
         children.append(authCoordinator)
-        authCoordinator.parentCoordinator = self
+        authCoordinator.parentCoordinator = parentCoordinator
         authCoordinator.start()
     }
     
@@ -42,7 +42,7 @@ final class AppCoordinator: Coordinator {
         
         let homeTabBarCoordinator = HomeTabBarCoordinator(navigationController: navigationController)
         children.append(homeTabBarCoordinator)
-        homeTabBarCoordinator.parentCoordinator = self
+        homeTabBarCoordinator.parentCoordinator = parentCoordinator
         homeTabBarCoordinator.start()
     }
 }

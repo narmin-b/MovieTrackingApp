@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import WebKit
+
 enum MovieInfoList: String, CaseIterable {
     case genre = "Genres"
     case originCountry = "Origin Country"
@@ -28,6 +30,19 @@ final class MovieDetailController: BaseViewController {
         view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    private lazy var trailerLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Trailer", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 38, numOfLines: 1)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.backgroundColor = .clear
+        return webView
     }()
     
     private lazy var backdropImageView: UIImageView = {
@@ -105,7 +120,7 @@ final class MovieDetailController: BaseViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 4
         layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cell: MovieDetailCollectionViewCell.self)
@@ -142,7 +157,7 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, overviewContainerView, infoCollectionView])
+        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, overviewContainerView, infoCollectionView, trailerLabel, webView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -283,6 +298,21 @@ final class MovieDetailController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 12, bottom: 0, right: 16)
         )
+        
+        trailerLabel.anchor(
+            top: infoCollectionView.bottomAnchor,
+            padding: .init(all: -8)
+        )
+        trailerLabel.centerXToSuperview()
+        
+        webView.anchor(
+            top: trailerLabel.bottomAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(top: 4, left: 12, bottom: 0, right: -12)
+        )
+        
+        webView.heightAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 9/16).isActive = true
     }
         
     override func configureTargets() {
@@ -310,6 +340,10 @@ final class MovieDetailController: BaseViewController {
             releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
             
             overviewLabel.text = viewModel?.getMovieOverview()
+            
+            guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
+            webView.load(URLRequest(url: videoURL))
+            
         case .tvShow:
             guard let imageURL = viewModel?.getTvShowBackdropImage() else { return }
             if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
@@ -328,6 +362,9 @@ final class MovieDetailController: BaseViewController {
             releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getTvShowReleaseDate() ?? "Date")
             
             overviewLabel.text = viewModel?.getTvShowOverview()
+            
+            guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
+            webView.load(URLRequest(url: videoURL))
         }
     }
 }

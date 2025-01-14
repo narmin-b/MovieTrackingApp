@@ -26,8 +26,11 @@ final class MovieDetailViewModel {
     private var mediaType: MediaType
     private(set) var movieDetails: MovieDetailProtocol?
     private(set) var tvShowDetails: TvShowDetailProtocol?
+    private(set) var titleVideos: TitleVideoProtocol?
+
     
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
+    private let baseVideoUrl: String = "https://www.youtube.com/embed/"
     
     init(mediaType: MediaType, id: Int) {
         self.id = id
@@ -53,21 +56,42 @@ final class MovieDetailViewModel {
                     requestCallback?(.error(message: error))
                 }
             }
-        case .tvShow:
-            requestCallback?(.loading)
-            tvShowDetailsUse.getTvShowDetail(id: String(id)) { [weak self] dto, error in
+            movieDetailsUse.getMovieVideos(id: String(id)) { [weak self] dto, error in
                 guard let self = self else { return }
                 if let dto = dto {
-                    tvShowDetails = dto
-                    print(dto)
+                    titleVideos = dto
                     requestCallback?(.success)
                     requestCallback?(.loaded)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
             }
+        case .tvShow:
+            requestCallback?(.loading)
+            tvShowDetailsUse.getTvShowDetail(id: String(id)) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    tvShowDetails = dto
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+            tvShowDetailsUse.getTvShowVideos(id: String(id)) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    titleVideos = dto
+                    requestCallback?(.success)
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
         }
         
+    }
+    
+    func getTitleTrailer() -> String {
+        return baseVideoUrl + (titleVideos?.videoId ?? "")
     }
     
     //MARK: Movie Detail Functions

@@ -35,6 +35,11 @@ final class LaunchViewModel {
         navigation?.showHomeScreen()
     }
     
+    func popBackScreen() {
+        navigation?.popbackScreen()
+    }
+    
+    
     func createUserWithGoogle(viewController: UIViewController) {
         requestCallback?(.loading)
         FirebaseHelper.shared.GoogleSignIn(viewController: viewController) { result in

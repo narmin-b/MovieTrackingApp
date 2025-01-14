@@ -148,6 +148,7 @@ final class LaunchViewController: BaseViewController {
                     self.viewModel.startHomeScreen()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
+                    self.loadingView.stopAnimating()
                 }
             }
         }

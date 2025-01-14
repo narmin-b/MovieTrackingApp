@@ -27,7 +27,7 @@ final class FirebaseHelper {
             guard let _ = self else { return }
             completion(.success(.loaded))
             if error != nil {
-                completion(.failure(NSError(domain: "FirebaseLogInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "User Not Found"])))
+                completion(.failure(NSError(domain: "FirebaseLogInError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Server Error"])))
             }
             if (authResult?.user) != nil {
                 completion(.success(.successWithReturn(authResult?.user.displayName)))
