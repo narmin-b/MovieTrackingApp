@@ -25,28 +25,29 @@ final class ProfileCoordinator: Coordinator {
 
 extension ProfileCoordinator: ProfileNavigation {
     func showLaunchScreen() {
+//        parentCoordinator?.children.removeAll()
+//        
+//        let authCoordinator = AuthCoordinator(navigationController: navigationController)
+//        authCoordinator.parentCoordinator = parentCoordinator
+//        parentCoordinator?.children.append(authCoordinator)
+//
+//        navigationController.setViewControllers([], animated: false)
+//        
+//        authCoordinator.start()
+        
         parentCoordinator?.children.removeAll()
         
-        let authCoordinator = AuthCoordinator(navigationController: navigationController)
-        authCoordinator.parentCoordinator = parentCoordinator
+        let newNavigationController = UINavigationController()
+        let authCoordinator = AuthCoordinator(navigationController: newNavigationController)
+        authCoordinator.parentCoordinator = self
         parentCoordinator?.children.append(authCoordinator)
-
-        navigationController.setViewControllers([], animated: false)
+        
+        let window = UIWindow.current
+        window.rootViewController = newNavigationController
+        window.makeKeyAndVisible()
         
         authCoordinator.start()
         
-//        parentCoordinator?.children.removeAll()
-//        
-//        let newNavigationController = UINavigationController()
-//        
-//        parentCoordinator?.children.append(authCoordinator)
-//        
-//        let window = UIWindow.current
-//        window.rootViewController = newNavigationController
-//        window.makeKeyAndVisible()
-//        
-//        authCoordinator.start()
-//        
-//        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.childDidFinish(self)
     }
 }

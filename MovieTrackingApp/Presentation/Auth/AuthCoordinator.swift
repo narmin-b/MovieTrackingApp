@@ -46,30 +46,30 @@ extension AuthCoordinator: AuthNavigation {
     }
     
     func showHomeScreen() {
+//        parentCoordinator?.children.removeAll()
+//        
+//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+//        tabBar.parentCoordinator = self
+//        parentCoordinator?.children.append(tabBar)
+//
+//        navigationController.setViewControllers([], animated: false)
+//        
+//        tabBar.start()
+        
         parentCoordinator?.children.removeAll()
         
-        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+        let newNavigationController = UINavigationController()
+        let tabBar = HomeTabBarCoordinator(navigationController: newNavigationController)
         tabBar.parentCoordinator = self
         parentCoordinator?.children.append(tabBar)
-
-        navigationController.setViewControllers([], animated: false)
+        
+        let window = UIWindow.current
+        window.rootViewController = newNavigationController
+        window.makeKeyAndVisible()
         
         tabBar.start()
         
-//        parentCoordinator?.children.removeAll()
-//        
-//        let newNavigationController = UINavigationController()
-//        let tabBar = HomeTabBarCoordinator(navigationController: newNavigationController)
-//        tabBar.parentCoordinator = parentCoordinator
-//        parentCoordinator?.children.append(tabBar)
-//        
-//        let window = UIWindow.current
-//        window.rootViewController = newNavigationController
-//        window.makeKeyAndVisible()
-//        
-//        tabBar.start()
-//        
-//        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.childDidFinish(self)
     }
     
     func popbackScreen() {
