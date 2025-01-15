@@ -45,8 +45,8 @@ enum TypeEnum: String, Codable {
     case trailer = "Trailer"
 }
 
-extension TitleVideoDTO: TitleVideoProtocol {
-    var videoId: String {
-        results.first(where: { $0.type == .trailer })?.key ?? ""
+extension TitleVideoDTO {
+    func mapToDomain() -> TitleVideoProtocol {
+        .init(videoId: results.first(where: { $0.type == .trailer })?.key ?? "")
     }
 }

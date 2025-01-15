@@ -37,20 +37,12 @@ struct MovieResultDTO: Codable {
     }
 }
 
-extension MovieResultDTO: TitleImageCellProtocol {
-    var overviewString: String {
-        overview
-    }
-    
-    var titleString: String {
-        title
-    }
-    
-    var imageString: String {
-        posterPath ?? ""
-    }
-    
-    var ratingString: String {
-        String(voteAverage)
+extension MovieResultDTO {
+    func mapToDomain() -> TitleImageCellProtocol {
+        .init(titleString: title,
+              imageString: posterPath ?? "",
+              overviewString: overview,
+              ratingString: String(voteAverage),
+              idInt: id)
     }
 }

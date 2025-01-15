@@ -7,34 +7,26 @@
 
 import Foundation
 
-protocol TvShowDetailProtocol {
-    var backdropPathStr: String {get}
-    var createdByArr: [CreatedBy] {get}
-    var episodeRunTimeIntArr: [Int] {get}
-    var firstAirDateStr: String {get}
-    var genresArr: [String] {get}
-    var idInt: Int {get}
-    var languagesStrArr: [String] {get}
-    var lastAirDateStr: String {get}
-    var lastEpisodeToAirCst: TEpisodeToAir {get}
-    var nameStr: String {get}
-    var nextEpisodeToAirCst: TEpisodeToAir {get}
-    var networksArr: [Network] {get}
-    var numberOfEpisodesInt: Int {get}
-    var numberOfSeasonsInt: Int {get}
-    var originCountryStrArr: [String] {get}
-    var originalLanguageStr: String {get}
-    var originalNameStr: String {get}
-    var overviewStr: String {get}
-    var popularityDbl: Double {get}
-    var posterPathStr: String {get}
-    var productionCompaniesArr: [Network] {get}
-    var productionCountriesArr: [ProductionCountry] {get}
-    var seasonsArr: [Season] {get}
-    var spokenLanguagesArr: [SpokenLanguage] {get}
-    var statusStr: String {get}
-    var taglineStr: String {get}
-    var typeStr: String {get}
-    var voteAverageDbl: Double {get}
-    var voteCountInt: Int {get}
+struct TvShowDetailProtocol {
+    var backdropPathStr: String
+    var episodeRunTimeIntArr: [Int]
+    var firstAirDateStr: String
+    var genresArr: [String]
+    var idInt: Int
+    var languagesStrArr: [String]
+    var lastAirDateStr: String
+    var nameStr: String
+    var numberOfEpisodesInt: Int
+    var numberOfSeasonsInt: Int
+    var originCountryStrArr: [String]
+    var originalLanguageStr: String
+    var originalNameStr: String
+    var overviewStr: String
+    var popularityDbl: Double
+    var posterPathStr: String
+    var seasonsArr: [Season]
+    var spokenLanguagesArr: [SpokenLanguage]
+    var typeStr: String
+    var voteAverageDbl: Double
+    var voteCountInt: Int 
 }

@@ -7,18 +7,12 @@
 
 import Foundation
 
-struct DemoMovieTitleImageCell: TitleImageCellProtocol {
-    var ratingString: String {
-        "0"
-    }
-    
-    var titleString: String {
-        "Test"
-    }
-    var imageString: String {
-        "1E5baAaEse26fej7uHcjOgEE2t2.jpg"
-    }
-    var overviewString: String {
-        "..."
+struct DemoMovieTitleImageCell{
+    func mapToDomain() -> TitleImageCellProtocol {
+        .init(titleString: "Test",
+              imageString: "1E5baAaEse26fej7uHcjOgEE2t2.jpg",
+              overviewString: "...",
+              ratingString: "0",
+              idInt: 0)
     }
 }

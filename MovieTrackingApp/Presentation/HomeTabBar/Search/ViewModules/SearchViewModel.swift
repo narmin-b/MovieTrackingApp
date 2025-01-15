@@ -29,8 +29,8 @@ final class SearchViewModel {
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
     
-    private(set) var movieSearchDto: [MovieResultDTO] = []
-    private(set) var tvShowSearchDto: [TvShowResultDTO] = []
+    private(set) var movieSearchDto: [TitleImageCellProtocol] = []
+    private(set) var tvShowSearchDto: [TitleImageCellProtocol] = []
     
     func showMovieDetail(mediaType: MediaType, id: Int) {
         navigation?.showDetails(mediaType: mediaType, id: id)
@@ -39,9 +39,9 @@ final class SearchViewModel {
     func getItem(index: Int, mediaType: MediaType) -> Int {
         switch mediaType {
         case .movie:
-            return movieSearchDto[index].id
+            return movieSearchDto[index].idInt
         case .tvShow:
-            return tvShowSearchDto[index].id
+            return tvShowSearchDto[index].idInt
         }
     }
     
@@ -71,7 +71,7 @@ final class SearchViewModel {
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let dto = dto {
-                    self.movieSearchDto = dto.results
+                    self.movieSearchDto = dto.results.map({ $0.mapToDomain() })
                     self.pages = dto.totalPages
                     self.currentPage = 1
                     self.requestCallback?(.success)
@@ -88,7 +88,7 @@ final class SearchViewModel {
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 if let dto = dto {
-                    self.movieSearchDto += dto.results
+                    self.movieSearchDto += dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.morePageLoaded)
                     self.requestCallback?(.success)
                 } else if let error = error {
@@ -113,7 +113,7 @@ final class SearchViewModel {
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let dto = dto {
-                    self.tvShowSearchDto = dto.results
+                    self.tvShowSearchDto = dto.results.map({ $0.mapToDomain() })
                     self.pages = dto.totalPages
                     self.currentPage = 1
                     self.requestCallback?(.success)
@@ -130,7 +130,7 @@ final class SearchViewModel {
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 if let dto = dto {
-                    self.tvShowSearchDto += dto.results
+                    self.tvShowSearchDto += dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.morePageLoaded)
                     self.requestCallback?(.success)
                 } else if let error = error {

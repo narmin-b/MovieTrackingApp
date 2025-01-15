@@ -72,9 +72,9 @@ final class SeeAllItemsViewModel {
         let result = resultList[index]
         switch result {
         case .movie(let movieDTO):
-            return movieDTO
+            return movieDTO.mapToDomain()
         case .tvShow(let tvShowDTO):
-            return tvShowDTO
+            return tvShowDTO.mapToDomain()
         }
     }
     

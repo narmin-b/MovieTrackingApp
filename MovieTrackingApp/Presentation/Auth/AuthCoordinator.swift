@@ -49,7 +49,7 @@ extension AuthCoordinator: AuthNavigation {
         parentCoordinator?.children.removeAll()
         
         let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
-        tabBar.parentCoordinator = parentCoordinator
+        tabBar.parentCoordinator = self
         parentCoordinator?.children.append(tabBar)
 
         navigationController.setViewControllers([], animated: false)

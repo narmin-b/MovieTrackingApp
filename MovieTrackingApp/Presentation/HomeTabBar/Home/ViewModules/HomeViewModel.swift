@@ -35,17 +35,17 @@ final class HomeViewModel {
     private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
     private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
 
-    private(set) var nowPlayingDto: [MovieResultDTO] = []
-    private(set) var popularMoviesDto: [MovieResultDTO] = []
-    private(set) var topRatedMoviesDto: [MovieResultDTO] = []
-    private(set) var upcomingMoviesDto: [MovieResultDTO] = []
-    private(set) var trendingMovieDto: [TrendingMovieResult] = []
+    private(set) var nowPlayingDto: [TitleImageCellProtocol] = []
+    private(set) var popularMoviesDto: [TitleImageCellProtocol] = []
+    private(set) var topRatedMoviesDto: [TitleImageCellProtocol] = []
+    private(set) var upcomingMoviesDto: [TitleImageCellProtocol] = []
+    private(set) var trendingMovieDto: [TitleImageCellProtocol] = []
     
-    private(set) var onTheAirTvShowsDto: [TvShowResultDTO] = []
-    private(set) var popularTvShowsDto: [TvShowResultDTO] = []
-    private(set) var airingTodayTvShowsDto: [TvShowResultDTO] = []
-    private(set) var topRatedTvShowsDto: [TvShowResultDTO] = []
-    private(set) var trendingTvShowDto: [TrendingTvShowResult] = []
+    private(set) var onTheAirTvShowsDto: [TitleImageCellProtocol] = []
+    private(set) var popularTvShowsDto: [TitleImageCellProtocol] = []
+    private(set) var airingTodayTvShowsDto: [TitleImageCellProtocol] = []
+    private(set) var topRatedTvShowsDto: [TitleImageCellProtocol] = []
+    private(set) var trendingTvShowDto: [TitleImageCellProtocol] = []
     
     // MARK: Tv Show Lists Functions
     
@@ -56,7 +56,7 @@ final class HomeViewModel {
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let dto = dto {
-                    self.trendingTvShowDto = dto.results
+                    self.trendingTvShowDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -69,12 +69,12 @@ final class HomeViewModel {
         return trendingTvShowDto.count == 0 ? 10 : trendingTvShowDto.count
     }
     
-    func getTrendingTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return trendingTvShowDto.count == 0 ? DemoMovieTitleImageCell() : trendingTvShowDto[index]
+    func getTrendingTvShowProtocol(index: Int) -> TitleImageCellProtocol {
+        return trendingTvShowDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : trendingTvShowDto[index]
     }
     
     func getTrendingTvShowItem(index: Int) -> Int {
-        return trendingTvShowDto[index].id
+        return trendingTvShowDto[index].idInt
     }
     
     func getOnTheAirTvShows() {
@@ -84,7 +84,7 @@ final class HomeViewModel {
                 guard let self = self else { return }
                 self.requestCallback?(.loaded)
                 if let dto = dto {
-                    self.onTheAirTvShowsDto = dto.results
+                    self.onTheAirTvShowsDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -98,11 +98,11 @@ final class HomeViewModel {
     }
     
     func getOnTheAirTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return onTheAirTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : onTheAirTvShowsDto[index]
+        return onTheAirTvShowsDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : onTheAirTvShowsDto[index]
     }
     
     func getOnTheAirTvShowItem(index: Int) -> Int {
-        return onTheAirTvShowsDto[index].id
+        return onTheAirTvShowsDto[index].idInt
     }
     
     func getPopularTvShows() {
@@ -112,7 +112,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.popularTvShowsDto = dto.results
+                    self.popularTvShowsDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -126,11 +126,11 @@ final class HomeViewModel {
     }
     
     func getPopularTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return popularTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : popularTvShowsDto[index]
+        return popularTvShowsDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : popularTvShowsDto[index]
     }
     
     func getPopularTvShowItem(index: Int) -> Int {
-        return popularTvShowsDto[index].id
+        return popularTvShowsDto[index].idInt
     }
     
     func getAiringTodayTvShows() {
@@ -140,7 +140,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.airingTodayTvShowsDto = dto.results
+                    self.airingTodayTvShowsDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -154,11 +154,11 @@ final class HomeViewModel {
     }
     
     func getAiringTodayTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return airingTodayTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : airingTodayTvShowsDto[index]
+        return airingTodayTvShowsDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : airingTodayTvShowsDto[index]
     }
     
     func getAiringTodayTvShowItem(index: Int) -> Int {
-        return airingTodayTvShowsDto[index].id
+        return airingTodayTvShowsDto[index].idInt
     }
     
     func getTopRatedTvShows() {
@@ -168,7 +168,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.topRatedTvShowsDto = dto.results
+                    self.topRatedTvShowsDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -182,11 +182,11 @@ final class HomeViewModel {
     }
     
     func getTopRatedTvShowProtocol(index: Int) -> TitleImageCellProtocol? {
-        return topRatedTvShowsDto.count == 0 ? DemoMovieTitleImageCell() : topRatedTvShowsDto[index]
+        return topRatedTvShowsDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : topRatedTvShowsDto[index]
     }
     
     func getTopRatedTvShowItem(index: Int) -> Int {
-        return topRatedTvShowsDto[index].id
+        return topRatedTvShowsDto[index].idInt
     }
     
     // MARK: Movie Lists Functions
@@ -198,7 +198,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.trendingMovieDto = dto.results
+                    self.trendingMovieDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -212,11 +212,11 @@ final class HomeViewModel {
     }
     
     func getTrendingMovie(index: Int) -> Int {
-        return trendingMovieDto[index].id
+        return trendingMovieDto[index].idInt
     }
     
     func getTrendingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return trendingMovieDto.count == 0 ? DemoMovieTitleImageCell() : trendingMovieDto[index]
+        return trendingMovieDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : trendingMovieDto[index]
     }
     
     func getNowPlayingMovies() {
@@ -226,7 +226,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.nowPlayingDto = dto.results
+                    self.nowPlayingDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -240,11 +240,11 @@ final class HomeViewModel {
     }
     
     func getNowPlayingMovie(index: Int) -> Int {
-        return nowPlayingDto[index].id
+        return nowPlayingDto[index].idInt
     }
     
     func getNowPlayingMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return nowPlayingDto.count == 0 ? DemoMovieTitleImageCell() : nowPlayingDto[index]
+        return nowPlayingDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : nowPlayingDto[index]
     }
         
     func getPopularMovies() {
@@ -254,7 +254,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.popularMoviesDto = dto.results
+                    self.popularMoviesDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -268,11 +268,11 @@ final class HomeViewModel {
     }
     
     func getPopularMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return popularMoviesDto.count == 0 ? DemoMovieTitleImageCell() : popularMoviesDto[index]
+        return popularMoviesDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : popularMoviesDto[index]
     }
     
     func getPopularMovie(index: Int) -> Int {
-        return popularMoviesDto[index].id
+        return popularMoviesDto[index].idInt
     }
     
     func getTopRatedMovies() {
@@ -282,7 +282,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.topRatedMoviesDto = dto.results
+                    self.topRatedMoviesDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -296,11 +296,11 @@ final class HomeViewModel {
     }
     
     func getTopRatedMovie(index: Int) -> Int {
-        return topRatedMoviesDto[index].id
+        return topRatedMoviesDto[index].idInt
     }
     
     func getTopRatedMovieProtocol(index: Int) -> TitleImageCellProtocol? {
-        return topRatedMoviesDto.count == 0 ? DemoMovieTitleImageCell() : topRatedMoviesDto[index]
+        return topRatedMoviesDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : topRatedMoviesDto[index]
     }
     
     func getUpcomingMovies() {
@@ -310,7 +310,7 @@ final class HomeViewModel {
             self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
-                    self.upcomingMoviesDto = dto.results
+                    self.upcomingMoviesDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -324,10 +324,10 @@ final class HomeViewModel {
     }
     
     func getUpcomingMoviesProtocol(index: Int) -> TitleImageCellProtocol? {
-        return upcomingMoviesDto.count == 0 ? DemoMovieTitleImageCell() : upcomingMoviesDto[index]
+        return upcomingMoviesDto.count == 0 ? DemoMovieTitleImageCell().mapToDomain() : upcomingMoviesDto[index]
     }
     
     func getUpcomingMovie(index: Int) -> Int {
-        return upcomingMoviesDto[index].id
+        return upcomingMoviesDto[index].idInt
     }
 }

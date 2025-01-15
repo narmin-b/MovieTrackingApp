@@ -35,7 +35,6 @@ final class MovieDetailViewModel {
     init(mediaType: MediaType, id: Int) {
         self.id = id
         self.mediaType = mediaType
-//        self.navigation = navigation
     }
     
     func getMediaType() -> MediaType {
@@ -49,7 +48,7 @@ final class MovieDetailViewModel {
             movieDetailsUse.getMovieDetail(id: String(id)) { [weak self] dto, error in
                 guard let self = self else { return }
                 if let dto = dto {
-                    movieDetails = dto
+                    movieDetails = dto.mapToDomain()
                     requestCallback?(.success)
                     requestCallback?(.loaded)
                 } else if let error = error {
@@ -59,9 +58,8 @@ final class MovieDetailViewModel {
             movieDetailsUse.getMovieVideos(id: String(id)) { [weak self] dto, error in
                 guard let self = self else { return }
                 if let dto = dto {
-                    titleVideos = dto
+                    titleVideos = dto.mapToDomain()
                     requestCallback?(.success)
-                    requestCallback?(.loaded)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
@@ -71,8 +69,9 @@ final class MovieDetailViewModel {
             tvShowDetailsUse.getTvShowDetail(id: String(id)) { [weak self] dto, error in
                 guard let self = self else { return }
                 if let dto = dto {
-                    tvShowDetails = dto
+                    tvShowDetails = dto.mapToDomain()
                     requestCallback?(.success)
+                    requestCallback?(.loaded)
                 } else if let error = error {
                     requestCallback?(.error(message: error))
                 }
@@ -80,7 +79,7 @@ final class MovieDetailViewModel {
             tvShowDetailsUse.getTvShowVideos(id: String(id)) { [weak self] dto, error in
                 guard let self = self else { return }
                 if let dto = dto {
-                    titleVideos = dto
+                    titleVideos = dto.mapToDomain()
                     requestCallback?(.success)
                 } else if let error = error {
                     requestCallback?(.error(message: error))

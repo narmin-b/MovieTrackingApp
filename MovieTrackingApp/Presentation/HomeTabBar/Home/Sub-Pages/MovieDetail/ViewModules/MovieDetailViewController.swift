@@ -173,6 +173,13 @@ final class MovieDetailController: BaseViewController {
         viewModel?.getDetails()
     }
     
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        let height = infoCollectionView.contentSize.height
+//        infoCollectionView.anchorSize(.init(width: 0, height: height))
+//        self.view.layoutIfNeeded()
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
@@ -293,15 +300,14 @@ final class MovieDetailController: BaseViewController {
         )
         
         infoCollectionView.anchor(
-            top: overviewContainerView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
-            padding: .init(top: 10, left: 12, bottom: 0, right: 16)
+            padding: .init(top: 0, left: 12, bottom: 0, right: -12)
         )
         
         trailerLabel.anchor(
             top: infoCollectionView.bottomAnchor,
-            padding: .init(all: -8)
+            padding: .init(all: viewModel?.getMediaType() == .movie ? 0 : -28)
         )
         trailerLabel.centerXToSuperview()
         
@@ -311,7 +317,6 @@ final class MovieDetailController: BaseViewController {
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 4, left: 12, bottom: 0, right: -12)
         )
-        
         webView.heightAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 9/16).isActive = true
     }
         

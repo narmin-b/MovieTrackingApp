@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol TitleVideoProtocol {
-    var videoId: String { get }
+struct TitleVideoProtocol {
+    var videoId: String
 }

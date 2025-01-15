@@ -150,148 +150,28 @@ struct Season: Codable {
     }
 }
 
-extension TvShowDetailDTO: TvShowDetailProtocol {
-    var backdropPathStr: String {
-        backdropPath ?? ""
-    }
-    
-    var createdByArr: [CreatedBy] {
-        createdBy ?? []
-    }
-    
-    var episodeRunTimeIntArr: [Int] {
-        episodeRunTime ?? []
-    }
-    
-    var firstAirDateStr: String {
-        firstAirDate ?? ""
-    }
-    
-    var genresArr: [String] {
-        genres?.map { $0.name ?? "" } ?? []
-    }
-    
-    var idInt: Int {
-        id ?? 0
-    }
-    
-    var languagesStrArr: [String] {
-        languages ?? []
-    }
-    
-    var lastAirDateStr: String {
-        lastAirDate ?? ""
-    }
-    
-    var lastEpisodeToAirCst: TEpisodeToAir {
-        lastEpisodeToAir ?? TEpisodeToAir(
-                id: nil,
-                name: nil,
-                overview: nil,
-                voteAverage: nil,
-                voteCount: nil,
-                airDate: nil,
-                episodeNumber: nil,
-                episodeType: nil,
-                productionCode: nil,
-                runtime: nil,
-                seasonNumber: nil,
-                showID: nil,
-                stillPath: nil
-            )
-    }
-    
-    var nameStr: String {
-        name ?? ""
-    }
-    
-    var nextEpisodeToAirCst: TEpisodeToAir {
-        nextEpisodeToAir ?? TEpisodeToAir(
-            id: nil,
-            name: nil,
-            overview: nil,
-            voteAverage: nil,
-            voteCount: nil,
-            airDate: nil,
-            episodeNumber: nil,
-            episodeType: nil,
-            productionCode: nil,
-            runtime: nil,
-            seasonNumber: nil,
-            showID: nil,
-            stillPath: nil
-        )
-    }
-    
-    var networksArr: [Network] {
-        networks ?? []
-    }
-    
-    var numberOfEpisodesInt: Int {
-        numberOfEpisodes ?? 0
-    }
-    
-    var numberOfSeasonsInt: Int {
-        numberOfSeasons ?? 0
-    }
-    
-    var originCountryStrArr: [String] {
-        originCountry ?? []
-    }
-    
-    var originalLanguageStr: String {
-        originalLanguage ?? ""
-    }
-    
-    var originalNameStr: String {
-        originalName ?? ""
-    }
-    
-    var overviewStr: String {
-        overview ?? ""
-    }
-    
-    var popularityDbl: Double {
-        popularity ?? 0
-    }
-    
-    var posterPathStr: String {
-        posterPath ?? ""
-    }
-    
-    var productionCompaniesArr: [Network] {
-        productionCompanies ?? []
-    }
-    
-    var productionCountriesArr: [ProductionCountry] {
-        productionCountries ?? []
-    }
-    
-    var seasonsArr: [Season] {
-        seasons ?? []
-    }
-    
-    var spokenLanguagesArr: [SpokenLanguage] {
-        spokenLanguages ?? []
-    }
-    
-    var statusStr: String {
-        status ?? ""
-    }
-    
-    var taglineStr: String {
-        tagline ?? ""
-    }
-    
-    var typeStr: String {
-        type ?? ""
-    }
-    
-    var voteAverageDbl: Double {
-        voteAverage ?? 0
-    }
-    
-    var voteCountInt: Int {
-        voteCount ?? 0
+extension TvShowDetailDTO {
+    func mapToDomain() -> TvShowDetailProtocol {
+        .init(backdropPathStr: backdropPath ?? "",
+              episodeRunTimeIntArr: episodeRunTime ?? [],
+              firstAirDateStr: firstAirDate ?? "",
+              genresArr: genres?.map { $0.name ?? "" } ?? [],
+              idInt: id ?? 0,
+              languagesStrArr: languages ?? [],
+              lastAirDateStr: lastAirDate ?? "",
+              nameStr:  name ?? "",
+              numberOfEpisodesInt: numberOfEpisodes ?? 0,
+              numberOfSeasonsInt: numberOfSeasons ?? 0,
+              originCountryStrArr: originCountry ?? [],
+              originalLanguageStr: originalLanguage ?? "",
+              originalNameStr: originalName ?? "",
+              overviewStr:  overview ?? "",
+              popularityDbl: popularity ?? 0,
+              posterPathStr: posterPath ?? "",
+              seasonsArr: seasons ?? [],
+              spokenLanguagesArr: spokenLanguages ?? [],
+              typeStr: type ?? "",
+              voteAverageDbl: voteAverage ?? 0,
+              voteCountInt: voteCount ?? 0)
     }
 }

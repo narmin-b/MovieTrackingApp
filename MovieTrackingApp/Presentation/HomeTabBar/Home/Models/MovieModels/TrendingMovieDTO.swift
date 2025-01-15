@@ -53,20 +53,12 @@ struct TrendingMovieResult: Codable {
     }
 }
 
-extension TrendingMovieResult: TitleImageCellProtocol {
-    var ratingString: String {
-        String(voteAverage)
-    }
-    
-    var titleString: String {
-        title
-    }
-    
-    var imageString: String {
-        posterPath
-    }
-    
-    var overviewString: String {
-        overview
+extension TrendingMovieResult {
+    func mapToDomain() -> TitleImageCellProtocol {
+        .init(titleString: title,
+              imageString: posterPath,
+              overviewString: overview,
+              ratingString: String(voteAverage),
+              idInt: id)
     }
 }

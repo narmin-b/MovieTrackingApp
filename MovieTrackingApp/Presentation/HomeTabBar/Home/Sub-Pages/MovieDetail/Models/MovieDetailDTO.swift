@@ -105,96 +105,23 @@ struct SpokenLanguage: Codable {
     }
 }
 
-extension MovieDetailDTO: MovieDetailProtocol {
-    var adultBool: Bool {
-        adult ?? false
-    }
-    
-    var backdropPathStr: String {
-        backdropPath ?? ""
-    }
-    
-    var genresArr: [String] {
-        genres.map { $0.name ?? "" }
-    }
-    
-    var idInt: Int {
-        id ?? 0
-    }
-    
-    var imdbIDStr: String {
-        imdbID ?? ""
-    }
-    
-    var originCountryStr: [String] {
-        originCountry ?? []
-    }
-    
-    var originalLanguageStr: String {
-        originalLanguage ?? ""
-    }
-    
-    var originalTitleStr: String {
-        originalTitle ?? ""
-    }
-    
-    var overviewStr: String {
-        overview ?? ""
-    }
-    
-    var popularityDbl: Double {
-        popularity ?? 0
-    }
-    
-    var posterPathStr: String {
-        posterPath ?? ""
-    }
-    
-    var productionCompaniesArr: [ProductionCompany] {
-        productionCompanies
-    }
-    
-    var productionCountriesArr: [ProductionCountry] {
-        productionCountries
-    }
-    
-    var releaseDateStr: String {
-        releaseDate ?? ""
-    }
-    
-    var revenueInt: Int {
-        revenue ?? 0
-    }
-    
-    var runtimeInt: Int {
-        runtime ?? 0
-    }
-    
-    var spokenLanguagesLng: [SpokenLanguage] {
-        spokenLanguages
-    }
-    
-    var statusStr: String {
-        status ?? ""
-    }
-    
-    var taglineStr: String {
-        tagline ?? ""
-    }
-    
-    var titleStr: String {
-        title ?? ""
-    }
-    
-    var videoBool: Bool {
-        video ?? false
-    }
-    
-    var voteAverageDbl: Double {
-        voteAverage ?? 0
-    }
-    
-    var voteCountInt: Int {
-        voteCount ?? 0
+extension MovieDetailDTO {
+    func mapToDomain() -> MovieDetailProtocol {
+        .init(backdropPathStr: backdropPath ?? "",
+              genresArr: genres.map { $0.name ?? "" },
+              idInt: id ?? 0,
+              imdbIDStr: imdbID ?? "",
+              originCountryStr: originCountry ?? [],
+              originalLanguageStr: originalLanguage ?? "",
+              originalTitleStr: originalTitle ?? "",
+              overviewStr: overview ?? "",
+              popularityDbl: popularity ?? 0,
+              posterPathStr: posterPath ?? "",
+              releaseDateStr: releaseDate ?? "",
+              runtimeInt: runtime ?? 0,
+              spokenLanguagesLng: spokenLanguages,
+              titleStr: title ?? "",
+              voteAverageDbl: voteAverage ?? 0,
+              voteCountInt: voteCount ?? 0)
     }
 }

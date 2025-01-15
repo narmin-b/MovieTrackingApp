@@ -14,7 +14,7 @@ final class HomeTabBarCoordinator: Coordinator {
     
     private let tabBarController = TabBarController()
     private var homeCoordinator: HomeCoordinator?
-    private var favoriteCoordinator: FavoriteCoordinator?
+//    private var favoriteCoordinator: FavoriteCoordinator?
     private var searchCoordinator: SearchCoordinator?
     private var profileCoordinator: ProfileCoordinator?
     
@@ -37,9 +37,9 @@ final class HomeTabBarCoordinator: Coordinator {
         homeCoordinator = HomeCoordinator(navigationController: homeNavigationController)
         homeCoordinator?.parentCoordinator = parentCoordinator
         
-        let favoriteNavigationController = UINavigationController()
-        favoriteCoordinator = FavoriteCoordinator(navigationController: favoriteNavigationController)
-        favoriteCoordinator?.parentCoordinator = parentCoordinator
+//        let favoriteNavigationController = UINavigationController()
+//        favoriteCoordinator = FavoriteCoordinator(navigationController: favoriteNavigationController)
+//        favoriteCoordinator?.parentCoordinator = parentCoordinator
         
         let searchNavigationController = UINavigationController()
         searchCoordinator = SearchCoordinator(navigationController: searchNavigationController)
@@ -56,10 +56,10 @@ final class HomeTabBarCoordinator: Coordinator {
         homeNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
         homeNavigationController.navigationBar.shadowImage = UIImage()
         
-        let favoriteItem = UITabBarItem()
-        favoriteItem.image = UIImage(systemName: "heart")
-        favoriteItem.selectedImage = UIImage(systemName: "heart.fill")
-        favoriteNavigationController.tabBarItem = favoriteItem
+//        let favoriteItem = UITabBarItem()
+//        favoriteItem.image = UIImage(systemName: "heart")
+//        favoriteItem.selectedImage = UIImage(systemName: "heart.fill")
+//        favoriteNavigationController.tabBarItem = favoriteItem
         
         let searchItem = UITabBarItem()
         searchItem.image = UIImage(systemName: "magnifyingglass")
@@ -74,7 +74,7 @@ final class HomeTabBarCoordinator: Coordinator {
         tabBarController.viewControllers = [
             homeNavigationController,
             searchNavigationController,
-            favoriteNavigationController,
+//            favoriteNavigationController,
             profileNavigationController
         ]
         
@@ -85,9 +85,9 @@ final class HomeTabBarCoordinator: Coordinator {
             homeCoordinator ?? HomeCoordinator(navigationController: UINavigationController())
         )
         
-        parentCoordinator?.children.append (
-            favoriteCoordinator ?? FavoriteCoordinator(navigationController: UINavigationController())
-        )
+//        parentCoordinator?.children.append (
+//            favoriteCoordinator ?? FavoriteCoordinator(navigationController: UINavigationController())
+//        )
         
         parentCoordinator?.children.append (
             searchCoordinator ?? SearchCoordinator(navigationController: UINavigationController())
@@ -98,7 +98,7 @@ final class HomeTabBarCoordinator: Coordinator {
         )
         
         homeCoordinator?.start()
-        favoriteCoordinator?.start()
+//        favoriteCoordinator?.start()
         profileCoordinator?.start()
         searchCoordinator?.start()
     }

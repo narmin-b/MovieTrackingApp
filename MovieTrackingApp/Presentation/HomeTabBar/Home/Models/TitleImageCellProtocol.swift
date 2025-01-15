@@ -7,9 +7,10 @@
 
 import Foundation
 
-protocol TitleImageCellProtocol {
-    var titleString: String {get}
-    var imageString: String {get}
-    var overviewString: String {get}
-    var ratingString: String {get}
+struct TitleImageCellProtocol {
+    var titleString: String
+    var imageString: String
+    var overviewString: String
+    var ratingString: String
+    var idInt: Int
 }

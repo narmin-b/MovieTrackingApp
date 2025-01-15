@@ -38,20 +38,12 @@ struct TvShowResultDTO: Codable {
     }
 }
 
-extension TvShowResultDTO: TitleImageCellProtocol {
-    var ratingString: String {
-        String(voteAverage)
-    }
-    
-    var overviewString: String {
-        overview
-    }
-    
-    var titleString: String {
-        name
-    }
-    
-    var imageString: String {
-        posterPath ?? ""
+extension TvShowResultDTO {
+    func mapToDomain() -> TitleImageCellProtocol {
+        .init(titleString: name,
+              imageString: posterPath ?? "",
+              overviewString: overview,
+              ratingString: String(voteAverage),
+              idInt: id)
     }
 }
