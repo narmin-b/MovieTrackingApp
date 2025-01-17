@@ -77,7 +77,7 @@ class RatedCollectionViewCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.titleLabel.text = model?.titleString
             self.imageView.loadImageURL(url: self.baseImageURL + (model?.imageString ?? ""))
-            self.userRatingLabel.configureLabel(icon: "star.fill", text: "Your Rating: \(model?.ratingString ?? "")")
+            self.userRatingLabel.configureLabel(icon: "star.fill", text: "Your Rating: \(model?.ratingString ?? "")/10")
             self.ratingLabel.configureLabel(icon: "star.fill", text: model?.voteString ?? "")
         }
     }

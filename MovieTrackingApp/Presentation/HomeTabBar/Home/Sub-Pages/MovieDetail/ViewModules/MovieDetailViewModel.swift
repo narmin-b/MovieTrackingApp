@@ -17,6 +17,8 @@ final class MovieDetailViewModel {
     }
     
     var requestCallback : ((ViewState) -> Void?)?
+    private weak var navigation: HomeNavigation?
+
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
     private var tvShowDetailsUse: TvShowDetailUseCase = TvShowDetailAPIService()
     private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
@@ -28,16 +30,73 @@ final class MovieDetailViewModel {
     private(set) var movieDetails: MovieDetailProtocol?
     private(set) var tvShowDetails: TvShowDetailProtocol?
     private(set) var titleVideos: TitleVideoProtocol?
+    private(set) var ratedMovieDto: [TitleImageCellWithRatingProtocol] = []
+    private(set) var ratedTvShowDto: [TitleImageCellWithRatingProtocol] = []
     
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     private let baseVideoUrl: String = "https://www.youtube.com/embed/"
 
-    init(mediaType: MediaType, id: Int) {
+    init(mediaType: MediaType, id: Int, navigation: HomeNavigation) {
+        self.navigation = navigation
         self.id = id
         self.mediaType = mediaType
         self.sessionID = UserDefaultsHelper.getString(key: UserDefaultsKey.guestSessionID.rawValue) ?? ""
     }
     
+    func popControllerBack() {
+        navigation?.popController()
+    }
+    
+    func getMediaType() -> MediaType {
+        return mediaType
+    }
+    
+    //MARK: User Rating Functions
+    
+    func getRatedMovies() {
+        guestSessionUse.getRatedMovies(id: sessionID) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let dto = dto {
+                    self.ratedMovieDto = dto.results.map({ $0.mapToDomain() })
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    func getRatedTvShows() {
+        guestSessionUse.getRatedTvShows(id: sessionID) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let dto = dto {
+                    self.ratedTvShowDto = dto.results.map({ $0.mapToDomain() })
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
+    
+    func checkIfRated() -> Bool {
+        switch mediaType {
+        case .movie:
+            return ratedMovieDto.contains(where: { $0.idInt == id })
+        case .tvShow:
+            return ratedTvShowDto.contains(where: { $0.idInt == id })
+        }
+    }
+    
+    func getRating() -> Int {
+        switch mediaType {
+        case .movie:
+            return Int(ratedMovieDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0
+        case .tvShow:
+            return Int(ratedTvShowDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0
+        }
+    }
+        
     func setRating(rating: Int) {
         print(sessionID)
         switch mediaType {
@@ -72,10 +131,8 @@ final class MovieDetailViewModel {
         }
     }
     
-    func getMediaType() -> MediaType {
-        return mediaType
-    }
-        
+    //MARK: Detail Functions
+    
     func getDetails() {
         switch mediaType {
         case .movie:
@@ -123,39 +180,73 @@ final class MovieDetailViewModel {
         }
         
     }
-    
+        
     func getTitleTrailer() -> String {
         return baseVideoUrl + (titleVideos?.videoId ?? "")
     }
     
-    //MARK: Movie Detail Functions
-    
     func getMovieTitle() -> String {
-        return movieDetails?.titleStr ?? ""
+        switch mediaType {
+        case .movie:
+            return movieDetails?.titleStr ?? ""
+        case .tvShow:
+            return tvShowDetails?.nameStr ?? ""
+        }
     }
     
+    
     func getMovieBackdropImage() -> String {
-        return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
+        switch mediaType {
+        case .movie:
+            return baseImageUrl + (movieDetails?.backdropPathStr ?? "")
+        case .tvShow:
+            return baseImageUrl + (tvShowDetails?.backdropPathStr ?? "")
+        }
     }
     
     func getMoviePosterImage() -> String {
-        return baseImageUrl + (movieDetails?.posterPathStr ?? "")
+        switch mediaType {
+        case .movie:
+            return baseImageUrl + (movieDetails?.posterPathStr ?? "")
+        case .tvShow:
+            return baseImageUrl + (tvShowDetails?.posterPathStr ?? "")
+        }
     }
     
-    func getMovieRuntime() -> Int {
-        return movieDetails?.runtimeInt ?? 0
+    func getMovieRuntime() -> String {
+        switch mediaType {
+        case .movie:
+            return String(movieDetails?.runtimeInt ?? 0) + " min"
+        case .tvShow:
+            return String(tvShowDetails?.numberOfSeasonsInt ?? 0) + " seasons"
+        }
     }
     
     func getMovieLanguage() -> String {
-        return movieDetails?.spokenLanguagesLng.map{$0.englishName ?? ""}.first ?? ""
+        switch mediaType {
+        case .movie:
+            return movieDetails?.spokenLanguagesLng.map{$0.englishName ?? ""}.first ?? ""
+        case .tvShow:
+            return (tvShowDetails?.spokenLanguagesArr.map{$0.englishName ?? ""} ?? []).first ?? ""
+        }
     }
     
     func getMovieReleaseDate() -> String {
-        return movieDetails?.releaseDateStr ?? ""
+        switch mediaType {
+        case .movie:
+            return movieDetails?.releaseDateStr ?? ""
+        case .tvShow:
+            return tvShowDetails?.firstAirDateStr ?? ""
+        }
     }
     
     func getMovieOverview() -> String {
-        return movieDetails?.overviewStr ?? ""
+        switch mediaType {
+        case .movie:
+            return movieDetails?.overviewStr ?? ""
+        case .tvShow:
+            return tvShowDetails?.overviewStr ?? ""
+        }
     }
     
     func getTitleForMovieCell(field: MovieInfoList) -> String {
@@ -176,37 +267,7 @@ final class MovieDetailViewModel {
             return "\(voteAverage)  (\(voteCount ?? 0))"
         }
     }
-    
-    //MARK: Tv Show Detail Functions
-    
-    func getTvShowTitle() -> String {
-        return tvShowDetails?.nameStr ?? ""
-    }
-    
-    func getTvShowBackdropImage() -> String {
-        return baseImageUrl + (tvShowDetails?.backdropPathStr ?? "")
-    }
-    
-    func getTvShowPosterImage() -> String {
-        return baseImageUrl + (tvShowDetails?.posterPathStr ?? "")
-    }
-    
-    func getTvShowSeasons() -> Int {
-        return tvShowDetails?.numberOfSeasonsInt ?? 0
-    }
-  
-    func getTvShowLanguage() -> String {
-        return (tvShowDetails?.spokenLanguagesArr.map{$0.englishName ?? ""} ?? []).first ?? ""
-    }
-    
-    func getTvShowReleaseDate() -> String {
-        return tvShowDetails?.firstAirDateStr ?? ""
-    }
-    
-    func getTvShowOverview() -> String {
-        return tvShowDetails?.overviewStr ?? ""
-    }
-    
+ 
     func getTitleForTvShowCell(field: TvShowInfoList) -> String {
         switch field {
         case .genre:

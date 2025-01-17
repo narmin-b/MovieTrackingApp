@@ -23,9 +23,17 @@ final class SearchCoordinator: Coordinator {
     }
 }
 
-extension SearchCoordinator: SearchNavigation {
+extension SearchCoordinator: SearchNavigation, HomeNavigation {
+    func showAllItems(listType: HomeListType) {
+        return
+    }
+    
+    func popController() {
+        popControllerBack()
+    }
+    
     func showDetails(mediaType: MediaType, id: Int) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id))
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self))
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }

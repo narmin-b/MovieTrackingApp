@@ -277,7 +277,9 @@ final class MovieDetailController: BaseViewController {
                     self.infoCollectionView.reloadData()
                     self.configureDetails()
                 case .error(message: let message):
+                    self.loadingView.stopAnimating()
                     self.showMessage(title: message)
+                    self.viewModel?.popControllerBack()
                 }
             }
         }
@@ -400,92 +402,39 @@ final class MovieDetailController: BaseViewController {
         ratingButtonUIConfig(sender: sender)
         viewModel?.setRating(rating: sender.tag*2)
     }
-
+    
     fileprivate func ratingButtonUIConfig(sender: UIButton ) {
-        if sender.tag == 1 {
-            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            
-            rate2Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate3Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
-        } else if sender.tag == 2 {
-            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            
-            rate3Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
-        } else if sender.tag == 3 {
-            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            
-            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
-            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
-        } else if sender.tag == 4 {
-            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate4Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            
-            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
-        } else if sender.tag == 5 {
-            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate4Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            rate5Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        let buttons: [UIButton] = [rate1Button, rate2Button, rate3Button, rate4Button, rate5Button]
+        
+        let senderTag = sender.tag
+        for i in 0...senderTag {
+            buttons[i].setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+        for i in senderTag...4 {
+            buttons[i].setImage(UIImage(systemName: "star"), for: .normal)
         }
     }
     
     fileprivate func configureDetails() {
-        let mediaType = viewModel?.getMediaType() ?? .movie
-        switch mediaType {
-        case .movie:
-            guard let imageURL = viewModel?.getMovieBackdropImage() else { return }
-            if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
-            else { backdropImageView.loadImageURL(url: imageURL) }
-            backdropImageView.alpha = 0.5
-            
-            guard let posterURL = viewModel?.getMoviePosterImage() else { return }
-            if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
-            else { posterImageView.loadImageURL(url: posterURL) }
-            
-            titleLabel.text = viewModel?.getMovieTitle()
-            
-            runtimeLabel.configureLabel(icon: "clock", text: String(viewModel?.getMovieRuntime() ?? 0) + " min")
-            
-            languageLabel.configureLabel(icon: "globe", text: viewModel?.getMovieLanguage() ?? "Language")
-            releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
-            
-            overviewLabel.text = viewModel?.getMovieOverview()
-            
-            guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
-            webView.load(URLRequest(url: videoURL))
-            
-        case .tvShow:
-            guard let imageURL = viewModel?.getTvShowBackdropImage() else { return }
-            if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
-            else { backdropImageView.loadImageURL(url: imageURL) }
-            backdropImageView.alpha = 0.5
-            
-            guard let posterURL = viewModel?.getTvShowPosterImage() else { return }
-            if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
-            else { posterImageView.loadImageURL(url: posterURL) }
-            
-            titleLabel.text = viewModel?.getTvShowTitle()
-            
-            runtimeLabel.configureLabel(icon: "clock", text: String(viewModel?.getTvShowSeasons() ?? 0) + " seasons")
-            
-            languageLabel.configureLabel(icon: "globe", text: viewModel?.getTvShowLanguage() ?? "Language")
-            releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getTvShowReleaseDate() ?? "Date")
-            
-            overviewLabel.text = viewModel?.getTvShowOverview()
-            
-            guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
-            webView.load(URLRequest(url: videoURL))
-        }
+        titleLabel.text = viewModel?.getMovieTitle()
+        guard let imageURL = viewModel?.getMovieBackdropImage() else { return }
+        if imageURL.isEmpty { backdropImageView.image = UIImage(named: "baseBackdrop")}
+        else { backdropImageView.loadImageURL(url: imageURL) }
+        backdropImageView.alpha = 0.5
+        
+        guard let posterURL = viewModel?.getMoviePosterImage() else { return }
+        if posterURL.isEmpty { posterImageView.image = UIImage(named: "basePoster")}
+        else { posterImageView.loadImageURL(url: posterURL) }
+        
+        runtimeLabel.configureLabel(icon: "clock", text: viewModel?.getMovieRuntime() ?? "mins")
+        
+        languageLabel.configureLabel(icon: "globe", text: viewModel?.getMovieLanguage() ?? "Language")
+        releaseDateLabel.configureLabel(icon: "calendar", text: viewModel?.getMovieReleaseDate() ?? "Date")
+        
+        overviewLabel.text = viewModel?.getMovieOverview()
+        
+        guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
+        webView.load(URLRequest(url: videoURL))
     }
 }
 
@@ -543,4 +492,3 @@ extension MovieDetailController: UICollectionViewDelegate, UICollectionViewDataS
         return UIEdgeInsets(top: 5, left: 0, bottom: 80, right: 0)
     }
 }
-

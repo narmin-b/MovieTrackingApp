@@ -9,7 +9,6 @@ import Foundation
 
 struct TvShowDetailProtocol {
     var backdropPathStr: String
-    var episodeRunTimeIntArr: [Int]
     var firstAirDateStr: String
     var genresArr: [String]
     var idInt: Int

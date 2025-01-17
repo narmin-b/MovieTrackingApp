@@ -4,10 +4,6 @@
 //
 //  Created by Narmin Baghirova on 07.01.25.
 //
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let tvShowDetailDTO = try? JSONDecoder().decode(TvShowDetailDTO.self, from: jsonData)
 
 import Foundation
 
@@ -153,7 +149,6 @@ struct Season: Codable {
 extension TvShowDetailDTO {
     func mapToDomain() -> TvShowDetailProtocol {
         .init(backdropPathStr: backdropPath ?? "",
-              episodeRunTimeIntArr: episodeRunTime ?? [],
               firstAirDateStr: firstAirDate ?? "",
               genresArr: genres?.map { $0.name ?? "" } ?? [],
               idInt: id ?? 0,
