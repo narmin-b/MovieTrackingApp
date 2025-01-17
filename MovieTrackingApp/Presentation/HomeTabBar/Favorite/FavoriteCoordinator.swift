@@ -18,7 +18,15 @@ final class FavoriteCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = FavoriteViewController(viewModel: FavoriteViewModel())
+        let controller = FavoriteViewController(viewModel: FavoriteViewModel(navigation: self))
         showController(vc: controller)
+    }
+}
+
+extension FavoriteCoordinator: FavoriteNavigation {
+    func showDetails(mediaType: MediaType, id: Int) {
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id))
+        vc.hidesBottomBarWhenPushed = true
+        showController(vc: vc)
     }
 }

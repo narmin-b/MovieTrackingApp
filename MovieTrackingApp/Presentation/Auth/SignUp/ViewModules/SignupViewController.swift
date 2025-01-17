@@ -285,6 +285,7 @@ final class SignupViewController: BaseViewController {
                     self.loadingView.stopAnimating()
                 case .success:
                     self.showMessage(title: "User created", message: "User created successfully.")
+                    self.viewModel.popController()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
                 }

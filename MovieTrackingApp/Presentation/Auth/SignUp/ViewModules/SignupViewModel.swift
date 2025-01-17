@@ -42,6 +42,10 @@ final class SignupViewModel {
         }
     }
     
+    func popController() {
+        navigation?.popbackScreen()
+    }
+    
     func showLoginScreen() {
         navigation?.showLogin()
     }

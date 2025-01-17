@@ -58,7 +58,8 @@ extension TrendingTvShowResult {
         .init(titleString: name,
               imageString: posterPath,
               overviewString: overview,
-              ratingString: String(voteAverage),
-              idInt: id)
+              voteString: String(voteAverage),
+              idInt: id
+        )
     }
 }

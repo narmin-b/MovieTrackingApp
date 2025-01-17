@@ -300,8 +300,7 @@ final class LoginViewController: BaseViewController {
         isKeepLoggedIn.toggle()
 
         let imageName = isKeepLoggedIn ? "checkmark.square" : "square"
-        loggedButtonImage.setSymbolImage(UIImage(systemName: imageName) ?? UIImage(), contentTransition: .automatic, options: .nonRepeating) { _ in
-        }
+        loggedButtonImage.image = UIImage(systemName: imageName)
         
         UserDefaultsHelper.setBool(key: "isLoggedIn", value: isKeepLoggedIn)
         print(UserDefaultsHelper.getBool(key: "isLoggedIn"))

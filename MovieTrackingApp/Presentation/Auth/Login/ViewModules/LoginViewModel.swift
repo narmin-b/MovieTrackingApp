@@ -17,6 +17,8 @@ final class LoginViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: AuthNavigation?
+    private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
+    private(set) var tokenCredentials: GuestSessionProtocol?
     
     private var model: UserDataModel = UserDataModel()
     
@@ -27,6 +29,21 @@ final class LoginViewModel {
         
     init(navigation: AuthNavigation) {
         self.navigation = navigation
+    }
+    
+    func createGuestSessionToken() {
+        guestSessionUse.createGuestSessiontoken { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let dto = dto {
+                    self.tokenCredentials = dto.mapToDomain()
+                    UserDefaultsHelper.setString(key: "guestSessionID", value: self.tokenCredentials?.guestSessionID ?? "")
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
     }
     
     func checkLogin() {
@@ -43,7 +60,7 @@ final class LoginViewModel {
                     case .successWithReturn(let username):
                         UserDefaultsHelper.setString(key: "username", value: username ?? "")
                         UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
-                        self.requestCallback?(.success)
+                        self.createGuestSessionToken()
                     }
                 case .failure(let error):
                     let errorMessage = error.localizedDescription

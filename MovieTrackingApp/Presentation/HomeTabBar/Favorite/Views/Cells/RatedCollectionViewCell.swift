@@ -1,13 +1,13 @@
 //
-//  SearchCollectionViewCell.swift
+//  RatedCollectionViewCell.swift
 //  MovieTrackingApp
 //
-//  Created by Narmin Baghirova on 08.01.25.
+//  Created by Narmin Baghirova on 16.01.25.
 //
 
 import UIKit
 
-class SearchCollectionViewCell: UICollectionViewCell {
+class RatedCollectionViewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -34,8 +34,8 @@ class SearchCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var overViewLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 12, numOfLines: 4)
+    private lazy var userRatingLabel: UILabel = {
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 20, numOfLines: 4)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +53,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var overviewStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleStackView, overViewLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleStackView, userRatingLabel])
         stackView.axis = .vertical
         stackView.spacing = 4
         stackView.alignment = .fill
@@ -73,11 +73,11 @@ class SearchCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(model: TitleImageCellProtocol?) {
+    func configureCell(model: TitleImageCellWithRatingProtocol?) {
         DispatchQueue.main.async {
             self.titleLabel.text = model?.titleString
             self.imageView.loadImageURL(url: self.baseImageURL + (model?.imageString ?? ""))
-            self.overViewLabel.text = model?.overviewString
+            self.userRatingLabel.configureLabel(icon: "star.fill", text: "Your Rating: \(model?.ratingString ?? "")")
             self.ratingLabel.configureLabel(icon: "star.fill", text: model?.voteString ?? "")
         }
     }

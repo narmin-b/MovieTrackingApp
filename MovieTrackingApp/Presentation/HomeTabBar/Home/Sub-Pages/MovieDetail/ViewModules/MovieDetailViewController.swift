@@ -8,6 +8,14 @@
 import UIKit
 import WebKit
 
+//enum RatingStar: IntegerLiteralType {
+//    case 1 = "1"
+//    case 2 = "2"
+//    case 3 = "3"
+//    case 4 = "4"
+//    case 5 = "5"
+//}
+
 enum MovieInfoList: String, CaseIterable {
     case genre = "Genres"
     case originCountry = "Origin Country"
@@ -30,6 +38,58 @@ final class MovieDetailController: BaseViewController {
         view.backgroundColor = .backgroundMain
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    private lazy var rate1Button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .primaryHighlight
+        button.tag = 1
+        return button
+    }()
+    
+    private lazy var rate2Button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .primaryHighlight
+        button.tag = 2
+        return button
+    }()
+    
+    private lazy var rate3Button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .primaryHighlight
+        button.tag = 3
+        return button
+    }()
+    
+    private lazy var rate4Button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .primaryHighlight
+        button.tag = 4
+        return button
+    }()
+    
+    private lazy var rate5Button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "star"), for: .normal)
+        button.tintColor = .primaryHighlight
+        button.tag = 5
+        return button
+    }()
+    
+    private lazy var ratingStackView: UIStackView = {
+       let stackView = UIStackView(arrangedSubviews: [rate1Button, rate2Button, rate3Button, rate4Button, rate5Button])
+        stackView.axis = .horizontal
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.spacing = 4
+        stackView.backgroundColor = .clear
+//        stackView.anchorSize(.init(width: 50, height: 0))
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var trailerLabel: UILabel = {
@@ -157,7 +217,7 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var scrollStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, initInfoStackView, overviewContainerView, infoCollectionView, trailerLabel, webView])
+        let scrollStack = UIStackView(arrangedSubviews: [backdropImageView, posterImageContainerView, ratingStackView, initInfoStackView, overviewContainerView, infoCollectionView, trailerLabel, webView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 16
         scrollStack.backgroundColor = .clear
@@ -173,12 +233,12 @@ final class MovieDetailController: BaseViewController {
         viewModel?.getDetails()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        let height = infoCollectionView.contentSize.height
-//        infoCollectionView.anchorSize(.init(width: 0, height: height))
-//        self.view.layoutIfNeeded()
-//    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let height = infoCollectionView.contentSize.height
+        infoCollectionView.anchorSize(.init(width: 0, height: height))
+        infoCollectionView.layoutIfNeeded()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -240,14 +300,14 @@ final class MovieDetailController: BaseViewController {
             padding: .init(top: 0, left: 0, bottom: -16, right: 0)
         )
         
-        scrollStack.anchorSize(to: scrollView)
         scrollStack.anchor(
             top: scrollView.topAnchor,
             leading: scrollView.leadingAnchor,
             bottom: scrollView.bottomAnchor,
             trailing: scrollView.trailingAnchor,
-            padding: .init(all: .zero)
+            padding: .init(all: 0)
         )
+        scrollStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         backdropImageView.anchor(
             top: scrollStack.topAnchor,
@@ -278,8 +338,16 @@ final class MovieDetailController: BaseViewController {
         )
         titleLabel.centerXToSuperview()
         
-        initInfoStackView.anchor(
+        ratingStackView.centerXToSuperview()
+        ratingStackView.anchor(
             top: posterImageContainerView.bottomAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(top: 10, left: 100, bottom: 0, right: -100)
+        )
+        
+        initInfoStackView.anchor(
+            top: ratingStackView.bottomAnchor,
             leading: scrollStack.leadingAnchor,
             trailing: scrollStack.trailingAnchor,
             padding: .init(top: 10, left: 24, bottom: 0, right: 24)
@@ -307,7 +375,7 @@ final class MovieDetailController: BaseViewController {
         
         trailerLabel.anchor(
             top: infoCollectionView.bottomAnchor,
-            padding: .init(all: viewModel?.getMediaType() == .movie ? 0 : -28)
+            padding: .init(all: 0)
         )
         trailerLabel.centerXToSuperview()
         
@@ -321,7 +389,54 @@ final class MovieDetailController: BaseViewController {
     }
         
     override func configureTargets() {
-        
+        rate1Button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        rate2Button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        rate3Button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        rate4Button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        rate5Button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+    
+    @objc fileprivate func buttonTapped(_ sender: UIButton) {
+        ratingButtonUIConfig(sender: sender)
+        viewModel?.setRating(rating: sender.tag*2)
+    }
+
+    fileprivate func ratingButtonUIConfig(sender: UIButton ) {
+        if sender.tag == 1 {
+            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            
+            rate2Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate3Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
+        } else if sender.tag == 2 {
+            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            
+            rate3Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
+        } else if sender.tag == 3 {
+            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            
+            rate4Button.setImage(UIImage(systemName: "star"), for: .normal)
+            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
+        } else if sender.tag == 4 {
+            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate4Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            
+            rate5Button.setImage(UIImage(systemName: "star"), for: .normal)
+        } else if sender.tag == 5 {
+            rate1Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate2Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate3Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate4Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            rate5Button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
     }
     
     fileprivate func configureDetails() {

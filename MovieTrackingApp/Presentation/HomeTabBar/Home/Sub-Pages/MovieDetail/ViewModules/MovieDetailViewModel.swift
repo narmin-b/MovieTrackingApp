@@ -19,22 +19,57 @@ final class MovieDetailViewModel {
     var requestCallback : ((ViewState) -> Void?)?
     private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
     private var tvShowDetailsUse: TvShowDetailUseCase = TvShowDetailAPIService()
-
-//    private weak var navigation: HomeNavigation?
+    private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
+    private(set) var postSuccessDTO: POSTSuccessProtocol?
     
     private var id: Int
     private var mediaType: MediaType
+    private var sessionID: String
     private(set) var movieDetails: MovieDetailProtocol?
     private(set) var tvShowDetails: TvShowDetailProtocol?
     private(set) var titleVideos: TitleVideoProtocol?
-
     
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     private let baseVideoUrl: String = "https://www.youtube.com/embed/"
-    
+
     init(mediaType: MediaType, id: Int) {
         self.id = id
         self.mediaType = mediaType
+        self.sessionID = UserDefaultsHelper.getString(key: UserDefaultsKey.guestSessionID.rawValue) ?? ""
+    }
+    
+    func setRating(rating: Int) {
+        print(sessionID)
+        switch mediaType {
+        case .movie:
+            guestSessionUse.rateMovie(titleID: String(id), sessionID: sessionID, rating: rating) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    postSuccessDTO = dto.mapToDomain()
+                    if postSuccessDTO?.success == true {
+                        requestCallback?(.success)
+                    } else {
+                        requestCallback?(.error(message: "Rating couldn't be saved"))
+                    }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        case .tvShow:
+            guestSessionUse.rateTvShow(titleID: String(id), sessionID: sessionID, rating: rating) { [weak self] dto, error in
+                guard let self = self else { return }
+                if let dto = dto {
+                    postSuccessDTO = dto.mapToDomain()
+                    if postSuccessDTO?.success == true {
+                        requestCallback?(.success)
+                    } else {
+                        requestCallback?(.error(message: "Rating couldn't be saved"))
+                    }
+                } else if let error = error {
+                    requestCallback?(.error(message: error))
+                }
+            }
+        }
     }
     
     func getMediaType() -> MediaType {

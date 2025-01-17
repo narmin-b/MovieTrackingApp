@@ -11,6 +11,15 @@ struct TitleImageCellProtocol {
     var titleString: String
     var imageString: String
     var overviewString: String
-    var ratingString: String
+    var voteString: String
     var idInt: Int
+}
+
+struct TitleImageCellWithRatingProtocol {
+    var titleString: String
+    var imageString: String
+    var overviewString: String
+    var voteString: String
+    var idInt: Int
+    var ratingString: String
 }

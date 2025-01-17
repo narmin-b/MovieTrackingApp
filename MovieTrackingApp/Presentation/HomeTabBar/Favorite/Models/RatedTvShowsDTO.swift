@@ -1,25 +1,36 @@
 //
-//  TvShowResultDTO.swift
+//  RatedTvShowsDTO.swift
 //  MovieTrackingApp
 //
-//  Created by Narmin Baghirova on 25.12.24.
+//  Created by Narmin Baghirova on 17.01.25.
 //
 
 import Foundation
 
-struct TvShowResultDTO: Codable {
+struct RatedTvShowsDTO: Codable {
+    let page: Int
+    let results: [RatedTvShowResultDTO]
+    let totalPages, totalResults: Int
+
+    enum CodingKeys: String, CodingKey {
+        case page, results
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
+    }
+}
+
+// MARK: - Result
+struct RatedTvShowResultDTO: Codable {
     let adult: Bool
-    let backdropPath: String?
+    let backdropPath: String
     let genreIDS: [Int]
     let id: Int
     let originCountry: [String]
-    let originalLanguage: String
-    let originalName, overview: String
+    let originalLanguage, originalName, overview: String
     let popularity: Double
-    let posterPath: String?
-    let firstAirDate, name: String
+    let posterPath, firstAirDate, name: String
     let voteAverage: Double
-    let voteCount: Int
+    let voteCount, rating: Int
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -35,16 +46,17 @@ struct TvShowResultDTO: Codable {
         case name
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case rating
     }
 }
 
-extension TvShowResultDTO {
-    func mapToDomain() -> TitleImageCellProtocol {
+extension RatedTvShowResultDTO {
+    func mapToDomain() -> TitleImageCellWithRatingProtocol {
         .init(titleString: name,
-              imageString: posterPath ?? "",
+              imageString: posterPath,
               overviewString: overview,
               voteString: String(voteAverage),
-              idInt: id
-        )
+              idInt: id,
+              ratingString: String(rating))
     }
 }

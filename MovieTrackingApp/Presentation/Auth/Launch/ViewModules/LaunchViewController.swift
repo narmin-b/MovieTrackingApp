@@ -89,6 +89,7 @@ final class LaunchViewController: BaseViewController {
         
         UserDefaultsHelper.setString(key: "email", value: "")
         UserDefaultsHelper.setString(key: "username", value: "")
+        UserDefaultsHelper.setString(key: "guestSessionID", value: "")
     }
     
     override func configureView() {

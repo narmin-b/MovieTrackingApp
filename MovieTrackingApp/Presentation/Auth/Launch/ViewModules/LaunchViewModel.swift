@@ -18,6 +18,8 @@ final class LaunchViewModel {
     
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: AuthNavigation?
+    private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
+    private(set) var tokenCredentials: GuestSessionProtocol?
         
     init(navigation: AuthNavigation) {
         self.navigation = navigation
@@ -39,6 +41,20 @@ final class LaunchViewModel {
         navigation?.popbackScreen()
     }
     
+    func createGuestSessionToken() {
+        guestSessionUse.createGuestSessiontoken { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let dto = dto {
+                    self.tokenCredentials = dto.mapToDomain()
+                    UserDefaultsHelper.setString(key: "guestSessionID", value: self.tokenCredentials?.guestSessionID ?? "")
+                    self.requestCallback?(.success)
+                } else if let error = error {
+                    self.requestCallback?(.error(message: error))
+                }
+            }
+        }
+    }
     
     func createUserWithGoogle(viewController: UIViewController) {
         requestCallback?(.loading)
@@ -49,7 +65,8 @@ final class LaunchViewModel {
                 case .loaded:
                     self.requestCallback?(.loaded)
                 case .success:
-                    self.requestCallback?(.success)
+                    self.createGuestSessionToken()
+//                    self.requestCallback?(.success)
                 case .successWithReturn(_):
                     return
                 }

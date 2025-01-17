@@ -10,4 +10,5 @@ enum UserDefaultsKey: String {
     case isLoggedIn
     case username
     case email
+    case guestSessionID
 }

@@ -58,7 +58,8 @@ extension TrendingMovieResult {
         .init(titleString: title,
               imageString: posterPath,
               overviewString: overview,
-              ratingString: String(voteAverage),
-              idInt: id)
+              voteString: String(voteAverage),
+              idInt: id
+             )
     }
 }
