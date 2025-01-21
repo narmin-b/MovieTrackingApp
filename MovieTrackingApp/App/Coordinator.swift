@@ -18,12 +18,13 @@ protocol Coordinator: AnyObject {
 
 extension Coordinator {
     func childDidFinish(_ coordinator: Coordinator) {
-        for (index, child) in children.enumerated() {
-            if child === coordinator {
-                children.remove(at: index)
-                break
-            }
-        }
+        children.removeAll { $0 === coordinator }
+//        for (index, child) in children.enumerated() {
+//            if child === coordinator {
+//                children.remove(at: index)
+//                break
+//            }
+//        }
     }
     
     func showController(vc: UIViewController) {

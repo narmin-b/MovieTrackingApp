@@ -12,8 +12,10 @@ final class ProfileCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var children: [Coordinator] = []
     var navigationController: UINavigationController
+    private let window: UIWindow
     
-    init(navigationController: UINavigationController) {
+    init(window: UIWindow, navigationController: UINavigationController) {
+        self.window = window
         self.navigationController = navigationController
     }
     
@@ -34,20 +36,35 @@ extension ProfileCoordinator: ProfileNavigation {
 //        navigationController.setViewControllers([], animated: false)
 //        
 //        authCoordinator.start()
+//        
+//        parentCoordinator?.children.removeAll()
+//        
+//        let newNavigationController = UINavigationController()
+//        let authCoordinator = AuthCoordinator(window: window, navigationController: newNavigationController)
+//        authCoordinator.parentCoordinator = self
+//        parentCoordinator?.children.append(authCoordinator)
+//        
+////        let window = UIWindow.current
+////        window.rootViewController = newNavigationController
+////        window.makeKeyAndVisible()
+////        
+//        authCoordinator.start()
+//        
+//        parentCoordinator?.childDidFinish(self)
         
-        parentCoordinator?.children.removeAll()
+        navigationController.delegate = nil
+        parentCoordinator = nil
+        navigationController.setViewControllers([], animated: true)
+        children.removeAll()
         
-        let newNavigationController = UINavigationController()
-        let authCoordinator = AuthCoordinator(navigationController: newNavigationController)
+        let vc = UINavigationController()
+        let authCoordinator = AuthCoordinator(window: window, navigationController: vc)
+        
         authCoordinator.parentCoordinator = self
-        parentCoordinator?.children.append(authCoordinator)
-        
-        let window = UIWindow.current
-        window.rootViewController = newNavigationController
-        window.makeKeyAndVisible()
-        
+        children.append(authCoordinator)
         authCoordinator.start()
         
-        parentCoordinator?.childDidFinish(self)
+        window.rootViewController = vc
+        window.makeKeyAndVisible()
     }
 }

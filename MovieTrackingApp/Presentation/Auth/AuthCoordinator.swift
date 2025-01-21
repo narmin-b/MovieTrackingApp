@@ -9,26 +9,24 @@ import Foundation
 import UIKit.UINavigationController
 
 final class AuthCoordinator: Coordinator {
-    var parentCoordinator: Coordinator?
+    weak var parentCoordinator: Coordinator?
     var children: [Coordinator] = []
     var navigationController: UINavigationController
+    private let window: UIWindow
     
-    init(navigationController: UINavigationController) {
+    init(window: UIWindow, navigationController: UINavigationController) {
+        self.window = window
         self.navigationController = navigationController
     }
     
     deinit {
         print("deinit auth")
+        parentCoordinator = nil
     }
     
     func start() {
         let controller = LaunchViewController(viewModel: .init(navigation: self))
         showController(vc: controller)
-        
-//        DispatchQueue.main.async {
-//            self.parentCoordinator?.navigationController.viewControllers.removeFirst()
-//        }
-        print()
     }
 }
 
@@ -46,33 +44,72 @@ extension AuthCoordinator: AuthNavigation {
     }
     
     func showHomeScreen() {
-//        parentCoordinator?.children.removeAll()
+//        self.navigationController.viewControllers.removeAll()
+        self.navigationController.delegate = nil
+        self.parentCoordinator = nil
+        navigationController.setViewControllers([], animated: true)
+        children.removeAll()
+        
+        let vc = UINavigationController()
+        let tabBar = HomeTabBarCoordinator(window: window, navigationController: vc)
+        
+        tabBar.parentCoordinator = self
+        children.append(tabBar)
+        tabBar.start()
+        
+        window.rootViewController = vc
+        window.makeKeyAndVisible()
+        
+        //        parentCoordinator?.children.removeAll { $0 is AuthCoordinator }
+//        if let index = children.firstIndex(where: { $0 is AuthCoordinator }) {
+//                children.remove(at: index)
+//            }
+//        
+////        parentCoordinator = nil
+//        
+//        navigationController.setViewControllers([], animated: false)
+//        navigationController.delegate = nil
+//        children.removeAll()
 //        
 //        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
 //        tabBar.parentCoordinator = self
-//        parentCoordinator?.children.append(tabBar)
-//
-//        navigationController.setViewControllers([], animated: false)
+//        children.append(tabBar)
 //        
 //        tabBar.start()
-        
-        parentCoordinator?.children.removeAll()
-        
-        let newNavigationController = UINavigationController()
-        let tabBar = HomeTabBarCoordinator(navigationController: newNavigationController)
-        tabBar.parentCoordinator = self
-        parentCoordinator?.children.append(tabBar)
-        
-        let window = UIWindow.current
-        window.rootViewController = newNavigationController
-        window.makeKeyAndVisible()
-        
-        tabBar.start()
-        
-        parentCoordinator?.childDidFinish(self)
+//        
+//        childDidFinish(self)
+//        print("children \(parentCoordinator?.children)")
+
+//        navigationController.setViewControllers([], animated: false)
+//        children.removeAll()
+//        
+//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+//        tabBar.parentCoordinator = self
+//        children.append(tabBar)
+//        
+//        tabBar.start()
+//        
+//        childDidFinish(self)
     }
     
     func popbackScreen() {
         popControllerBack()
     }
 }
+
+
+//        navigationController.setViewControllers([], animated: false)
+//
+//        children.removeAll()
+//
+//        let newNavigationController = UINavigationController()
+//        let tabBar = HomeTabBarCoordinator(window: window, navigationController: navigationController)
+//        tabBar.parentCoordinator = self
+//        children.append(tabBar)
+//
+//        window.rootViewController = newNavigationController
+//        window.makeKeyAndVisible()
+//
+//        tabBar.start()
+//
+//        childDidFinish(self)

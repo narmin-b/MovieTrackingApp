@@ -11,6 +11,7 @@ final class HomeTabBarCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
     var children: [Coordinator] = []
     var navigationController: UINavigationController
+    private let window: UIWindow
     
     private let tabBarController = TabBarController()
     private var homeCoordinator: HomeCoordinator?
@@ -19,8 +20,10 @@ final class HomeTabBarCoordinator: Coordinator {
     private var profileCoordinator: ProfileCoordinator?
     
     init(
+        window: UIWindow,
         navigationController: UINavigationController
     ) {
+        self.window = window
         self.navigationController = navigationController
     }
     
@@ -46,7 +49,7 @@ final class HomeTabBarCoordinator: Coordinator {
         searchCoordinator?.parentCoordinator = parentCoordinator
         
         let profileNavigationController = UINavigationController()
-        profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController)
+        profileCoordinator = ProfileCoordinator(window: window, navigationController: profileNavigationController)
         profileCoordinator?.parentCoordinator = parentCoordinator
         
         let homeItem = UITabBarItem()
@@ -94,7 +97,7 @@ final class HomeTabBarCoordinator: Coordinator {
         )
         
         parentCoordinator?.children.append (
-            profileCoordinator ?? ProfileCoordinator(navigationController: UINavigationController())
+            profileCoordinator ?? ProfileCoordinator(window: window, navigationController: UINavigationController())
         )
         
         homeCoordinator?.start()

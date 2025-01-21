@@ -44,15 +44,14 @@ final class ProfileViewModel {
     }
     
     func LogUserOut() {
-        showLaunchScreen()
-//        requestCallback?(.loading)
-//        do {
-//            try FirebaseHelper.auth.signOut()
-//            requestCallback?(.success)
-//        } catch let signOutError as NSError {
-//            print ("Error signing out: %@", signOutError)
-//            requestCallback?(.error(message: signOutError as! String))
-//        }
-//        requestCallback?(.loaded)
+        requestCallback?(.loading)
+        do {
+            try FirebaseHelper.auth.signOut()
+            requestCallback?(.success)
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+            requestCallback?(.error(message: signOutError as! String))
+        }
+        requestCallback?(.loaded)
     }
 }

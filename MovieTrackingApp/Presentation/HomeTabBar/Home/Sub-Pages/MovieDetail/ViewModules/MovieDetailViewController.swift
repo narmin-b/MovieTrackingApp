@@ -230,6 +230,7 @@ final class MovieDetailController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        viewModel?.getRatedList()
         viewModel?.getDetails()
     }
     
@@ -399,14 +400,13 @@ final class MovieDetailController: BaseViewController {
     }
     
     @objc fileprivate func buttonTapped(_ sender: UIButton) {
-        ratingButtonUIConfig(sender: sender)
+        ratingButtonUIConfig(senderTag: sender.tag)
         viewModel?.setRating(rating: sender.tag*2)
     }
     
-    fileprivate func ratingButtonUIConfig(sender: UIButton ) {
+    fileprivate func ratingButtonUIConfig(senderTag: Int) {
         let buttons: [UIButton] = [rate1Button, rate2Button, rate3Button, rate4Button, rate5Button]
         
-        let senderTag = sender.tag
         for i in 0...senderTag {
             buttons[i].setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
@@ -435,6 +435,13 @@ final class MovieDetailController: BaseViewController {
         
         guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
         webView.load(URLRequest(url: videoURL))
+        
+        guard let flag = viewModel?.checkIfRated() else { return }
+        if flag == true {
+            guard let rate = viewModel?.getRating() else { return }
+            print("rate: ", rate)
+            ratingButtonUIConfig(senderTag: rate)
+        }
     }
 }
 

@@ -34,6 +34,7 @@ final class LoginViewModel {
     func createGuestSessionToken() {
         guestSessionUse.createGuestSessiontoken { [weak self] dto, error in
             guard let self = self else { return }
+            self.requestCallback?(.loaded)
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.tokenCredentials = dto.mapToDomain()
@@ -54,7 +55,8 @@ final class LoginViewModel {
                 case .success(let field):
                     switch field {
                     case .loaded:
-                        self.requestCallback?(.loaded)
+//                        self.requestCallback?(.loaded)
+                        print(#function)
                     case .success:
                         self.requestCallback?(.success)
                     case .successWithReturn(let username):
@@ -68,6 +70,10 @@ final class LoginViewModel {
                 }
             }
         }
+    }
+    
+    func popControllerBack() {
+        navigation?.popbackScreen()
     }
     
     func startHomeScreen() {

@@ -189,7 +189,7 @@ final class SignupViewController: BaseViewController {
         return keyboardToolbar
     }()
     
-    private let viewModel: SignupViewModel
+    private let viewModel: SignupViewModel?
     
     init(viewModel: SignupViewModel) {
         self.viewModel = viewModel
@@ -197,7 +197,7 @@ final class SignupViewController: BaseViewController {
     }
     
     deinit {
-        print(#function)
+        viewModel?.requestCallback = nil
     }
     
     required init?(coder: NSCoder) {
@@ -275,7 +275,7 @@ final class SignupViewController: BaseViewController {
     }
     
     private func configureViewModel() {
-        viewModel.requestCallback = { [weak self] state in
+        viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch state {
@@ -285,7 +285,7 @@ final class SignupViewController: BaseViewController {
                     self.loadingView.stopAnimating()
                 case .success:
                     self.showMessage(title: "User created", message: "User created successfully.")
-                    self.viewModel.popController()
+                    self.viewModel?.popController()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
                 }
@@ -301,7 +301,7 @@ final class SignupViewController: BaseViewController {
     }
     
     @objc fileprivate func loginButtonTapped() {
-        viewModel.showLoginScreen()
+        viewModel?.showLoginScreen()
     }
     
     @objc fileprivate func signupButtonClicked() {
@@ -319,7 +319,7 @@ final class SignupViewController: BaseViewController {
     }
     
     fileprivate func createUserWithPassword(email: String, password: String, username: String) {
-        viewModel.createUser(email: email, password: password, username: username)
+        viewModel?.createUser(email: email, password: password, username: username)
     }
     
     fileprivate func checkInputRequirements() {

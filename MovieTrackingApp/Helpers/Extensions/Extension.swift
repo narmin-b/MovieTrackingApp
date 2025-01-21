@@ -279,3 +279,28 @@ extension UILabel {
         self.attributedText = attributedText
     }
 }
+
+extension UINavigationItem {
+    func configureNavigationBar(text: String) {
+        let navgationView = UIView()
+        navgationView.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.text = text
+        label.sizeToFit()
+        label.textAlignment = .center
+        label.font = UIFont(name: "Nexa-Bold", size: 20)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+       
+        navgationView.addSubview(label)
+        label.centerXToView(to: navgationView)
+        label.centerYToView(to: navgationView)
+
+        self.titleView = navgationView
+
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        self.backBarButtonItem = backButton
+//        self.navigationBar.tintColor = .primaryHighlight
+    }
+}

@@ -167,7 +167,7 @@ final class LoginViewController: BaseViewController {
         return keyboardToolbar
     }()
     
-    private let viewModel: LoginViewModel
+    private let viewModel: LoginViewModel?
     
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
@@ -175,7 +175,7 @@ final class LoginViewController: BaseViewController {
     }
     
     deinit {
-        print(#function)
+        viewModel?.requestCallback = nil
     }
     
     required init?(coder: NSCoder) {
@@ -249,7 +249,7 @@ final class LoginViewController: BaseViewController {
     }
     
     private func configureViewModel() {
-        viewModel.requestCallback = { [weak self] state in
+        viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch state {
@@ -258,9 +258,10 @@ final class LoginViewController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    self.viewModel.startHomeScreen()
+                    self.viewModel?.startHomeScreen()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
+                    self.viewModel?.popControllerBack()
                 }
             }
         }
@@ -288,8 +289,8 @@ final class LoginViewController: BaseViewController {
     
     fileprivate func logUserIn() {
         guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
-        viewModel.setInput(email: email, password: password)
-        viewModel.checkLogin()
+        viewModel?.setInput(email: email, password: password)
+        viewModel?.checkLogin()
     }
     
     fileprivate func checkInput(email: String, password: String) -> Bool {
@@ -307,6 +308,6 @@ final class LoginViewController: BaseViewController {
     }
     
     @objc fileprivate func registerButtonTapped() {
-        viewModel.showShowSignUpScreen()
+        viewModel?.showShowSignUpScreen()
     }
 }

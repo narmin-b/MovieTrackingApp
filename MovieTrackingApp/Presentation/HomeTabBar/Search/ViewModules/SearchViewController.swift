@@ -130,6 +130,10 @@ class SearchViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        viewModel?.requestCallback = nil
+    }
+    
     override func configureView() {
         view.backgroundColor = .backgroundMain
         
@@ -139,25 +143,7 @@ class SearchViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        let navgationView = UIView()
-        navgationView.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.text = "Search"
-        label.sizeToFit()
-        label.textAlignment = .center
-        label.font = UIFont(name: "Nexa-Bold", size: 20)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-       
-        navgationView.addSubview(label)
-        label.centerXToView(to: navgationView)
-        label.centerYToView(to: navgationView)
-
-        navigationItem.titleView = navgationView
-
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        navigationItem.backBarButtonItem = backButton
+        navigationItem.configureNavigationBar(text: "Search")
         navigationController?.navigationBar.tintColor = .primaryHighlight
     }
     

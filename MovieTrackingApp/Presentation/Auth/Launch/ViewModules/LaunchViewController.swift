@@ -68,7 +68,7 @@ final class LaunchViewController: BaseViewController {
         return stack
     }()
     
-    private let viewModel: LaunchViewModel
+    private let viewModel: LaunchViewModel?
     
     init(viewModel: LaunchViewModel) {
         self.viewModel = viewModel
@@ -76,7 +76,7 @@ final class LaunchViewController: BaseViewController {
     }
     
     deinit {
-        print("launch")
+        viewModel?.requestCallback = nil
     }
     
     required init?(coder: NSCoder) {
@@ -129,19 +129,19 @@ final class LaunchViewController: BaseViewController {
     }
     
     @objc fileprivate func loginButtonClicked() {
-        viewModel.showLoginController()
+        viewModel?.showLoginController()
     }
     
     @objc fileprivate func signupButtonClicked() {
-        viewModel.showSignupController()
+        viewModel?.showSignupController()
     }
     
     @objc fileprivate func googleLoginButtonTapped() {
-        viewModel.createUserWithGoogle(viewController: self)
+        viewModel?.createUserWithGoogle(viewController: self)
     }
     
     private func configureViewModel() {
-        viewModel.requestCallback = { [weak self] state in
+        viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch state {
@@ -150,7 +150,7 @@ final class LaunchViewController: BaseViewController {
                 case .loading:
                     self.loadingView.stopAnimating()
                 case .success:
-                    self.viewModel.startHomeScreen()
+                    self.viewModel?.startHomeScreen()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
                     self.loadingView.stopAnimating()

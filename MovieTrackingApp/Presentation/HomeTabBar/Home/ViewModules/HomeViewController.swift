@@ -66,7 +66,7 @@ final class HomeViewController: BaseViewController {
         return view
     }()
     
-    private let viewModel: HomeViewModel
+    private let viewModel: HomeViewModel?
     private let layout: HomeCollectionLayout
     private var selectedSegmentBool: Bool = false
     private var selectedTrendingSegmentTime: Time = .week
@@ -81,14 +81,18 @@ final class HomeViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        viewModel?.requestCallback = nil
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureViewModel()
-        viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-        viewModel.getNowPlayingMovies()
-        viewModel.getPopularMovies()
-        viewModel.getTopRatedMovies()
-        viewModel.getUpcomingMovies()
+        viewModel?.getTrendingMovies(time: selectedTrendingSegmentTime)
+        viewModel?.getNowPlayingMovies()
+        viewModel?.getPopularMovies()
+        viewModel?.getTopRatedMovies()
+        viewModel?.getUpcomingMovies()
     }
     
     override func viewDidLoad() {
@@ -127,7 +131,7 @@ final class HomeViewController: BaseViewController {
     }
     
     private func configureViewModel() {
-        viewModel.requestCallback = { [weak self] state in
+        viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 switch state {
@@ -147,17 +151,17 @@ final class HomeViewController: BaseViewController {
     
     @objc private func reloadPage() {
         if selectedSegmentBool {
-            viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
-            viewModel.getOnTheAirTvShows()
-            viewModel.getPopularTvShows()
-            viewModel.getAiringTodayTvShows()
-            viewModel.getTopRatedTvShows()
+            viewModel?.getTrendingTvShows(time: selectedTrendingSegmentTime)
+            viewModel?.getOnTheAirTvShows()
+            viewModel?.getPopularTvShows()
+            viewModel?.getAiringTodayTvShows()
+            viewModel?.getTopRatedTvShows()
         } else {
-            viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-            viewModel.getNowPlayingMovies()
-            viewModel.getPopularMovies()
-            viewModel.getTopRatedMovies()
-            viewModel.getUpcomingMovies()
+            viewModel?.getTrendingMovies(time: selectedTrendingSegmentTime)
+            viewModel?.getNowPlayingMovies()
+            viewModel?.getPopularMovies()
+            viewModel?.getTopRatedMovies()
+            viewModel?.getUpcomingMovies()
         }
     }
     
@@ -242,22 +246,22 @@ extension HomeViewController: UICollectionViewDelegate,
             case false:
                 switch section {
                 case 0: return 1
-                case 1: return viewModel.getTrendingMovieItems()
-                case 2: return viewModel.getNowPlayingMovieItems()
-                case 3: return viewModel.getTopRatedMovieItems()
-                case 4: return viewModel.getPopularMovieItems()
-                case 5: return viewModel.getUpcomingMovieItems()
-                default: return viewModel.getNowPlayingMovieItems()
+                case 1: return viewModel?.getTrendingMovieItems() ?? 0
+                case 2: return viewModel?.getNowPlayingMovieItems() ?? 0
+                case 3: return viewModel?.getTopRatedMovieItems() ?? 0
+                case 4: return viewModel?.getPopularMovieItems() ?? 0
+                case 5: return viewModel?.getUpcomingMovieItems() ?? 0
+                default: return viewModel?.getNowPlayingMovieItems() ?? 0
                 }
             case true:
                 switch section {
                 case 0: return 1
-                case 1 : return viewModel.getTrendingTvShowItems()
-                case 2: return viewModel.getOnTheAirTvShowItems()
-                case 3: return viewModel.getTopRatedTvShowItems()
-                case 4: return viewModel.getPopularTvShowItems()
-                case 5: return viewModel.getAiringTodayTvShowItems()
-                default: return viewModel.getOnTheAirTvShowItems()
+                case 1 : return viewModel?.getTrendingTvShowItems() ?? 0
+                case 2: return viewModel?.getOnTheAirTvShowItems() ?? 0
+                case 3: return viewModel?.getTopRatedTvShowItems() ?? 0
+                case 4: return viewModel?.getPopularTvShowItems() ?? 0
+                case 5: return viewModel?.getAiringTodayTvShowItems() ?? 0
+                default: return viewModel?.getOnTheAirTvShowItems() ?? 0
                 }
             }
         }
@@ -278,27 +282,27 @@ extension HomeViewController: UICollectionViewDelegate,
                     return cell
                 case 1:
                     let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTrendingMovieProtocol(index: indexPath.item)
+                    let item = viewModel?.getTrendingMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getNowPlayingMovieProtocol(index: indexPath.item)
+                    let item = viewModel?.getNowPlayingMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 3:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTopRatedMovieProtocol(index: indexPath.item)
+                    let item = viewModel?.getTopRatedMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 4:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getPopularMovieProtocol(index: indexPath.item)
+                    let item = viewModel?.getPopularMovieProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 5:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getUpcomingMoviesProtocol(index: indexPath.item)
+                    let item = viewModel?.getUpcomingMoviesProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 default:
@@ -313,27 +317,27 @@ extension HomeViewController: UICollectionViewDelegate,
                     return cell
                 case 1:
                     let cell: TrendingTitleCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTrendingTvShowProtocol(index: indexPath.item)
+                    let item = viewModel?.getTrendingTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 2:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getOnTheAirTvShowProtocol(index: indexPath.item)
+                    let item = viewModel?.getOnTheAirTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 3:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getTopRatedTvShowProtocol(index: indexPath.item)
+                    let item = viewModel?.getTopRatedTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 4:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getPopularTvShowProtocol(index: indexPath.item)
+                    let item = viewModel?.getPopularTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 case 5:
                     let cell: TitleImageCell = collectionView.dequeue(for: indexPath)
-                    let item = viewModel.getAiringTodayTvShowProtocol(index: indexPath.item)
+                    let item = viewModel?.getAiringTodayTvShowProtocol(index: indexPath.item)
                     cell.configureCell(model: item)
                     return cell
                 default:
@@ -351,37 +355,37 @@ extension HomeViewController: UICollectionViewDelegate,
             case false:
                 switch indexPath.section {
                 case 1:
-                    item = viewModel.getTrendingMovie(index: indexPath.item)
+                    item = viewModel?.getTrendingMovie(index: indexPath.item) ?? 0
                 case 2:
-                    item = viewModel.getNowPlayingMovie(index: indexPath.item)
+                    item = viewModel?.getNowPlayingMovie(index: indexPath.item) ?? 0
                 case 3:
-                    item = viewModel.getTopRatedMovie(index: indexPath.item)
+                    item = viewModel?.getTopRatedMovie(index: indexPath.item) ?? 0
                 case 4:
-                    item = viewModel.getPopularMovie(index: indexPath.item)
+                    item = viewModel?.getPopularMovie(index: indexPath.item) ?? 0
                 case 5:
-                    item = viewModel.getUpcomingMovie(index: indexPath.item)
+                    item = viewModel?.getUpcomingMovie(index: indexPath.item) ?? 0
                 default:
                     break
                 }
                 print(item)
-                viewModel.showTitleDetail(mediaType: .movie, id: item)
+                viewModel?.showTitleDetail(mediaType: .movie, id: item)
             case true:
                 switch indexPath.section {
                 case 1:
-                    item = viewModel.getTrendingTvShowItem(index: indexPath.item)
+                    item = viewModel?.getTrendingTvShowItem(index: indexPath.item) ?? 0
                 case 2:
-                    item = viewModel.getOnTheAirTvShowItem(index: indexPath.item)
+                    item = viewModel?.getOnTheAirTvShowItem(index: indexPath.item) ?? 0
                 case 3:
-                    item = viewModel.getTopRatedTvShowItem(index: indexPath.item)
+                    item = viewModel?.getTopRatedTvShowItem(index: indexPath.item) ?? 0
                 case 4:
-                    item = viewModel.getPopularTvShowItem(index: indexPath.item)
+                    item = viewModel?.getPopularTvShowItem(index: indexPath.item) ?? 0
                 case 5:
-                    item = viewModel.getAiringTodayTvShowItem(index: indexPath.item)
+                    item = viewModel?.getAiringTodayTvShowItem(index: indexPath.item) ?? 0
                 default:
                     break
                 }
                 print(item)
-                viewModel.showTitleDetail(mediaType: .tvShow, id: item)
+                viewModel?.showTitleDetail(mediaType: .tvShow, id: item)
             }
         }
         
@@ -445,9 +449,9 @@ extension HomeViewController: UICollectionViewDelegate,
         selectedTrendingSegmentTime = (segmentIndex == 0) ? .week : .day
         switch selectedSegmentBool {
         case false:
-                viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
+                viewModel?.getTrendingMovies(time: selectedTrendingSegmentTime)
         case true:
-                viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
+                viewModel?.getTrendingTvShows(time: selectedTrendingSegmentTime)
         }
     }
     
@@ -456,26 +460,26 @@ extension HomeViewController: UICollectionViewDelegate,
         case false:
             switch section {
             case 2:
-                viewModel.showAllItems(listType: .movie(.nowPlaying))
+                viewModel?.showAllItems(listType: .movie(.nowPlaying))
             case 3:
-                viewModel.showAllItems(listType: .movie(.topRated))
+                viewModel?.showAllItems(listType: .movie(.topRated))
             case 4:
-                viewModel.showAllItems(listType: .movie(.popular))
+                viewModel?.showAllItems(listType: .movie(.popular))
             case 5:
-                viewModel.showAllItems(listType: .movie(.upcoming))
+                viewModel?.showAllItems(listType: .movie(.upcoming))
             default:
                 break
             }
         case true:
             switch section {
             case 2:
-                viewModel.showAllItems(listType: .tvShow(.onTheAir))
+                viewModel?.showAllItems(listType: .tvShow(.onTheAir))
             case 3:
-                viewModel.showAllItems(listType: .tvShow(.topRated))
+                viewModel?.showAllItems(listType: .tvShow(.topRated))
             case 4:
-                viewModel.showAllItems(listType: .tvShow(.popular))
+                viewModel?.showAllItems(listType: .tvShow(.popular))
             case 5:
-                viewModel.showAllItems(listType: .tvShow(.airingToday))
+                viewModel?.showAllItems(listType: .tvShow(.airingToday))
             default:
                 break
             }
@@ -509,17 +513,17 @@ extension HomeViewController: TitlesSwitchSegmentCellDelegate {
         selectedSegmentBool.toggle()
         
         if selectedSegmentBool {
-            viewModel.getTrendingTvShows(time: selectedTrendingSegmentTime)
-            viewModel.getOnTheAirTvShows()
-            viewModel.getPopularTvShows()
-            viewModel.getAiringTodayTvShows()
-            viewModel.getTopRatedTvShows()
+            viewModel?.getTrendingTvShows(time: selectedTrendingSegmentTime)
+            viewModel?.getOnTheAirTvShows()
+            viewModel?.getPopularTvShows()
+            viewModel?.getAiringTodayTvShows()
+            viewModel?.getTopRatedTvShows()
         } else {
-            viewModel.getTrendingMovies(time: selectedTrendingSegmentTime)
-            viewModel.getNowPlayingMovies()
-            viewModel.getPopularMovies()
-            viewModel.getTopRatedMovies()
-            viewModel.getUpcomingMovies()
+            viewModel?.getTrendingMovies(time: selectedTrendingSegmentTime)
+            viewModel?.getNowPlayingMovies()
+            viewModel?.getPopularMovies()
+            viewModel?.getTopRatedMovies()
+            viewModel?.getUpcomingMovies()
         }
     }
 }

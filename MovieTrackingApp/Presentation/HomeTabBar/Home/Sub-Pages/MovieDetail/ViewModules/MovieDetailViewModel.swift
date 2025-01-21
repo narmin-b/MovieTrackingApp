@@ -53,12 +53,22 @@ final class MovieDetailViewModel {
     
     //MARK: User Rating Functions
     
-    func getRatedMovies() {
+    func getRatedList() {
+        switch mediaType {
+        case .movie:
+            getRatedMovies()
+        case .tvShow:
+            getRatedTvShows()
+        }
+    }
+    
+    fileprivate func getRatedMovies() {
         guestSessionUse.getRatedMovies(id: sessionID) { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.ratedMovieDto = dto.results.map({ $0.mapToDomain() })
+                    self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
                 }
@@ -66,12 +76,13 @@ final class MovieDetailViewModel {
         }
     }
     
-    func getRatedTvShows() {
+    fileprivate func getRatedTvShows() {
         guestSessionUse.getRatedTvShows(id: sessionID) { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.ratedTvShowDto = dto.results.map({ $0.mapToDomain() })
+                    self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
                 }
@@ -82,8 +93,10 @@ final class MovieDetailViewModel {
     func checkIfRated() -> Bool {
         switch mediaType {
         case .movie:
+            print("containing: \(ratedMovieDto.contains(where: { $0.idInt == id }))")
             return ratedMovieDto.contains(where: { $0.idInt == id })
         case .tvShow:
+            print("containing: \(ratedTvShowDto.contains(where: { $0.idInt == id }))")
             return ratedTvShowDto.contains(where: { $0.idInt == id })
         }
     }
@@ -91,9 +104,9 @@ final class MovieDetailViewModel {
     func getRating() -> Int {
         switch mediaType {
         case .movie:
-            return Int(ratedMovieDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0
+            return (Int(ratedMovieDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0)/2
         case .tvShow:
-            return Int(ratedTvShowDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0
+            return (Int(ratedTvShowDto.first(where: { $0.idInt == id })?.ratingString ?? "0") ?? 0)/2
         }
     }
         

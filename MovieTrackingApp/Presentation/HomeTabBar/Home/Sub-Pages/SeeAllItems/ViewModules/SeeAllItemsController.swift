@@ -49,26 +49,9 @@ final class SeeAllItemsController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        let navgationView = UIView()
-        navgationView.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.text = viewModel?.getNavBarTitle()
-        label.sizeToFit()
-        label.textAlignment = .center
-        label.font = UIFont(name: "Nexa-Bold", size: 20)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-       
-        navgationView.addSubview(label)
-        label.centerXToView(to: navgationView)
-        label.centerYToView(to: navgationView)
-
-        navigationItem.titleView = navgationView
+        guard let title = viewModel?.getNavBarTitle() else { return }
+        navigationItem.configureNavigationBar(text: title)
         navigationController?.navigationBar.tintColor = .primaryHighlight
-
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        navigationItem.backBarButtonItem = backButton
     }
     
     init(viewModel: SeeAllItemsViewModel?) {
@@ -129,7 +112,6 @@ final class SeeAllItemsController: BaseViewController {
         )
     }
         
-    
     override func configureTargets() {
         
     }
