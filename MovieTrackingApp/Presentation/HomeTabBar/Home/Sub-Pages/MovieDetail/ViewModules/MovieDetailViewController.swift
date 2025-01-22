@@ -230,7 +230,7 @@ final class MovieDetailController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
-        viewModel?.getRatedList()
+//        viewModel?.getRatedList()
         viewModel?.getDetails()
     }
     
@@ -275,6 +275,10 @@ final class MovieDetailController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
+                    self.infoCollectionView.reloadData()
+                    self.configureDetails()
+                    self.getRating()
+                case .ratingSuccess:
                     self.infoCollectionView.reloadData()
                     self.configureDetails()
                 case .error(message: let message):
@@ -407,9 +411,10 @@ final class MovieDetailController: BaseViewController {
     fileprivate func ratingButtonUIConfig(senderTag: Int) {
         let buttons: [UIButton] = [rate1Button, rate2Button, rate3Button, rate4Button, rate5Button]
         
-        for i in 0...senderTag {
-            buttons[i].setImage(UIImage(systemName: "star.fill"), for: .normal)
+        for i in 1...senderTag {
+            buttons[i-1].setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
+        if senderTag == 5 { return }
         for i in senderTag...4 {
             buttons[i].setImage(UIImage(systemName: "star"), for: .normal)
         }
@@ -435,12 +440,17 @@ final class MovieDetailController: BaseViewController {
         
         guard let videoURL = URL(string: viewModel?.getTitleTrailer() ?? "") else { return }
         webView.load(URLRequest(url: videoURL))
-        
-        guard let flag = viewModel?.checkIfRated() else { return }
-        if flag == true {
-            guard let rate = viewModel?.getRating() else { return }
-            print("rate: ", rate)
-            ratingButtonUIConfig(senderTag: rate)
+    }
+    
+    fileprivate func getRating() {
+        viewModel?.loadDataAndCheckIfRated { isRated in
+            print("Is Rated: \(isRated)")
+            if isRated {
+                guard let rate = self.viewModel?.getRating() else { return }
+                self.ratingButtonUIConfig(senderTag: rate)
+            } else {
+                return
+            }
         }
     }
 }

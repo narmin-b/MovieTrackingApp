@@ -13,6 +13,7 @@ final class MovieDetailViewModel {
         case loading
         case loaded
         case success
+        case ratingSuccess
         case error(message: String)
     }
     
@@ -53,22 +54,13 @@ final class MovieDetailViewModel {
     
     //MARK: User Rating Functions
     
-    func getRatedList() {
-        switch mediaType {
-        case .movie:
-            getRatedMovies()
-        case .tvShow:
-            getRatedTvShows()
-        }
-    }
-    
-    fileprivate func getRatedMovies() {
+    fileprivate func getRatedMovies(completion: @escaping () -> Void) {
         guestSessionUse.getRatedMovies(id: sessionID) { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.ratedMovieDto = dto.results.map({ $0.mapToDomain() })
-                    self.requestCallback?(.success)
+                    completion()
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
                 }
@@ -76,13 +68,13 @@ final class MovieDetailViewModel {
         }
     }
     
-    fileprivate func getRatedTvShows() {
+    fileprivate func getRatedTvShows(completion: @escaping () -> Void) {
         guestSessionUse.getRatedTvShows(id: sessionID) { [weak self] dto, error in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.ratedTvShowDto = dto.results.map({ $0.mapToDomain() })
-                    self.requestCallback?(.success)
+                    completion()
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
                 }
@@ -90,14 +82,16 @@ final class MovieDetailViewModel {
         }
     }
     
-    func checkIfRated() -> Bool {
+    func loadDataAndCheckIfRated(completion: @escaping (Bool) -> Void) {
         switch mediaType {
         case .movie:
-            print("containing: \(ratedMovieDto.contains(where: { $0.idInt == id }))")
-            return ratedMovieDto.contains(where: { $0.idInt == id })
+            getRatedMovies {
+                completion(self.ratedMovieDto.contains(where: { $0.idInt == self.id }))
+            }
         case .tvShow:
-            print("containing: \(ratedTvShowDto.contains(where: { $0.idInt == id }))")
-            return ratedTvShowDto.contains(where: { $0.idInt == id })
+            getRatedTvShows {
+                completion(self.ratedTvShowDto.contains(where: { $0.idInt == self.id }))
+            }
         }
     }
     
@@ -119,7 +113,7 @@ final class MovieDetailViewModel {
                 if let dto = dto {
                     postSuccessDTO = dto.mapToDomain()
                     if postSuccessDTO?.success == true {
-                        requestCallback?(.success)
+                        requestCallback?(.ratingSuccess)
                     } else {
                         requestCallback?(.error(message: "Rating couldn't be saved"))
                     }
@@ -133,7 +127,7 @@ final class MovieDetailViewModel {
                 if let dto = dto {
                     postSuccessDTO = dto.mapToDomain()
                     if postSuccessDTO?.success == true {
-                        requestCallback?(.success)
+                        requestCallback?(.ratingSuccess)
                     } else {
                         requestCallback?(.error(message: "Rating couldn't be saved"))
                     }
