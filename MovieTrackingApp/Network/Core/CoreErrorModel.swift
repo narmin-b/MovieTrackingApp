@@ -11,7 +11,6 @@ struct CoreErrorModel: Error, Decodable {
     let code: Int?
     let message: String?
     
-    
     static func authError(code: Int) -> CoreErrorModel {
         return CoreErrorModel(code: code, message: "Zehmet olmasa yeniden login olun")
     }

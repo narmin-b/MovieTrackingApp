@@ -131,6 +131,10 @@ class ProfileViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        viewModel?.requestCallback = nil
+    }
+    
     fileprivate func configureNavigationBar() {
         navigationItem.configureNavigationBar(text: "Profile")
         navigationController?.navigationBar.tintColor = .primaryHighlight

@@ -44,9 +44,8 @@ extension AuthCoordinator: AuthNavigation {
     }
     
     func showHomeScreen() {
-//        self.navigationController.viewControllers.removeAll()
-        self.navigationController.delegate = nil
-        self.parentCoordinator = nil
+        navigationController.delegate = nil
+        parentCoordinator = nil
         navigationController.setViewControllers([], animated: true)
         children.removeAll()
         
