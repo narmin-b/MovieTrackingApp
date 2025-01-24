@@ -134,7 +134,8 @@ struct Season: Codable {
     let episodeCount, id: Int?
     let name, overview: String?
     let posterPath: String?
-    let seasonNumber, voteAverage: Int?
+    let seasonNumber: Int?
+    let voteAverage: Double?
 
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"

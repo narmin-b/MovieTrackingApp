@@ -60,12 +60,12 @@ class FavoriteViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        configureViewModel()
         viewModel?.getRatedMovies()
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewModel()
     }
     
     init(viewModel: FavoriteViewModel?) {

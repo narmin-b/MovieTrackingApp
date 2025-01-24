@@ -54,7 +54,8 @@ final class FavoriteViewModel {
                     self.ratedMovieDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
-                    self.requestCallback?(.error(message: error))
+                    print(#function, error)
+//                    self.requestCallback?(.error(message: error))
                 }
             }
         }
@@ -70,7 +71,8 @@ final class FavoriteViewModel {
                     self.ratedTvShowDto = dto.results.map({ $0.mapToDomain() })
                     self.requestCallback?(.success)
                 } else if let error = error {
-                    self.requestCallback?(.error(message: error))
+                    print(#function, error)
+//                    self.requestCallback?(.error(message: error))
                 }
             }
         }

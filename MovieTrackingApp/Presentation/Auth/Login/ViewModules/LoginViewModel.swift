@@ -38,6 +38,7 @@ final class LoginViewModel {
             DispatchQueue.main.async {
                 if let dto = dto {
                     self.tokenCredentials = dto.mapToDomain()
+                    print(self.tokenCredentials)
                     UserDefaultsHelper.setString(key: "guestSessionID", value: self.tokenCredentials?.guestSessionID ?? "")
                     self.requestCallback?(.success)
                 } else if let error = error {

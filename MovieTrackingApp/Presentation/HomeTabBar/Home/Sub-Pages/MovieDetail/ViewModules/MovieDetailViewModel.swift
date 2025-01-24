@@ -62,7 +62,8 @@ final class MovieDetailViewModel {
                     self.ratedMovieDto = dto.results.map({ $0.mapToDomain() })
                     completion()
                 } else if let error = error {
-                    self.requestCallback?(.error(message: error))
+                    print(#function, error)
+//                    self.requestCallback?(.error(message: error))
                 }
             }
         }
@@ -76,7 +77,8 @@ final class MovieDetailViewModel {
                     self.ratedTvShowDto = dto.results.map({ $0.mapToDomain() })
                     completion()
                 } else if let error = error {
-                    self.requestCallback?(.error(message: error))
+                    print(#function, error)
+//                    self.requestCallback?(.error(message: error))
                 }
             }
         }

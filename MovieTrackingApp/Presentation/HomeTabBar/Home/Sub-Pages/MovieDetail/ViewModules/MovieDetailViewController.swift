@@ -284,7 +284,7 @@ final class MovieDetailController: BaseViewController {
                 case .error(message: let message):
                     self.loadingView.stopAnimating()
                     self.showMessage(title: message)
-                    self.viewModel?.popControllerBack()
+//                    self.viewModel?.popControllerBack()
                 }
             }
         }
