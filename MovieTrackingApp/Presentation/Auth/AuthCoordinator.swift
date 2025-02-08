@@ -25,6 +25,7 @@ final class AuthCoordinator: Coordinator {
     }
     
     func start() {
+//        let controller = OnboardingViewController(viewModel: .init(navigation: self))
         let controller = LaunchViewController(viewModel: .init(navigation: self))
         showController(vc: controller)
     }
@@ -34,13 +35,11 @@ extension AuthCoordinator: AuthNavigation {
     func showLogin() {
         let vc = LoginViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
-        deletePreviousController()
     }
     
     func showSignUp() {
         let vc = SignupViewController(viewModel: .init(navigation: self))
         showController(vc: vc)
-        deletePreviousController()
     }
     
     func showHomeScreen() {
@@ -58,43 +57,44 @@ extension AuthCoordinator: AuthNavigation {
         
         window.rootViewController = vc
         window.makeKeyAndVisible()
-        
-        //        parentCoordinator?.children.removeAll { $0 is AuthCoordinator }
-//        if let index = children.firstIndex(where: { $0 is AuthCoordinator }) {
-//                children.remove(at: index)
-//            }
-//        
-////        parentCoordinator = nil
-//        
-//        navigationController.setViewControllers([], animated: false)
-//        navigationController.delegate = nil
-//        children.removeAll()
-//        
-//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
-//        tabBar.parentCoordinator = self
-//        children.append(tabBar)
-//        
-//        tabBar.start()
-//        
-//        childDidFinish(self)
-//        print("children \(parentCoordinator?.children)")
-
-//        navigationController.setViewControllers([], animated: false)
-//        children.removeAll()
-//        
-//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
-//        tabBar.parentCoordinator = self
-//        children.append(tabBar)
-//        
-//        tabBar.start()
-//        
-//        childDidFinish(self)
     }
     
     func popbackScreen() {
         popControllerBack()
     }
 }
+
+
+//        parentCoordinator?.children.removeAll { $0 is AuthCoordinator }
+//        if let index = children.firstIndex(where: { $0 is AuthCoordinator }) {
+//                children.remove(at: index)
+//            }
+//
+////        parentCoordinator = nil
+//
+//        navigationController.setViewControllers([], animated: false)
+//        navigationController.delegate = nil
+//        children.removeAll()
+//
+//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+//        tabBar.parentCoordinator = self
+//        children.append(tabBar)
+//
+//        tabBar.start()
+//
+//        childDidFinish(self)
+//        print("children \(parentCoordinator?.children)")
+
+//        navigationController.setViewControllers([], animated: false)
+//        children.removeAll()
+//
+//        let tabBar = HomeTabBarCoordinator(navigationController: navigationController)
+//        tabBar.parentCoordinator = self
+//        children.append(tabBar)
+//
+//        tabBar.start()
+//
+//        childDidFinish(self)
 
 
 //        navigationController.setViewControllers([], animated: false)

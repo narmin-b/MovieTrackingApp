@@ -260,8 +260,9 @@ final class LoginViewController: BaseViewController {
                 case .success:
                     self.viewModel?.startHomeScreen()
                 case .error(let error):
+                    self.loadingView.stopAnimating()
                     self.showMessage(title: "Error", message: error)
-                    self.viewModel?.popControllerBack()
+                    self.passwordTextfield.text = ""
                 }
             }
         }
@@ -303,8 +304,8 @@ final class LoginViewController: BaseViewController {
         let imageName = isKeepLoggedIn ? "checkmark.square" : "square"
         loggedButtonImage.image = UIImage(systemName: imageName)
         
-        UserDefaultsHelper.setBool(key: "isLoggedIn", value: isKeepLoggedIn)
-        print(UserDefaultsHelper.getBool(key: "isLoggedIn"))
+        UserDefaultsHelper.setBool(key: .isLoggedIn, value: isKeepLoggedIn)
+        print(UserDefaultsHelper.getBool(key: .isLoggedIn))
     }
     
     @objc fileprivate func registerButtonTapped() {

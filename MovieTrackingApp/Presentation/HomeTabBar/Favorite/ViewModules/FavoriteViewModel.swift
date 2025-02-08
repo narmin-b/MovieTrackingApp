@@ -21,12 +21,13 @@ final class FavoriteViewModel {
     private var sessionID: String
 
 
-    init(navigation: FavoriteNavigation) {
+    init(guestSessionUse: GuestSessionUseCase, navigation: FavoriteNavigation) {
         self.navigation = navigation
-        self.sessionID = UserDefaultsHelper.getString(key: UserDefaultsKey.guestSessionID.rawValue) ?? ""
+        self.sessionID = UserDefaultsHelper.getString(key: .guestSessionID) ?? ""
+        self.guestSessionUse = guestSessionUse
     }
     
-    private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
+    private var guestSessionUse: GuestSessionUseCase
     
     private(set) var ratedMovieDto: [TitleImageCellWithRatingProtocol] = []
     private(set) var ratedTvShowDto: [TitleImageCellWithRatingProtocol] = []

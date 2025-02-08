@@ -20,10 +20,12 @@ final class MovieDetailViewModel {
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: HomeNavigation?
 
-    private var movieDetailsUse: MovieDetailUseCase = MovieDetailAPIService()
-    private var tvShowDetailsUse: TvShowDetailUseCase = TvShowDetailAPIService()
-    private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
+    private var movieDetailsUse: MovieDetailUseCase
+    private var tvShowDetailsUse: TvShowDetailUseCase
+    private var guestSessionUse: GuestSessionUseCase
     private(set) var postSuccessDTO: POSTSuccessProtocol?
+    private(set) var tokenCredentials: POSTSuccessProtocol?
+
     
     private var id: Int
     private var mediaType: MediaType
@@ -37,11 +39,14 @@ final class MovieDetailViewModel {
     private let baseImageUrl: String = "https://image.tmdb.org/t/p/w500"
     private let baseVideoUrl: String = "https://www.youtube.com/embed/"
 
-    init(mediaType: MediaType, id: Int, navigation: HomeNavigation) {
+    init(mediaType: MediaType, id: Int, navigation: HomeNavigation, movieDetailsUse: MovieDetailUseCase, tvShowDetailsUse: TvShowDetailUseCase, guestSessionUse: GuestSessionUseCase) {
         self.navigation = navigation
         self.id = id
         self.mediaType = mediaType
-        self.sessionID = UserDefaultsHelper.getString(key: UserDefaultsKey.guestSessionID.rawValue) ?? ""
+        self.sessionID = UserDefaultsHelper.getString(key: .guestSessionID) ?? ""
+        self.movieDetailsUse = movieDetailsUse
+        self.tvShowDetailsUse = tvShowDetailsUse
+        self.guestSessionUse = guestSessionUse
     }
     
     func popControllerBack() {
@@ -53,6 +58,26 @@ final class MovieDetailViewModel {
     }
     
     //MARK: User Rating Functions
+    
+    fileprivate func checksession() {
+        guestSessionUse.checkGuestSessionExists(sessionID: sessionID) { [weak self] dto, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let dto = dto {
+                    self.tokenCredentials = dto.mapToDomain()
+                    print("token", self.tokenCredentials)
+                    if self.tokenCredentials?.success == true {
+                        print("token success")
+                        return
+                    } else {
+                        NotificationCenter.default.post(name: .sessionExpired, object: nil)
+                    }
+                } else if let _ = error {
+                    NotificationCenter.default.post(name: .sessionExpired, object: nil)
+                }
+            }
+        }
+    }
     
     fileprivate func getRatedMovies(completion: @escaping () -> Void) {
         guestSessionUse.getRatedMovies(id: sessionID) { [weak self] dto, error in

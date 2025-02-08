@@ -29,7 +29,7 @@ final class SignupViewModel {
             case .success(let field):
                 switch field {
                 case .loaded:
-                    self.requestCallback?(.loading)
+                    self.requestCallback?(.loaded)
                 case .success:
                     self.requestCallback?(.success)
                 case .successWithReturn(_):
@@ -47,6 +47,7 @@ final class SignupViewModel {
     }
     
     func showLoginScreen() {
+        popController()
         navigation?.showLogin()
     }
     

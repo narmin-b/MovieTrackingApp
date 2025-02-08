@@ -94,8 +94,8 @@ final class FirebaseHelper {
                 }
 
                 if let user = authResult?.user {
-                    UserDefaultsHelper.setString(key: "email", value: user.email ?? "")
-                    UserDefaultsHelper.setString(key: "username", value: user.displayName ?? "")
+                    UserDefaultsHelper.setString(key: .email, value: user.email ?? "")
+                    UserDefaultsHelper.setString(key: .username, value: user.displayName ?? "")
                     completion(.success(.success))
                 } else {
                     completion(.failure(NSError(domain: "GoogleSignInError", code: 2, userInfo: [NSLocalizedDescriptionKey: "Authentication failed"])))

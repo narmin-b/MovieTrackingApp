@@ -11,4 +11,5 @@ enum UserDefaultsKey: String {
     case username
     case email
     case guestSessionID
+    case profileImage
 }

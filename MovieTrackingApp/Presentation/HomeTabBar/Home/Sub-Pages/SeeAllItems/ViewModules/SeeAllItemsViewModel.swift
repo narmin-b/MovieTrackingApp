@@ -26,15 +26,17 @@ final class SeeAllItemsViewModel {
     var requestCallback : ((ViewState) -> Void?)?
     private weak var navigation: HomeNavigation?
     
-    private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
-    private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
+    private var tvShowListsUse: TvShowListsUseCase
+    private var movieListsUse: MovieListsUseCase
     private var resultList: [ResultType] = []
     private var listType: HomeListType
     private var pageNum: Int = 3
     
-    init(listType: HomeListType, navigation: HomeNavigation) {
+    init(listType: HomeListType, navigation: HomeNavigation, tvShowListsUse: TvShowListsUseCase, movieListsUse: MovieListsUseCase) {
         self.listType = listType
         self.navigation = navigation
+        self.tvShowListsUse = tvShowListsUse
+        self.movieListsUse = movieListsUse
     }
     
     func goBack() {

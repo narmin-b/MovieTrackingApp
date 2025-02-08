@@ -39,7 +39,7 @@ final class LoginViewModel {
                 if let dto = dto {
                     self.tokenCredentials = dto.mapToDomain()
                     print(self.tokenCredentials)
-                    UserDefaultsHelper.setString(key: "guestSessionID", value: self.tokenCredentials?.guestSessionID ?? "")
+                    UserDefaultsHelper.setString(key: .guestSessionID, value: self.tokenCredentials?.guestSessionID ?? "")
                     self.requestCallback?(.success)
                 } else if let error = error {
                     self.requestCallback?(.error(message: error))
@@ -61,8 +61,8 @@ final class LoginViewModel {
                     case .success:
                         self.requestCallback?(.success)
                     case .successWithReturn(let username):
-                        UserDefaultsHelper.setString(key: "username", value: username ?? "")
-                        UserDefaultsHelper.setString(key: "email", value: self.model.email ?? "")
+                        UserDefaultsHelper.setString(key: .username, value: username ?? "")
+                        UserDefaultsHelper.setString(key: .email, value: self.model.email ?? "")
                         self.createGuestSessionToken()
                     }
                 case .failure(let error):
@@ -79,9 +79,11 @@ final class LoginViewModel {
     
     func startHomeScreen() {
         navigation?.showHomeScreen()
+//        popControllerBack()
     }
     
     func showShowSignUpScreen() {
+        popControllerBack()
         navigation?.showSignUp()
     }
 }

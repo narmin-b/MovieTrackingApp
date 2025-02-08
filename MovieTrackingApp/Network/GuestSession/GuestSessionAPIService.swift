@@ -10,6 +10,20 @@ import Foundation
 final class GuestSessionAPIService: GuestSessionUseCase {
     private let apiService = CoreAPIManager.instance
     
+    func checkGuestSessionExists(sessionID: String, completion: @escaping (POSTSuccessDTO?, String?) -> Void) {
+        apiService.request(type: POSTSuccessDTO.self,
+                           url: GuestSessionHelper.checkGuestSession(sessionID: sessionID).endpoint,
+                           method: .GET) { [weak self] result in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(data, nil)
+            case .failure(let error):
+                completion(nil, error.localizedDescription)
+            }
+        }
+    }
+    
     func getRatedMovies(id: String, completion: @escaping (RatedMovieListsDTO?, String?) -> Void) {
         apiService.request(type: RatedMovieListsDTO.self,
                            url: GuestSessionHelper.getRatedMovies(sessionID: id).endpoint,

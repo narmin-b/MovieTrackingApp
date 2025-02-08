@@ -40,7 +40,7 @@ final class CoreAPIManager {
             guard let response = response as? HTTPURLResponse else {return}
             if response.statusCode == 401 {
                 completion(.failure(CoreErrorModel.authError(code: response.statusCode)))
-                NotificationCenter.default.post(name: NSNotification.Name("auth.session.exp"), object: nil)
+//                NotificationCenter.default.post(name: .sessionExpired, object: nil)
             }
             
             print(response.statusCode)

@@ -304,3 +304,13 @@ extension UINavigationItem {
 //        self.navigationBar.tintColor = .primaryHighlight
     }
 }
+
+extension UIImage {
+    func resizeImage(to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}

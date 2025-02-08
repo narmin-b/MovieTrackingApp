@@ -21,7 +21,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
+        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 20, numOfLines: 3)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -102,10 +102,14 @@ class SearchCollectionViewCell: UICollectionViewCell {
             padding: .init(all: 4)
         )
         overviewStackView.heightAnchor.constraint(equalToConstant: imageView.frame.height).isActive = true
+//        overViewLabel.anchor(
+//            bottom: overviewStackView.bottomAnchor,
+//            padding: .init(all: 0)
+//        )
         titleStackView.anchor(
             top: overviewStackView.topAnchor,
             trailing: overviewStackView.trailingAnchor,
-            padding: .init(all: 0)
+            padding: .init(top: 4, left: 0, bottom: 0, right: 0)
         )
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

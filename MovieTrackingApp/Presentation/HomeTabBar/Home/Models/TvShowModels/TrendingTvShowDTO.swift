@@ -22,18 +22,18 @@ struct TrendingTvShowDTO: Codable {
 
 // MARK: - TrendingTvShowResult
 struct TrendingTvShowResult: Codable {
-    let backdropPath: String
-    let id: Int
-    let name, originalName, overview, posterPath: String
-    let mediaType: String
-    let adult: Bool
-    let originalLanguage: String
-    let genreIDS: [Int]
-    let popularity: Double
-    let firstAirDate: String
-    let voteAverage: Double
-    let voteCount: Int
-    let originCountry: [String]
+    let backdropPath: String?
+    let id: Int?
+    let name, originalName, overview, posterPath: String?
+    let mediaType: String?
+    let adult: Bool?
+    let originalLanguage: String?
+    let genreIDS: [Int]?
+    let popularity: Double?
+    let firstAirDate: String?
+    let voteAverage: Double?
+    let voteCount: Int?
+    let originCountry: [String]?
 
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"
@@ -55,11 +55,11 @@ struct TrendingTvShowResult: Codable {
 
 extension TrendingTvShowResult {
     func mapToDomain() -> TitleImageCellProtocol {
-        .init(titleString: name,
-              imageString: posterPath,
-              overviewString: overview,
-              voteString: String(voteAverage),
-              idInt: id
+        .init(titleString: name ?? "",
+              imageString: posterPath ?? "",
+              overviewString: overview ?? "",
+              voteString: String(voteAverage ?? 0),
+              idInt: id ?? 0
         )
     }
 }

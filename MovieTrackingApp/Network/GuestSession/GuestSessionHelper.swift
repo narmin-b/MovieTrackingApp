@@ -8,6 +8,7 @@
 import Foundation
 
 enum GuestSessionHelper {
+    case checkGuestSession(sessionID: String)
     case createGuestSession
     case rateMovie(titleID: String, sessionID: String)
     case rateTvShow(titleID: String, sessionID: String)
@@ -16,6 +17,8 @@ enum GuestSessionHelper {
     
     var endpoint: URL? {
         switch self {
+        case .checkGuestSession(let sessionId):
+            return CoreAPIHelper.instance.makeURL(path: "guest_session/\(sessionId)")
         case .createGuestSession:
             return CoreAPIHelper.instance.makeURL(path: "authentication/guest_session/new")
         case .rateMovie(let titleID, let sessionId):

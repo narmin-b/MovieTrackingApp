@@ -22,12 +22,14 @@ final class SearchViewModel {
     private var pages: Int = 0
     private var currentPage: Int = 1
     
-    init(navigation: SearchNavigation) {
+    init(navigation: SearchNavigation, movieListsUse: MovieListsUseCase, tvShowListsUse: TvShowListsUseCase) {
         self.navigation = navigation
+        self.movieListsUse = movieListsUse
+        self.tvShowListsUse = tvShowListsUse
     }
     
-    private var movieListsUse: MovieListsUseCase = MovieListsAPIService()
-    private var tvShowListsUse: TvShowListsUseCase = TvShowListsAPIService()
+    private var movieListsUse: MovieListsUseCase
+    private var tvShowListsUse: TvShowListsUseCase
     
     private(set) var movieSearchDto: [TitleImageCellProtocol] = []
     private(set) var tvShowSearchDto: [TitleImageCellProtocol] = []

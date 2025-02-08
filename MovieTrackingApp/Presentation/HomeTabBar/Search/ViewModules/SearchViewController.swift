@@ -30,6 +30,7 @@ class SearchViewController: BaseViewController {
         textfield.inputAccessoryView = doneToolBar
         textfield.textColor = .white
         textfield.delegate = self
+        textfield.clearButtonMode = .whileEditing
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -95,6 +96,9 @@ class SearchViewController: BaseViewController {
     
     
     @objc fileprivate func movieSearchEnabled() {
+        searchTextfield.text = ""
+        dismissKeyboard()
+        
         chosenButton = movieSearchButton
         chosenButton?.buttonChosen()
         tvShowSearchButton.buttonUnchosen()
@@ -103,6 +107,9 @@ class SearchViewController: BaseViewController {
     }
     
     @objc fileprivate func tvShowSearchEnabled() {
+        searchTextfield.text = ""
+        dismissKeyboard()
+        
         chosenButton = tvShowSearchButton
         chosenButton?.buttonChosen()
         movieSearchButton.buttonUnchosen()
@@ -233,7 +240,7 @@ extension SearchViewController: UITextFieldDelegate, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width - 8, height: (collectionView.bounds.height - 20)/5)
+        return CGSize(width: collectionView.bounds.width - 8, height: (collectionView.bounds.height - 20)/4)
     }
     
     func collectionView(

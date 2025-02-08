@@ -51,9 +51,9 @@ class ProfileInfoCollectionViewCell: UICollectionViewCell {
         titleLabel.text = title.rawValue.capitalized + ":"
         switch title {
         case .email:
-            subtitleLabel.text = UserDefaultsHelper.getString(key: "email")
+            subtitleLabel.text = UserDefaultsHelper.getString(key: .email)
         case .username:
-            subtitleLabel.text = UserDefaultsHelper.getString(key: "username")
+            subtitleLabel.text = UserDefaultsHelper.getString(key: .username)
         }
     }
 }

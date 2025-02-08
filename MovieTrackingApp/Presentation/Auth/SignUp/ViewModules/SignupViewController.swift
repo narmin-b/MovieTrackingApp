@@ -104,6 +104,7 @@ final class SignupViewController: BaseViewController {
         
         textfield.inputAccessoryView = doneToolBar
         textfield.textColor = .black
+        textfield.isSecureTextEntry = true
         textfield.translatesAutoresizingMaskIntoConstraints = false
         return textfield
     }()
@@ -284,8 +285,9 @@ final class SignupViewController: BaseViewController {
                 case .loaded:
                     self.loadingView.stopAnimating()
                 case .success:
-                    self.showMessage(title: "User created", message: "User created successfully.")
                     self.viewModel?.popController()
+                    self.showMessage(title: "User created", message: "User created successfully.")
+                    self.textfieldCleaning()
                 case .error(let error):
                     self.showMessage(title: "Error", message: error)
                 }
@@ -367,6 +369,12 @@ final class SignupViewController: BaseViewController {
         } else {
             passUpcaseReqLabel.textColor = .white
         }
+    }
+    
+    fileprivate func textfieldCleaning() {
+        emailTextfield.text = ""
+        passwordTextfield.text = ""
+        usernameTextfield.text = ""
     }
 }
 

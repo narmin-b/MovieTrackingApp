@@ -47,6 +47,7 @@
 		11609A972D23076E00365915 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A942D23076E00365915 /* SignupViewController.swift */; };
 		11609A982D23076E00365915 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A952D23076E00365915 /* SignupViewModel.swift */; };
 		11609A9C2D23FDBD00365915 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11609A9B2D23FDBD00365915 /* FirebaseHelper.swift */; };
+		117ADE342D43C77700481275 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117ADE332D43C77700481275 /* NotificationNameExtensions.swift */; };
 		118CE4362D2D704600EF70EC /* TvShowDetailDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */; };
 		118CE43A2D2D975C00EF70EC /* TvShowDetailProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CE4392D2D975C00EF70EC /* TvShowDetailProtocol.swift */; };
 		118CE43F2D2D9DEA00EF70EC /* TvShowDetailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CE43B2D2D9DEA00EF70EC /* TvShowDetailHelper.swift */; };
@@ -58,6 +59,9 @@
 		1190273C2D17295100B0B9DD /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119027362D17295100B0B9DD /* ProfileCoordinator.swift */; };
 		1190273D2D17295100B0B9DD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119027382D17295100B0B9DD /* ProfileViewController.swift */; };
 		1190273E2D17295100B0B9DD /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119027372D17295100B0B9DD /* ProfileViewModel.swift */; };
+		119F94FB2D53AFE60004DC4E /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F94F92D53AFE60004DC4E /* OnboardingViewModel.swift */; };
+		119F94FC2D53AFE60004DC4E /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F94F82D53AFE60004DC4E /* OnboardingViewController.swift */; };
+		119F94FF2D5625DF0004DC4E /* OnboardingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119F94FE2D5625DF0004DC4E /* OnboardingViewCell.swift */; };
 		11A9D4E12D143F1900F6284A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4DB2D143F1900F6284A /* AppDelegate.swift */; };
 		11A9D4E22D143F1900F6284A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4DD2D143F1900F6284A /* HomeViewController.swift */; };
 		11A9D4E32D143F1900F6284A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */; };
@@ -108,6 +112,7 @@
 		11CC75F42D16C25200903217 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11CC75F32D16C25200903217 /* SDWebImageMapKit */; };
 		11CC75F72D16C32500903217 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 11CC75F62D16C32500903217 /* SDWebImage */; };
 		11CC75F92D16C41800903217 /* TitleImageCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC75F82D16C41800903217 /* TitleImageCellProtocol.swift */; };
+		11D9973D2D57557600B227F0 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D9973C2D57557600B227F0 /* Router.swift */; };
 		11DA8AEB2D19DBDB009529D6 /* MovieDetailProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DA8AEA2D19DBDB009529D6 /* MovieDetailProtocol.swift */; };
 		11DB76A42D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DB76A32D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift */; };
 		11DB76A62D3053A600326F31 /* ProfileNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DB76A52D3053A600326F31 /* ProfileNavigation.swift */; };
@@ -157,6 +162,7 @@
 		11609A942D23076E00365915 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		11609A952D23076E00365915 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		11609A9B2D23FDBD00365915 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		117ADE332D43C77700481275 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		118CE4352D2D704600EF70EC /* TvShowDetailDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowDetailDTO.swift; sourceTree = "<group>"; };
 		118CE4392D2D975C00EF70EC /* TvShowDetailProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowDetailProtocol.swift; sourceTree = "<group>"; };
 		118CE43B2D2D9DEA00EF70EC /* TvShowDetailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShowDetailHelper.swift; sourceTree = "<group>"; };
@@ -168,6 +174,9 @@
 		119027362D17295100B0B9DD /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		119027372D17295100B0B9DD /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		119027382D17295100B0B9DD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		119F94F82D53AFE60004DC4E /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		119F94F92D53AFE60004DC4E /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		119F94FE2D5625DF0004DC4E /* OnboardingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewCell.swift; sourceTree = "<group>"; };
 		11A9D4B32D143E4500F6284A /* MovieTrackingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieTrackingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A9D4DB2D143F1900F6284A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11A9D4DC2D143F1900F6284A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -212,6 +221,7 @@
 		11CC75DD2D16B19E00903217 /* MovieListsAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListsAPIService.swift; sourceTree = "<group>"; };
 		11CC75E12D16BB4E00903217 /* MovieListsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListsDTO.swift; sourceTree = "<group>"; };
 		11CC75F82D16C41800903217 /* TitleImageCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleImageCellProtocol.swift; sourceTree = "<group>"; };
+		11D9973C2D57557600B227F0 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		11DA8AEA2D19DBDB009529D6 /* MovieDetailProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailProtocol.swift; sourceTree = "<group>"; };
 		11DB76A32D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		11DB76A52D3053A600326F31 /* ProfileNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNavigation.swift; sourceTree = "<group>"; };
@@ -499,6 +509,32 @@
 			path = MovieDetail;
 			sourceTree = "<group>";
 		};
+		119F94F72D53AFD70004DC4E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				119F94FA2D53AFE60004DC4E /* ViewModules */,
+				119F94FD2D5625BC0004DC4E /* Views */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		119F94FA2D53AFE60004DC4E /* ViewModules */ = {
+			isa = PBXGroup;
+			children = (
+				119F94F82D53AFE60004DC4E /* OnboardingViewController.swift */,
+				119F94F92D53AFE60004DC4E /* OnboardingViewModel.swift */,
+			);
+			path = ViewModules;
+			sourceTree = "<group>";
+		};
+		119F94FD2D5625BC0004DC4E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				119F94FE2D5625DF0004DC4E /* OnboardingViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		11A9D4AA2D143E4500F6284A = {
 			isa = PBXGroup;
 			children = (
@@ -536,6 +572,7 @@
 				11A9D4DF2D143F1900F6284A /* SceneDelegate.swift */,
 				11CC75582D15D1B600903217 /* Coordinator.swift */,
 				11CC755A2D15D2AF00903217 /* AppCoordinator.swift */,
+				11D9973C2D57557600B227F0 /* Router.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -574,6 +611,7 @@
 			children = (
 				11A9D4ED2D144A9300F6284A /* Extension.swift */,
 				11A9D4EE2D144A9300F6284A /* LayoutExtensions.swift */,
+				117ADE332D43C77700481275 /* NotificationNameExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -641,6 +679,7 @@
 			children = (
 				11609A832D22CF6F00365915 /* AuthNavigation.swift */,
 				11609A842D22CF6F00365915 /* AuthCoordinator.swift */,
+				119F94F72D53AFD70004DC4E /* Onboarding */,
 				11609A8E2D22D57A00365915 /* Launch */,
 				11609A8C2D22D0C500365915 /* Login */,
 				11609A8D2D22D0CB00365915 /* SignUp */,
@@ -968,6 +1007,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				117ADE342D43C77700481275 /* NotificationNameExtensions.swift in Sources */,
 				1100C57E2D1F45F500EE373E /* TrendingTitleCell.swift in Sources */,
 				11C07A212D1C34CF00F0D90A /* TvShowListsUseCase.swift in Sources */,
 				11ED735E2D26C74F0039238A /* UserDataModel.swift in Sources */,
@@ -982,12 +1022,15 @@
 				11609A882D22CF6F00365915 /* LoginViewController.swift in Sources */,
 				11609A892D22CF6F00365915 /* AuthNavigation.swift in Sources */,
 				11E460CF2D39781100D29DED /* FavoriteNavigation.swift in Sources */,
+				119F94FF2D5625DF0004DC4E /* OnboardingViewCell.swift in Sources */,
 				11609A972D23076E00365915 /* SignupViewController.swift in Sources */,
 				11609A982D23076E00365915 /* SignupViewModel.swift in Sources */,
 				11609A8A2D22CF6F00365915 /* AuthCoordinator.swift in Sources */,
 				11E460D12D3A774D00D29DED /* RatedTvShowsDTO.swift in Sources */,
 				11DB76A42D303FDF00326F31 /* ProfileInfoCollectionViewCell.swift in Sources */,
 				11609A8B2D22CF6F00365915 /* LoginViewModel.swift in Sources */,
+				119F94FB2D53AFE60004DC4E /* OnboardingViewModel.swift in Sources */,
+				119F94FC2D53AFE60004DC4E /* OnboardingViewController.swift in Sources */,
 				11A9D5682D144C4A00F6284A /* UserDefaultsKey.swift in Sources */,
 				113DDE482D18279700AB95E1 /* SeeAllItemsViewModel.swift in Sources */,
 				11B753842D36BB09006AFFC4 /* TitleVideoProtocol.swift in Sources */,
@@ -1002,6 +1045,7 @@
 				1156FD4B2D38040900AC9A2F /* GuestSessionUseCase.swift in Sources */,
 				1156FD4C2D38040900AC9A2F /* GuestSessionHelper.swift in Sources */,
 				11A9D5692D144C4A00F6284A /* UserDefaultsHelper.swift in Sources */,
+				11D9973D2D57557600B227F0 /* Router.swift in Sources */,
 				11CC75DA2D16B16E00903217 /* MovieListsHelper.swift in Sources */,
 				114D705F2D1AEA24006C167B /* MovieDetailDTO.swift in Sources */,
 				11B753822D369EC8006AFFC4 /* TitleVideoDTO.swift in Sources */,

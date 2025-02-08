@@ -39,27 +39,37 @@ final class LaunchViewController: BaseViewController {
         return button
     }()
     
+    private lazy var continueWithLabel: UILabel = {
+        let label = ReusableLabel(
+            labelText: "Or continue with",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 16
+        )
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var googleSignupButton: UIButton = {
-        let button = ReusableButton(title: "", onAction: googleLoginButtonTapped,
-                                    cornerRad: 20, bgColor: .primaryHighlight)
+        let button = ReusableButton(title: "Google",
+                                    onAction: googleLoginButtonTapped,
+                                    cornerRad: 20,
+                                    bgColor: .primaryHighlight
+        )
         button.clipsToBounds = true
-
-        let googleImageView = UIImageView(image: UIImage(named: "googleLogo"))
-        googleImageView.contentMode = .scaleAspectFit
-        googleImageView.translatesAutoresizingMaskIntoConstraints = false
-        button.addSubview(googleImageView)
-
-        googleImageView.centerXToView(to: button)
-        googleImageView.centerToView(to: button)
-        googleImageView.widthAnchor.constraint(equalTo: button.widthAnchor, multiplier: 0.7).isActive = true
-        googleImageView.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 0.7).isActive = true
+        button.tintColor = .white
+        button.contentHorizontalAlignment = .left
         
+        let image = UIImage(named: "googleSymbol")
+        let resizedImage = image?.resizeImage(to: CGSize(width: 44, height: 24))
+        button.setImage(resizedImage, for: .normal)
+
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var buttonStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [loginButton, signupButton, googleSignupButton])
+        let stack = UIStackView(arrangedSubviews: [loginButton, signupButton])
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fill
@@ -87,16 +97,16 @@ final class LaunchViewController: BaseViewController {
         super.viewDidLoad()
         configureViewModel()
         
-        UserDefaultsHelper.setString(key: "email", value: "")
-        UserDefaultsHelper.setString(key: "username", value: "")
-        UserDefaultsHelper.setString(key: "guestSessionID", value: "")
+        UserDefaultsHelper.setString(key: .email, value: "")
+        UserDefaultsHelper.setString(key: .username, value: "")
+        UserDefaultsHelper.setString(key: .guestSessionID, value: "")
     }
     
     override func configureView() {
         configureNavigationBar()
         
         view.backgroundColor = .backgroundMain
-        view.addSubViews(loadingView, logoImageView, buttonStack)
+        view.addSubViews(loadingView, logoImageView, buttonStack, continueWithLabel, googleSignupButton)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -124,8 +134,21 @@ final class LaunchViewController: BaseViewController {
         )
         loginButton.anchorSize(.init(width: 0, height: 48))
         signupButton.anchorSize(.init(width: 0, height: 48))
-        googleSignupButton.anchorSize(.init(width: 0, height: 48))
-
+        
+        
+        continueWithLabel.centerXToSuperview()
+        continueWithLabel.anchor(
+            top: buttonStack.bottomAnchor,
+            padding: .init(all: 32)
+        )
+        googleSignupButton.anchor(
+            top: continueWithLabel.bottomAnchor,
+//            leading: view.leadingAnchor,
+//            trailing: view.trailingAnchor,
+            padding: .init(top: 12, left: 0, bottom: 0, right: 0)
+        )
+        googleSignupButton.anchorSize(.init(width: 112, height: 48))
+        googleSignupButton.centerXToSuperview()
     }
     
     @objc fileprivate func loginButtonClicked() {

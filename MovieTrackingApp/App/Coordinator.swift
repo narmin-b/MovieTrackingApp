@@ -38,6 +38,8 @@ extension Coordinator {
     func deletePreviousController() {
         let viewCount = navigationController.viewControllers.count
         guard viewCount > 2 else { return }
+        print("prev", viewCount)
         navigationController.viewControllers.remove(at: 1)
+        print("aft", viewCount)
     }
 }

@@ -231,7 +231,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
-        UserDefaultsHelper.setString(key: "profileImage", value: "userProfile.jpeg")
+        UserDefaultsHelper.setString(key: .profileImage, value: "userProfile.jpeg")
         saveImageToDocuments(image: image, fileNameWithExtension: "userProfile.jpeg")
         profileIcon.image = image
         self.dismiss(animated: true)

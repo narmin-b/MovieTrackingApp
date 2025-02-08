@@ -8,6 +8,7 @@
 import Foundation
 
 protocol GuestSessionUseCase {
+    func checkGuestSessionExists(sessionID: String, completion: @escaping(POSTSuccessDTO?, String?) -> Void)
     func createGuestSessiontoken(completion: @escaping(GuestSessionDTO?, String?) -> Void)
     func rateTvShow(titleID: String, sessionID: String, rating: Int, completion: @escaping(POSTSuccessDTO?, String?) -> Void)
     func rateMovie(titleID: String, sessionID: String, rating: Int, completion: @escaping(POSTSuccessDTO?, String?) -> Void)

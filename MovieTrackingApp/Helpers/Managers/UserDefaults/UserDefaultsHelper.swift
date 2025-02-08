@@ -13,66 +13,66 @@ final class UserDefaultsHelper {
     
     // MARK: Setters
     
-    static func setObject(key: String, value: AnyObject) {
-        defaults.setValue(value, forKey: key)
+    static func setObject(key: UserDefaultsKey, value: AnyObject) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
-    static func setString(key: String, value: String) {
-        defaults.setValue(value, forKey: key)
+    static func setString(key: UserDefaultsKey, value: String) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
-    static func setInteger(key: String, value: Int) {
-        defaults.setValue(value, forKey: key)
+    static func setInteger(key: UserDefaultsKey, value: Int) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
-    static func setDouble(key: String, value: Double) {
-        defaults.setValue(value, forKey: key)
+    static func setDouble(key: UserDefaultsKey, value: Double) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
-    static func setFloat(key: String, value: Float) {
-        defaults.setValue(value, forKey: key)
+    static func setFloat(key: UserDefaultsKey, value: Float) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
-    static func setBool(key: String, value: Bool) {
-        defaults.setValue(value, forKey: key)
+    static func setBool(key: UserDefaultsKey, value: Bool) {
+        defaults.setValue(value, forKey: key.rawValue)
         defaults.synchronize()
     }
     
     
     // MARK: Getters
     
-    static func getObject(key: String) -> AnyObject? {
-        return defaults.object(forKey: key) as AnyObject?
+    static func getObject(key: UserDefaultsKey) -> AnyObject? {
+        return defaults.object(forKey: key.rawValue) as AnyObject?
     }
     
-    static func getString(key: String) -> String? {
-        return defaults.string(forKey: key)
+    static func getString(key: UserDefaultsKey) -> String? {
+        return defaults.string(forKey: key.rawValue)
     }
     
-    static func getInteger(key: String) -> Int {
-        return defaults.integer(forKey: key)
+    static func getInteger(key: UserDefaultsKey) -> Int {
+        return defaults.integer(forKey: key.rawValue)
     }
     
-    static func getDouble(key: String) -> Double {
-        return defaults.double(forKey: key)
+    static func getDouble(key: UserDefaultsKey) -> Double {
+        return defaults.double(forKey: key.rawValue)
     }
     
-    static func getFloat(key: String) -> Float {
-        return defaults.float(forKey: key)
+    static func getFloat(key: UserDefaultsKey) -> Float {
+        return defaults.float(forKey: key.rawValue)
     }
     
-    static func getBool(key: String) -> Bool {
-        return defaults.bool(forKey: key)
+    static func getBool(key: UserDefaultsKey) -> Bool {
+        return defaults.bool(forKey: key.rawValue)
     }
     
     // MARK: Remover
     
-    static func remove(key: String) {
-        defaults.removeObject(forKey: key)
+    static func remove(key: UserDefaultsKey) {
+        defaults.removeObject(forKey: key.rawValue)
     }
 }

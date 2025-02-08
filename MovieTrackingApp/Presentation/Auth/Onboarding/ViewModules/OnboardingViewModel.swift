@@ -1,14 +1,14 @@
 //
-//  LoginViewModel.swift
+//  OnboardingViewModel.swift
 //  MovieTrackingApp
 //
-//  Created by Narmin Baghirova on 30.12.24.
+//  Created by Narmin Baghirova on 05.02.25.
 //
 
 import Foundation
 import UIKit
 
-final class LaunchViewModel {
+final class OnboardingViewModel {
     enum ViewState {
         case loading
         case loaded

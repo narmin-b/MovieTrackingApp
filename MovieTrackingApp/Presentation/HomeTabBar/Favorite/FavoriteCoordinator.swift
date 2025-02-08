@@ -18,14 +18,14 @@ final class FavoriteCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = FavoriteViewController(viewModel: FavoriteViewModel(navigation: self))
+        let controller = FavoriteViewController(viewModel: FavoriteViewModel(guestSessionUse: GuestSessionAPIService(), navigation: self))
         showController(vc: controller)
     }
 }
 
 extension FavoriteCoordinator: FavoriteNavigation, HomeNavigation {
     func showDetails(mediaType: MediaType, id: Int) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self))
+        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self,  movieDetailsUse: MovieDetailAPIService(), tvShowDetailsUse: TvShowDetailAPIService(), guestSessionUse: GuestSessionAPIService() ))
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }
