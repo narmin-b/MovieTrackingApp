@@ -9,34 +9,27 @@ import UIKit
 
 class OnboardingViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
-        label.textAlignment = .left
-        label.lineBreakMode = .byTruncatingTail
+        let label = ReusableLabel(labelText: "Title", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 12, numOfLines: 2)
-        label.textAlignment = .left
-        label.lineBreakMode = .byTruncatingTail
+        let label = ReusableLabel(labelText: "Subtitle", labelColor: .white, labelFont: "Nexa-Regular", labelSize: 16, numOfLines: 3)
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .secondaryHighlight
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
-        imageView.layer.borderWidth = 0.3
-        imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.image = UIImage(named: "testing")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
-    private var baseImageURL = "https://image.tmdb.org/t/p/w500"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,35 +40,34 @@ class OnboardingViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(_ slide: OnboardingSlide) {
+    func configureCell(slide: OnboardingSlide) {
         titleLabel.text = slide.title
-        imageView.image = slide.image
         subtitleLabel.text = slide.subtitle
+        imageView.image = slide.image
     }
     
-    fileprivate func configureView() {
-        contentView.addSubViews(imageView, titleLabel)
-        backgroundColor = .blue
+    private func configureView() {
+        contentView.addSubViews(imageView, titleLabel, subtitleLabel)
         
+        imageView.centerXToSuperview()
+        imageView.anchor(
+            top: contentView.topAnchor,
+            padding: .init(top: 40)
+        )
+        imageView.anchorSize(.init(width: 200, height: 200))
+
         titleLabel.anchor(
-            top: topAnchor,
-            leading: leadingAnchor,
-            padding: .init(top: 4, left: 16, bottom: 0, right: 0)
+            top: imageView.bottomAnchor,
+            leading: contentView.leadingAnchor,
+            trailing: contentView.trailingAnchor,
+            padding: .init(top: 20, left: 16, bottom: 0, right: -16)
         )
         
         subtitleLabel.anchor(
             top: titleLabel.bottomAnchor,
-            leading: leadingAnchor,
-            padding: .init(top: 4, left: 16, bottom: 0, right: 0)
+            leading: contentView.leadingAnchor,
+            trailing: contentView.trailingAnchor,
+            padding: .init(top: 8, left: 16, bottom: 0, right: -16)
         )
-        
-        imageView.centerXToSuperview()
-        imageView.anchor(
-            top: subtitleLabel.bottomAnchor,
-            leading: leadingAnchor,
-            trailing: trailingAnchor,
-            padding: .init(top: 4, left: 16, bottom: 0, right: 16)
-        )
-//        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
     }
 }

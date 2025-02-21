@@ -8,8 +8,10 @@
 import Foundation
 
 protocol AuthNavigation: AnyObject {
+    func showLaunch()
     func showLogin()
     func showSignUp()
     func popbackScreen()
     func showHomeScreen()
+    func didCompleteAuthentication()
 }

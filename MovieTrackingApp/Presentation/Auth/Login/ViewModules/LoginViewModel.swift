@@ -15,7 +15,7 @@ final class LoginViewModel {
         case error(message: String)
     }
     
-    var requestCallback : ((ViewState) -> Void?)?
+    var requestCallback : ((ViewState) -> Void)?
     private weak var navigation: AuthNavigation?
     private var guestSessionUse: GuestSessionUseCase = GuestSessionAPIService()
     private(set) var tokenCredentials: GuestSessionProtocol?
@@ -78,8 +78,7 @@ final class LoginViewModel {
     }
     
     func startHomeScreen() {
-        navigation?.showHomeScreen()
-//        popControllerBack()
+        navigation?.didCompleteAuthentication()
     }
     
     func showShowSignUpScreen() {

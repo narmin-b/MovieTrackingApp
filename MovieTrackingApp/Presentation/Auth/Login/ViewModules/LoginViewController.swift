@@ -167,7 +167,7 @@ final class LoginViewController: BaseViewController {
         return keyboardToolbar
     }()
     
-    private let viewModel: LoginViewModel?
+    private var viewModel: LoginViewModel?
     
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
@@ -176,6 +176,7 @@ final class LoginViewController: BaseViewController {
     
     deinit {
         viewModel?.requestCallback = nil
+        viewModel = nil
     }
     
     required init?(coder: NSCoder) {
@@ -251,18 +252,18 @@ final class LoginViewController: BaseViewController {
     private func configureViewModel() {
         viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 switch state {
                 case .loading:
-                    self.loadingView.startAnimating()
+                    self?.loadingView.startAnimating()
                 case .loaded:
-                    self.loadingView.stopAnimating()
+                    self?.loadingView.stopAnimating()
                 case .success:
-                    self.viewModel?.startHomeScreen()
+                    self?.viewModel?.startHomeScreen()
                 case .error(let error):
-                    self.loadingView.stopAnimating()
-                    self.showMessage(title: "Error", message: error)
-                    self.passwordTextfield.text = ""
+                    self?.loadingView.stopAnimating()
+                    self?.showMessage(title: "Error", message: error)
+                    self?.passwordTextfield.text = ""
                 }
             }
         }
@@ -276,6 +277,7 @@ final class LoginViewController: BaseViewController {
     }
     
     @objc fileprivate func loginButtonClicked() {
+        viewModel?.startHomeScreen()
         guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
         if checkInput(email: email, password: password) {
             logUserIn()

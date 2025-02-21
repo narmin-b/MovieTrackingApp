@@ -78,7 +78,7 @@ final class LaunchViewController: BaseViewController {
         return stack
     }()
     
-    private let viewModel: LaunchViewModel?
+    private var viewModel: LaunchViewModel?
     
     init(viewModel: LaunchViewModel) {
         self.viewModel = viewModel
@@ -87,10 +87,22 @@ final class LaunchViewController: BaseViewController {
     
     deinit {
         viewModel?.requestCallback = nil
+        viewModel = nil
+        print("LaunchViewController deallocated")
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidLoad() {
@@ -111,6 +123,7 @@ final class LaunchViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
+        navigationController?.isNavigationBarHidden = true
         let backItem = UIBarButtonItem()
         backItem.title = ""
         navigationItem.backBarButtonItem = backItem
@@ -143,8 +156,6 @@ final class LaunchViewController: BaseViewController {
         )
         googleSignupButton.anchor(
             top: continueWithLabel.bottomAnchor,
-//            leading: view.leadingAnchor,
-//            trailing: view.trailingAnchor,
             padding: .init(top: 12, left: 0, bottom: 0, right: 0)
         )
         googleSignupButton.anchorSize(.init(width: 112, height: 48))
@@ -166,17 +177,17 @@ final class LaunchViewController: BaseViewController {
     private func configureViewModel() {
         viewModel?.requestCallback = { [weak self] state in
             guard let self = self else {return}
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 switch state {
                 case .loaded:
-                    self.loadingView.startAnimating()
+                    self?.loadingView.startAnimating()
                 case .loading:
-                    self.loadingView.stopAnimating()
+                    self?.loadingView.stopAnimating()
                 case .success:
-                    self.viewModel?.startHomeScreen()
+                    self?.viewModel?.startHomeScreen()
                 case .error(let error):
-                    self.showMessage(title: "Error", message: error)
-                    self.loadingView.stopAnimating()
+                    self?.showMessage(title: "Error", message: error)
+                    self?.loadingView.stopAnimating()
                 }
             }
         }
