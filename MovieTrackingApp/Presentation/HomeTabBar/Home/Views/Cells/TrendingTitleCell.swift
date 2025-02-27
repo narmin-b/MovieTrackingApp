@@ -9,7 +9,13 @@ import UIKit
 
 class TrendingTitleCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Testjnrerifnbwejrfeijfneirfefj", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
+        let label = ReusableLabel(
+            labelText: "Testjnrerifnbwejrfeijfneirfefj",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 24,
+            numOfLines: 2
+        )
         label.textAlignment = .center
         label.lineBreakMode = .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false

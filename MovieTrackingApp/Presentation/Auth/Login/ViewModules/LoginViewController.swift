@@ -26,19 +26,37 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Log Back In!", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 32)
+        let label = ReusableLabel(
+            labelText: "Log Back In!",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 32
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var emailLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Email", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
+        let label = ReusableLabel(
+            labelText: "Email",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 20
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var emailTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        let textfield = ReusableTextField(
+            placeholder: "Email",
+            iconName: "envelope",
+            placeholderFont: "NexaRegular",
+            iconSetting: 6,
+            iconTintColor: .accentMain,
+            cornerRadius: 20,
+            borderColor: .clear
+        )
         textfield.inputAccessoryView = doneToolBar
         textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
@@ -54,13 +72,25 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var passwordLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Password", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
+        let label = ReusableLabel(
+            labelText: "Password",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 20
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var passwordTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Password", iconName: "lock", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        let textfield = ReusableTextField(
+            placeholder: "Password",
+            iconName: "lock",
+            placeholderFont: "NexaRegular",
+            iconTintColor: .accentMain,
+            cornerRadius: 20,
+            borderColor: .clear
+        )
         
         let rightIcon = UIImageView(image: UIImage(systemName: "eye.fill"))
         rightIcon.tintColor = .accentMain
@@ -102,7 +132,12 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var loggedLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Keep me logged in", labelColor: .white, labelFont: "NexaRegular", labelSize: 16)
+        let label = ReusableLabel(
+            labelText: "Keep me logged in",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 16
+        )
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keepLoggedInTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tapGesture)
@@ -143,7 +178,12 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var registerLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Don't have an account yet?", labelColor: .white, labelFont: "NexaRegular", labelSize: 16)
+        let label = ReusableLabel(
+            labelText: "Don't have an account yet?",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 16
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -191,7 +231,6 @@ final class LoginViewController: BaseViewController {
     deinit {
         viewModel?.requestCallback = nil
         viewModel = nil
-        print("deinit \(self)")
     }
     
     required init?(coder: NSCoder) {
@@ -306,7 +345,8 @@ final class LoginViewController: BaseViewController {
     }
     
     fileprivate func logUserIn() {
-        guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
+        guard let email = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let password = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {return}
         viewModel?.setInput(email: email, password: password)
         viewModel?.checkLogin()
     }

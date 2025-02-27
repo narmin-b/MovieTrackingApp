@@ -18,11 +18,10 @@ protocol Coordinator: AnyObject {
 
 extension Coordinator {
     func childDidFinish(_ child: Coordinator) {
-            // Remove reference from children array
-            if let index = children.firstIndex(where: { $0 === child }) {
-                children.remove(at: index)
-            }
+        if let index = children.firstIndex(where: { $0 === child }) {
+            children.remove(at: index)
         }
+    }
     
     func showController(vc: UIViewController) {
         navigationController.show(vc, sender: nil)
@@ -35,8 +34,6 @@ extension Coordinator {
     func deletePreviousController() {
         let viewCount = navigationController.viewControllers.count
         guard viewCount > 2 else { return }
-        print("prev", viewCount)
         navigationController.viewControllers.remove(at: 1)
-        print("aft", viewCount)
     }
 }

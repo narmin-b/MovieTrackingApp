@@ -57,9 +57,21 @@ final class OnboardingViewController: BaseViewController {
     private let viewModel: OnboardingViewModel?
     
     private var slides: [OnboardingSlide] = [
-        OnboardingSlide(title: "Welcome", subtitle: "Track your favorite movies easily!", image: UIImage(systemName: "film") ?? UIImage()),
-        OnboardingSlide(title: "Discover", subtitle: "Find top-rated movies and trending content.", image: UIImage(systemName: "star") ?? UIImage()),
-        OnboardingSlide(title: "Start Now", subtitle: "Sign up and begin your movie journey!", image: UIImage(systemName: "person") ?? UIImage())
+        OnboardingSlide(
+            title: "Welcome",
+            subtitle: "Track your favorite movies easily!",
+            image: UIImage(systemName: "film") ?? UIImage()
+        ),
+        OnboardingSlide(
+            title: "Discover",
+            subtitle: "Find top-rated movies and trending content.",
+            image: UIImage(systemName: "star") ?? UIImage()
+        ),
+        OnboardingSlide(
+            title: "Start Now",
+            subtitle: "Sign up and begin your movie journey!",
+            image: UIImage(systemName: "person") ?? UIImage()
+        )
     ]
     
     private var currentIndex: Int = 0
@@ -104,7 +116,6 @@ final class OnboardingViewController: BaseViewController {
         nextButton.anchor(
             top: pageControl.bottomAnchor,
             leading: view.leadingAnchor,
-//            bottom: view.bottomAnchor,
             trailing: view.trailingAnchor,
             padding: .init(top: 8, left: 16, bottom: 0, right: -16)
         )

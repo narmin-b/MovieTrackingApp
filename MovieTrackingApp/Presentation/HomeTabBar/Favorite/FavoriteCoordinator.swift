@@ -25,7 +25,16 @@ final class FavoriteCoordinator: Coordinator {
 
 extension FavoriteCoordinator: FavoriteNavigation, HomeNavigation {
     func showDetails(mediaType: MediaType, id: Int) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self,  movieDetailsUse: MovieDetailAPIService(), tvShowDetailsUse: TvShowDetailAPIService(), guestSessionUse: GuestSessionAPIService() ))
+        let vc = MovieDetailController(
+            viewModel: .init(
+                mediaType: mediaType,
+                id: id,
+                navigation: self,
+                movieDetailsUse: MovieDetailAPIService(),
+                tvShowDetailsUse: TvShowDetailAPIService(),
+                guestSessionUse: GuestSessionAPIService()
+            )
+        )
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }

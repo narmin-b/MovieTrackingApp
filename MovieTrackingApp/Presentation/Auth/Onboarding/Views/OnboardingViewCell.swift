@@ -9,14 +9,26 @@ import UIKit
 
 class OnboardingViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Title", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
+        let label = ReusableLabel(
+            labelText: "Title",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 24,
+            numOfLines: 2
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Subtitle", labelColor: .white, labelFont: "Nexa-Regular", labelSize: 16, numOfLines: 3)
+        let label = ReusableLabel(
+            labelText: "Subtitle",
+            labelColor: .white,
+            labelFont: "Nexa-Regular",
+            labelSize: 16,
+            numOfLines: 3
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

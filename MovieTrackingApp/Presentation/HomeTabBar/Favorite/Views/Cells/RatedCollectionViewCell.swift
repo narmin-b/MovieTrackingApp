@@ -21,21 +21,39 @@ class RatedCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 24, numOfLines: 2)
+        let label = ReusableLabel(
+            labelText: "Test",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 24,
+            numOfLines: 2
+        )
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var ratingLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        let label = ReusableLabel(
+            labelText: "Test",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 16,
+            numOfLines: 1
+        )
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var userRatingLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 20, numOfLines: 4)
+        let label = ReusableLabel(
+            labelText: "Test",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 20,
+            numOfLines: 4
+        )
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

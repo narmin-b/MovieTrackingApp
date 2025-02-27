@@ -18,7 +18,13 @@ final class SearchCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = SearchViewController(viewModel: SearchViewModel(navigation: self, movieListsUse: MovieListsAPIService(), tvShowListsUse: TvShowListsAPIService()))
+        let controller = SearchViewController(
+            viewModel: SearchViewModel(
+                navigation: self,
+                movieListsUse: MovieListsAPIService(),
+                tvShowListsUse: TvShowListsAPIService()
+            )
+        )
         showController(vc: controller)
     }
 }
@@ -33,7 +39,16 @@ extension SearchCoordinator: SearchNavigation, HomeNavigation {
     }
     
     func showDetails(mediaType: MediaType, id: Int) {
-        let vc = MovieDetailController(viewModel: .init(mediaType: mediaType, id: id, navigation: self,  movieDetailsUse: MovieDetailAPIService(), tvShowDetailsUse: TvShowDetailAPIService(), guestSessionUse: GuestSessionAPIService()))
+        let vc = MovieDetailController(
+            viewModel: .init(
+                mediaType: mediaType,
+                id: id,
+                navigation: self,
+                movieDetailsUse: MovieDetailAPIService(),
+                tvShowDetailsUse: TvShowDetailAPIService(),
+                guestSessionUse: GuestSessionAPIService()
+            )
+        )
         vc.hidesBottomBarWhenPushed = true
         showController(vc: vc)
     }

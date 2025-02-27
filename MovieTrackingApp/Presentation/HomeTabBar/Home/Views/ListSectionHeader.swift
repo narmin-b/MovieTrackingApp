@@ -10,7 +10,12 @@ import UIKit
 
 final class ListSectionHeader: UICollectionReusableView {
     private lazy var titleListLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Popular Movies", labelColor: .white, labelFont: "NexaRegular", labelSize: 24)
+        let label = ReusableLabel(
+            labelText: "Popular Movies",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 24
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

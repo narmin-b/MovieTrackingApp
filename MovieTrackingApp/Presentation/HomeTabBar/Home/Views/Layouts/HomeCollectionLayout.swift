@@ -77,14 +77,7 @@ final class HomeCollectionLayout {
                 alignment: .top
             ),
         ]
-//        section.visibleItemsInvalidationHandler = { items, contentOffset, environment in
-//            let center = contentOffset.x + environment.container.contentSize.width / 2
-//            for item in items {
-//                let distanceFromCenter = abs(item.frame.midX - center)
-//                let scale = max(0.85, 1 - (distanceFromCenter / environment.container.contentSize.width))
-//                item.transform = CGAffineTransform(scaleX: scale, y: scale)
-//            }
-//        }
+
         return section
     }
     

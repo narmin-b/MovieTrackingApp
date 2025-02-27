@@ -79,13 +79,18 @@ final class MovieDetailController: BaseViewController {
         stackView.alignment = .center
         stackView.spacing = 4
         stackView.backgroundColor = .clear
-//        stackView.anchorSize(.init(width: 50, height: 0))
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private lazy var trailerLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Trailer", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 38, numOfLines: 1)
+        let label = ReusableLabel(
+            labelText: "Trailer",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 38,
+            numOfLines: 1
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -129,28 +134,52 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Test", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 28, numOfLines: 2)
+        let label = ReusableLabel(
+            labelText: "Test",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 28,
+            numOfLines: 2
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var languageLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Language Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        let label = ReusableLabel(
+            labelText: "Language Test",
+            labelColor: .lightGray,
+            labelFont: "Nexa-Bold",
+            labelSize: 16,
+            numOfLines: 1
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var runtimeLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Overview Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        let label = ReusableLabel(
+            labelText: "Overview Test",
+            labelColor: .lightGray,
+            labelFont: "Nexa-Bold",
+            labelSize: 16,
+            numOfLines: 1
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var releaseDateLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Release Date Test", labelColor: .lightGray, labelFont: "Nexa-Bold", labelSize: 16, numOfLines: 1)
+        let label = ReusableLabel(
+            labelText: "Release Date Test",
+            labelColor: .lightGray,
+            labelFont: "Nexa-Bold",
+            labelSize: 16,
+            numOfLines: 1
+        )
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -194,7 +223,13 @@ final class MovieDetailController: BaseViewController {
     }()
     
     private lazy var overviewLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Overview Test", labelColor: .white, labelFont: "NexaRegular", labelSize: 16, numOfLines: 0)
+        let label = ReusableLabel(
+            labelText: "Overview Test",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 16,
+            numOfLines: 0
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -222,7 +257,6 @@ final class MovieDetailController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
-//        viewModel?.getRatedList()
         viewModel?.getDetails()
     }
     
@@ -276,7 +310,6 @@ final class MovieDetailController: BaseViewController {
                 case .error(message: let message):
                     self.loadingView.stopAnimating()
                     self.showMessage(title: message)
-//                    self.viewModel?.popControllerBack()
                 }
             }
         }

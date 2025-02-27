@@ -301,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				113DDE3D2D18279700AB95E1 /* ViewModules */,
-				113DDE432D18279700AB95E1 /* Models */,
 				113DDE462D18279700AB95E1 /* Views */,
 			);
 			path = SeeAllItems;
@@ -314,13 +313,6 @@
 				113DDE3C2D18279700AB95E1 /* SeeAllItemsViewModel.swift */,
 			);
 			path = ViewModules;
-			sourceTree = "<group>";
-		};
-		113DDE432D18279700AB95E1 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		113DDE462D18279700AB95E1 /* Views */ = {
@@ -436,7 +428,6 @@
 				1190272D2D17283F00B0B9DD /* SearchCoordinator.swift */,
 				119027302D17283F00B0B9DD /* ViewModules */,
 				119027342D17284F00B0B9DD /* Views */,
-				119027352D17284F00B0B9DD /* Models */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -448,7 +439,6 @@
 				119027362D17295100B0B9DD /* ProfileCoordinator.swift */,
 				119027392D17295100B0B9DD /* ViewModules */,
 				1190273A2D17295100B0B9DD /* Views */,
-				1190273B2D17295100B0B9DD /* Models */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -470,13 +460,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		119027352D17284F00B0B9DD /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		119027392D17295100B0B9DD /* ViewModules */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,13 +475,6 @@
 				11DB76A22D303FCF00326F31 /* Cells */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		1190273B2D17295100B0B9DD /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		1190273F2D17381B00B0B9DD /* MovieDetail */ = {

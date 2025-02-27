@@ -21,16 +21,14 @@ final class SignupViewController: BaseViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-//    private lazy var logoImageView: UIImageView = {
-//        let imageView = UIImageView(image: UIImage(named: "logoIcon"))
-//        imageView.contentMode = .scaleAspectFill
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        return imageView
-//    }()
-    
+
     private lazy var titleLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Create An Account!", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 32)
+        let label = ReusableLabel(
+            labelText: "Create An Account!",
+            labelColor: .white,
+            labelFont: "Nexa-Bold",
+            labelSize: 32
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -51,13 +49,26 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var emailLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Email", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
+        let label = ReusableLabel(
+            labelText: "Email",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 20
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var emailTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Email", iconName: "envelope", placeholderFont: "NexaRegular", iconSetting: 6, iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        let textfield = ReusableTextField(
+            placeholder: "Email",
+            iconName: "envelope",
+            placeholderFont: "NexaRegular",
+            iconSetting: 6,
+            iconTintColor: .accentMain,
+            cornerRadius: 20,
+            borderColor: .clear
+        )
         textfield.inputAccessoryView = doneToolBar
         textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
@@ -73,13 +84,25 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var usernameLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Username", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
+        let label = ReusableLabel(
+            labelText: "Username",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 20
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var usernameTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Username", iconName: "person", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        let textfield = ReusableTextField(
+            placeholder: "Username",
+            iconName: "person",
+            placeholderFont: "NexaRegular",
+            iconTintColor: .accentMain,
+            cornerRadius: 20,
+            borderColor: .clear
+        )
         textfield.inputAccessoryView = doneToolBar
         textfield.textColor = .black
         textfield.translatesAutoresizingMaskIntoConstraints = false
@@ -95,13 +118,25 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var passwordLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Password", labelColor: .white, labelFont: "NexaRegular", labelSize: 20)
+        let label = ReusableLabel(
+            labelText: "Password",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 20
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var passwordTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Password", iconName: "lock", placeholderFont: "NexaRegular", iconTintColor: .accentMain, cornerRadius: 20, borderColor: .clear)
+        let textfield = ReusableTextField(
+            placeholder: "Password",
+            iconName: "lock",
+            placeholderFont: "NexaRegular",
+            iconTintColor: .accentMain,
+            cornerRadius: 20,
+            borderColor: .clear
+        )
         textfield.delegate = self
         
         let rightIcon = UIImageView(image: UIImage(systemName: "eye.fill"))
@@ -125,19 +160,34 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var passReqLabel: UILabel = {
-        let label = ReusableLabel(labelText: "• Must Contain 6 Characters", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        let label = ReusableLabel(
+            labelText: "• Must Contain 6 Characters",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 12
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var passUpcaseReqLabel: UILabel = {
-        let label = ReusableLabel(labelText: "• Must Contain An Uppercase", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        let label = ReusableLabel(
+            labelText: "• Must Contain An Uppercase",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 12
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var passNumReqLabel: UILabel = {
-        let label = ReusableLabel(labelText: "• Must Contain A Number", labelColor: .white, labelFont: "NexaRegular", labelSize: 12)
+        let label = ReusableLabel(
+            labelText: "• Must Contain A Number",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 12
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -181,7 +231,12 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var loginLabel: UILabel = {
-        let label = ReusableLabel(labelText: "Already have an account?", labelColor: .white, labelFont: "NexaRegular", labelSize: 16)
+        let label = ReusableLabel(
+            labelText: "Already have an account?",
+            labelColor: .white,
+            labelFont: "NexaRegular",
+            labelSize: 16
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -258,14 +313,7 @@ final class SignupViewController: BaseViewController {
     
     override func configureConstraint() {
         loadingView.fillSuperviewSafeAreaLayoutGuide()
-        
-//        logoImageView.centerXToSuperview()
-//        logoImageView.anchor(
-//            top: view.safeAreaLayoutGuide.topAnchor,
-//            padding: .init(all: .zero)
-//        )
-//        logoImageView.anchorSize(.init(width: (view.frame.width/3.5), height: (view.frame.width/3.5)))
-        
+       
         titleLabel.centerXToSuperview()
         titleLabel.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,

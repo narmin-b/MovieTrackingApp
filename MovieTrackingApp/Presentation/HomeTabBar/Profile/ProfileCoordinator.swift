@@ -32,18 +32,8 @@ final class ProfileCoordinator: Coordinator {
 
 extension ProfileCoordinator: ProfileNavigation {
     func showLaunchScreen() {
-//        delegate?.homeTabBarDidFinish()
-//        print(#function)
-//        parentCoordinator?.childDidFinish(self)
-        print("showLaunchScreen() called")
-
-            if delegate == nil {
-                print("⚠️ Delegate is nil!")
-            } else {
-                print("✅ Delegate exists, calling homeTabBarDidFinish()")
-                delegate?.homeTabBarDidFinish()
-            }
-
-            parentCoordinator?.childDidFinish(self)
+        delegate?.homeTabBarDidFinish()
+        
+        parentCoordinator?.childDidFinish(self)
     }
 }
