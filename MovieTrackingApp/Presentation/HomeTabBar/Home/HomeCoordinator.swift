@@ -17,6 +17,10 @@ final class HomeCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
+    deinit {
+        print(#function)
+    }
+    
     func start() {
         let controller = HomeViewController(
             viewModel: .init(

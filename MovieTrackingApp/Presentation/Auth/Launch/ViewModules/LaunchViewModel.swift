@@ -34,7 +34,7 @@ final class LaunchViewModel {
     }
     
     func startHomeScreen() {
-        navigation?.showHomeScreen()
+        navigation?.didCompleteAuthentication()
     }
     
     func popBackScreen() {

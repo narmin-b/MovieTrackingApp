@@ -24,6 +24,7 @@ final class OnboardingViewModel {
     }
     
     func showLaunchController() {
+        UserDefaultsHelper.setBool(key: .hasCompletedOnboarding, value: true)
         navigation?.showLaunch()
     }
     

@@ -55,8 +55,15 @@ class ProfileViewController: BaseViewController {
     }()
     
     private lazy var logOutButton: UIButton = {
-        let button = ReusableButton(title: "Log Out", onAction: logOutButtonTapped,
-                                                 cornerRad: 20, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Log Out",
+            onAction: { [weak self] in self?.logOutButtonTapped() },
+            cornerRad: 20,
+            bgColor: .primaryHighlight,
+            titleColor: .white,
+            titleSize: 20,
+            titleFont: "Nexa-Bold"
+        )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

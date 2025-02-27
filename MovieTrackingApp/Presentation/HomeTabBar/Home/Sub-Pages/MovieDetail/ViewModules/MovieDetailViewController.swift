@@ -8,14 +8,6 @@
 import UIKit
 import WebKit
 
-//enum RatingStar: IntegerLiteralType {
-//    case 1 = "1"
-//    case 2 = "2"
-//    case 3 = "3"
-//    case 4 = "4"
-//    case 5 = "5"
-//}
-
 enum MovieInfoList: String, CaseIterable {
     case genre = "Genres"
     case originCountry = "Origin Country"

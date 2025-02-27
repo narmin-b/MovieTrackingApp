@@ -47,7 +47,7 @@ class SearchViewController: BaseViewController {
     
     private lazy var movieSearchButton: UIButton = {
         let button = ReusableButton(title: "Movies",
-                                    onAction: movieSearchEnabled,
+                                    onAction: { [weak self] in self?.movieSearchEnabled() },
                                     cornerRad: 12,
                                     bgColor: .primaryHighlight,
                                     titleColor: .black,
@@ -58,7 +58,7 @@ class SearchViewController: BaseViewController {
     
     private lazy var tvShowSearchButton: UIButton = {
         let button = ReusableButton(title: "Tv Shows",
-                                    onAction: tvShowSearchEnabled,
+                                    onAction: { [weak self] in self?.tvShowSearchEnabled() },
                                     cornerRad: 12,
                                     bgColor: .accentMain,
                                     titleColor: .white,

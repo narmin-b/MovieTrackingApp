@@ -51,8 +51,4 @@ final class SignupViewModel {
         popController()
         navigation?.showLogin()
     }
-    
-    func startHomeScreen() {
-        navigation?.showHomeScreen()
-    }
 }

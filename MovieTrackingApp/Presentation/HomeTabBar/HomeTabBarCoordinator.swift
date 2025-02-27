@@ -111,10 +111,18 @@
 
 import UIKit
 
-final class HomeTabBarCoordinator: Coordinator {
+
+
+final class HomeTabBarCoordinator: Coordinator, ProfileCoordinatorDelegate {
+    func homeTabBarDidFinish() {
+        print("homeTabBarDidFinish called! Notifying AppCoordinator")
+        delegate?.homeTabBarDidFinish()
+    }
+    
     weak var parentCoordinator: Coordinator?
+    weak var delegate: ProfileCoordinatorDelegate?
     var children: [Coordinator] = []
-    var navigationController: UINavigationController // Use this for the TabBar
+    var navigationController: UINavigationController
     private let window: UIWindow
 
     private let tabBarController = TabBarController()
@@ -125,7 +133,7 @@ final class HomeTabBarCoordinator: Coordinator {
 
     init(window: UIWindow, navigationController: UINavigationController) {
         self.window = window
-        self.navigationController = navigationController  // Store the NavigationController
+        self.navigationController = navigationController
     }
 
     func start() {
@@ -160,6 +168,7 @@ final class HomeTabBarCoordinator: Coordinator {
         let profileNavigationController = UINavigationController()
         profileCoordinator = ProfileCoordinator(window: window, navigationController: profileNavigationController)
         profileCoordinator?.parentCoordinator = self
+        profileCoordinator?.delegate = self
         children.append(profileCoordinator!)
 
         let homeItem = UITabBarItem()
@@ -191,14 +200,23 @@ final class HomeTabBarCoordinator: Coordinator {
             profileNavigationController
         ]
         
-        print("tabBarController.viewControllers: \(tabBarController.viewControllers)")
-        
-        // No longer pushing the TabBarController onto the navigationController
-        // We are setting it as the root view controller in AppCoordinator now.
-
         homeCoordinator?.start()
         favoriteCoordinator?.start()
         profileCoordinator?.start()
         searchCoordinator?.start()
+    }
+    
+    func cleanupChildren() {
+        print("Cleaning up HomeTabBarCoordinator children...")
+        
+        children.forEach { child in
+            childDidFinish(child)
+        }
+        children.removeAll()
+        
+        homeCoordinator = nil
+        favoriteCoordinator = nil
+        searchCoordinator = nil
+        profileCoordinator = nil
     }
 }
