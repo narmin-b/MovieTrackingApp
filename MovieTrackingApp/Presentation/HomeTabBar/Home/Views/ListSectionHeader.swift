@@ -16,7 +16,12 @@ final class ListSectionHeader: UICollectionReusableView {
     }()
     
     private lazy var titleListSeeAllButton: UIButton = {
-        let button = ReusableButton(title: "See All", onAction: seeAllButtonClicked, bgColor: .clear, titleColor: .primaryHighlight)
+        let button = ReusableButton(
+            title: "See All",
+            onAction: { [weak self] in self?.seeAllButtonClicked() },
+            bgColor: .clear,
+            titleColor: .primaryHighlight
+        )
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "chevron.right")
         config.imagePlacement = .trailing

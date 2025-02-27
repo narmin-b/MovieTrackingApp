@@ -9,6 +9,7 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
 import GoogleSignIn
 
 enum SuccesType {
@@ -100,6 +101,40 @@ final class FirebaseHelper {
                 } else {
                     completion(.failure(NSError(domain: "GoogleSignInError", code: 2, userInfo: [NSLocalizedDescriptionKey: "Authentication failed"])))
                 }
+            }
+        }
+    }
+    
+    func uploadProfileImage(userId: String, image: UIImage, completion: @escaping (String?) -> Void) {
+        let storageRef = Storage.storage().reference().child("profile_images/\(userId).jpg")
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(nil)
+            return
+        }
+        
+        storageRef.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                print("Error uploading image: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            storageRef.downloadURL { url, error in
+                if let error = error {
+                    print("Error getting download URL: \(error.localizedDescription)")
+                    completion(nil)
+                    return
+                }
+                
+                guard let downloadUrl = url?.absoluteString else {
+                    print("Error: Download URL is nil.")
+                    completion(nil)
+                    return
+                }
+                
+                print("Successfully uploaded profile image: \(downloadUrl)")
+                completion(downloadUrl)
             }
         }
     }

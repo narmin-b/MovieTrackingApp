@@ -144,14 +144,14 @@ class ProfileViewController: BaseViewController {
         profileIcon.image = viewModel?.loadProfilePictureFromDocuments()
     }
     
-    @objc fileprivate func imageTapped() {
-        showImagePicker()
-    }
-    
     @objc private func logOutButtonTapped() {
         UserDefaults.standard.set("", forKey: "username")
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
         viewModel?.LogUserOut()
+    }
+    
+    @objc fileprivate func imageTapped() {
+        showImagePicker()
     }
     
     func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {

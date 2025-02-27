@@ -17,6 +17,12 @@ open class BaseViewController: UIViewController {
         configureTargets()
     }
     
+    deinit {
+        print("BaseViewController deinit: \(self)")
+        NotificationCenter.default.removeObserver(self)
+        // Clean up any other references
+    }
+    
     open func configureView() {}
     open func configureConstraint() {}
     open func configureTargets() {}

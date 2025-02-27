@@ -41,8 +41,15 @@ final class OnboardingViewController: BaseViewController {
     }()
     
     private lazy var nextButton: UIButton = {
-        let button = ReusableButton(title: "Next", onAction: nextButtonTapped,
-                                    cornerRad: 4, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Next",
+            onAction: { [weak self] in self?.nextButtonTapped() },
+            cornerRad: 20,
+            bgColor: .primaryHighlight,
+            titleColor: .white,
+            titleSize: 20,
+            titleFont: "Nexa-Bold"
+        )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -66,6 +73,10 @@ final class OnboardingViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        print("deinit \(self)")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -80,7 +91,7 @@ final class OnboardingViewController: BaseViewController {
             leading: view.leadingAnchor,
             bottom: view.safeAreaLayoutGuide.bottomAnchor,
             trailing: view.trailingAnchor,
-            padding: .init(top: 0, left: 0, bottom: -100, right: 0)
+            padding: .init(top: 0, left: 0, bottom: -120, right: 0)
         )
 
         pageControl.centerXToSuperview()
@@ -91,10 +102,11 @@ final class OnboardingViewController: BaseViewController {
 
         nextButton.centerXToSuperview()
         nextButton.anchor(
+            top: pageControl.bottomAnchor,
             leading: view.leadingAnchor,
-            bottom: view.bottomAnchor,
+//            bottom: view.bottomAnchor,
             trailing: view.trailingAnchor,
-            padding: .init(top: 0, left: 16, bottom: -32, right: -16)
+            padding: .init(top: 8, left: 16, bottom: 0, right: -16)
         )
         nextButton.anchorSize(.init(width: 0, height: 48))
     }

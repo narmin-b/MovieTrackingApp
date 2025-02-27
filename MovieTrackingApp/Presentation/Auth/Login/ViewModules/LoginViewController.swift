@@ -129,8 +129,15 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var loginButton: UIButton = {
-        let button = ReusableButton(title: "Login", onAction: loginButtonClicked,
-                                    cornerRad: 20, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+                title: "Login",
+                onAction: { [weak self] in self?.loginButtonClicked() },
+                cornerRad: 20,
+                bgColor: .primaryHighlight,
+                titleColor: .white,
+                titleSize: 20,
+                titleFont: "Nexa-Bold"
+            )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -142,7 +149,14 @@ final class LoginViewController: BaseViewController {
     }()
     
     private lazy var registerButton: UIButton = {
-        let button = ReusableButton(title: "Register", onAction: registerButtonTapped, bgColor: .clear, titleColor: .primaryHighlight, titleSize: 16, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+                title: "Register",
+                onAction: { [weak self] in self?.registerButtonTapped() },
+                bgColor: .clear,
+                titleColor: .primaryHighlight,
+                titleSize: 16,
+                titleFont: "Nexa-Bold"
+            )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -177,6 +191,7 @@ final class LoginViewController: BaseViewController {
     deinit {
         viewModel?.requestCallback = nil
         viewModel = nil
+        print("deinit \(self)")
     }
     
     required init?(coder: NSCoder) {

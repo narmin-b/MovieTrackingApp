@@ -26,15 +26,27 @@ final class LaunchViewController: BaseViewController {
     }()
     
     private lazy var loginButton: UIButton = {
-        let button = ReusableButton(title: "Login", onAction: loginButtonClicked,
-                                    cornerRad: 20, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Login",
+            onAction: { [weak self] in self?.loginButtonClicked() },
+            cornerRad: 20,
+            bgColor: .primaryHighlight,
+            titleColor: .white,
+            titleSize: 20,
+            titleFont: "Nexa-Bold")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var signupButton: UIButton = {
-        let button = ReusableButton(title: "Sign Up", onAction: signupButtonClicked,
-                                    cornerRad: 20, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Sign Up",
+            onAction: { [weak self] in self?.signupButtonClicked() },
+            cornerRad: 20,
+            bgColor: .primaryHighlight,
+            titleColor: .white,
+            titleSize: 20,
+            titleFont: "Nexa-Bold")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -52,7 +64,7 @@ final class LaunchViewController: BaseViewController {
     
     private lazy var googleSignupButton: UIButton = {
         let button = ReusableButton(title: "Google",
-                                    onAction: googleLoginButtonTapped,
+                                    onAction: { [weak self] in self?.googleLoginButtonTapped() },
                                     cornerRad: 20,
                                     bgColor: .primaryHighlight
         )
@@ -88,7 +100,7 @@ final class LaunchViewController: BaseViewController {
     deinit {
         viewModel?.requestCallback = nil
         viewModel = nil
-        print("LaunchViewController deallocated")
+        print("deinit \(self)")
     }
     
     required init?(coder: NSCoder) {

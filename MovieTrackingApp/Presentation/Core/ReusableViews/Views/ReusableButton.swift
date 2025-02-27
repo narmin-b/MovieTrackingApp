@@ -14,7 +14,7 @@ class ReusableButton: UIButton {
     private var titleColor: UIColor
     private var titleSize: CGFloat
     private var titleFont: String
-    private var onAction: (() -> Void)
+    private var onAction: (() -> Void)?
     private var borderColor: UIColor
     private var borderWidth: CGFloat
     
@@ -49,6 +49,6 @@ class ReusableButton: UIButton {
     }
        
     @objc private func buttonTapped() {
-        onAction()
+        onAction?()
     }
 }

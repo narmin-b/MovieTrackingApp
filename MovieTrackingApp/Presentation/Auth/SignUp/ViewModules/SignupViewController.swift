@@ -22,17 +22,32 @@ final class SignupViewController: BaseViewController {
         return view
     }()
     
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "logoIcon"))
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+//    private lazy var logoImageView: UIImageView = {
+//        let imageView = UIImageView(image: UIImage(named: "logoIcon"))
+//        imageView.contentMode = .scaleAspectFill
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        return imageView
+//    }()
     
     private lazy var titleLabel: UILabel = {
         let label = ReusableLabel(labelText: "Create An Account!", labelColor: .white, labelFont: "Nexa-Bold", labelSize: 32)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var profileIcon: UIImageView = {
+        let imageview = UIImageView()
+        imageview.image = UIImage(named: "testing")
+        imageview.contentMode = .scaleToFill
+        imageview.layer.cornerRadius = 40
+        imageview.layer.masksToBounds = true
+        imageview.isUserInteractionEnabled = true
+        imageview.layer.borderWidth = 1
+        imageview.layer.borderColor = UIColor.lightGray.cgColor
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profImageTapped))
+        imageview.addGestureRecognizer(tapGesture)
+        imageview.translatesAutoresizingMaskIntoConstraints = false
+        return imageview
     }()
     
     private lazy var emailLabel: UILabel = {
@@ -152,8 +167,15 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var signupButton: UIButton = {
-        let button = ReusableButton(title: "Sign Up", onAction: signupButtonClicked,
-                                    cornerRad: 20, bgColor: .primaryHighlight, titleColor: .white, titleSize: 20, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Sign Up",
+            onAction: { [weak self] in self?.signupButtonClicked() },
+            cornerRad: 20,
+            bgColor: .primaryHighlight,
+            titleColor: .white,
+            titleSize: 20,
+            titleFont: "Nexa-Bold"
+        )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -165,7 +187,14 @@ final class SignupViewController: BaseViewController {
     }()
     
     private lazy var loginButton: UIButton = {
-        let button = ReusableButton(title: "Login", onAction: loginButtonTapped, bgColor: .clear, titleColor: .primaryHighlight, titleSize: 16, titleFont: "Nexa-Bold")
+        let button = ReusableButton(
+            title: "Login",
+            onAction: { [weak self] in self?.loginButtonTapped() },
+            bgColor: .clear,
+            titleColor: .primaryHighlight,
+            titleSize: 16,
+            titleFont: "Nexa-Bold"
+        )
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -215,7 +244,7 @@ final class SignupViewController: BaseViewController {
         configureNavigationBar()
         
         view.backgroundColor = .backgroundMain
-        view.addSubViews(loadingView, logoImageView, titleLabel, singupInfoStackView, passwordRequirementsStack, signupButton, loginStack)
+        view.addSubViews(loadingView, titleLabel, profileIcon, singupInfoStackView, passwordRequirementsStack, signupButton, loginStack)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -230,24 +259,31 @@ final class SignupViewController: BaseViewController {
     override func configureConstraint() {
         loadingView.fillSuperviewSafeAreaLayoutGuide()
         
-        logoImageView.centerXToSuperview()
-        logoImageView.anchor(
-            top: view.safeAreaLayoutGuide.topAnchor,
-            padding: .init(all: .zero)
-        )
-        logoImageView.anchorSize(.init(width: (view.frame.width/3.5), height: (view.frame.width/3.5)))
+//        logoImageView.centerXToSuperview()
+//        logoImageView.anchor(
+//            top: view.safeAreaLayoutGuide.topAnchor,
+//            padding: .init(all: .zero)
+//        )
+//        logoImageView.anchorSize(.init(width: (view.frame.width/3.5), height: (view.frame.width/3.5)))
         
         titleLabel.centerXToSuperview()
         titleLabel.anchor(
-            top: logoImageView.bottomAnchor,
-            padding: .init(all: 4)
+            top: view.safeAreaLayoutGuide.topAnchor,
+            padding: .init(all: 12)
+        )
+        
+        profileIcon.centerXToSuperview()
+        profileIcon.anchorSize(.init(width: 80, height: 80))
+        profileIcon.anchor(
+            top: titleLabel.bottomAnchor,
+            padding: .init(all: 12)
         )
         
         singupInfoStackView.anchor(
-            top: titleLabel.bottomAnchor,
+            top: profileIcon.bottomAnchor,
             leading: view.leadingAnchor,
             trailing: view.trailingAnchor,
-            padding: .init(top: 32, left: 24, bottom: 0, right: -24)
+            padding: .init(top: 12, left: 24, bottom: 0, right: -24)
         )
         
         emailTextfield.anchorSize(.init(width: 0, height: 48))
@@ -320,18 +356,29 @@ final class SignupViewController: BaseViewController {
         passwordTextfield.errorBorderOff()
     }
     
-    fileprivate func createUserWithPassword(email: String, password: String, username: String) {
-        viewModel?.createUser(email: email, password: password, username: username)
-    }
+//    fileprivate func createUserWithPassword(email: String, password: String, username: String) {
+//        viewModel?.createUser(email: email, password: password, username: username, profileImage: <#UIImage#>)
+//    }
     
     fileprivate func checkInputRequirements() {
-        guard let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+//        guard let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines), let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+//        
+//        if usernameText.isValidName() && emailText.isValidEmail() && passwordText.isValidPassword() {
+//            createUserWithPassword(email: emailText, password: passwordText, username: usernameText)
+//        } else {
+//            checkErrorBorders(email: emailText, password: passwordText, username: usernameText)
+//        }
         
-        if usernameText.isValidName() && emailText.isValidEmail() && passwordText.isValidPassword() {
-            createUserWithPassword(email: emailText, password: passwordText, username: usernameText)
-        } else {
-            checkErrorBorders(email: emailText, password: passwordText, username: usernameText)
-        }
+        guard let usernameText = usernameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  let emailText = emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  let passwordText = passwordTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  let profileImage = profileIcon.image else { return }
+
+            if usernameText.isValidName() && emailText.isValidEmail() && passwordText.isValidPassword() {
+                viewModel?.createUser(email: emailText, password: passwordText, username: usernameText, profileImage: profileImage)
+            } else {
+                checkErrorBorders(email: emailText, password: passwordText, username: usernameText)
+            }
     }
     
     fileprivate func checkErrorBorders(email: String, password: String, username: String) {
@@ -376,6 +423,61 @@ final class SignupViewController: BaseViewController {
         passwordTextfield.text = ""
         usernameTextfield.text = ""
     }
+    
+    @objc fileprivate func profImageTapped() {
+        showImagePicker()
+    }
+    
+    func imagePicker(sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        return imagePicker
+    }
+    
+    func showImagePicker() {
+        let alertVC = UIAlertController(title: "Choose a Picture", message: "Choose from Library or Camera", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
+            guard let self = self else { return }
+            let cameraImagePicker = self.imagePicker(sourceType: .camera)
+            cameraImagePicker.delegate = self
+            self.present(cameraImagePicker, animated: true)
+        }
+        
+        let libraryAction = UIAlertAction(title: "Library", style: .default) { [weak self] (action) in
+            guard let self = self else { return }
+            let libraryImagePicker = self.imagePicker(sourceType: .photoLibrary)
+            libraryImagePicker.delegate = self
+            self.present(libraryImagePicker, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertVC.addAction(cameraAction)
+        alertVC.addAction(libraryAction)
+        alertVC.addAction(cancelAction)
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func saveImageToDocuments(image: UIImage, fileNameWithExtension: String) {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Failed to access the documents directory.")
+            return
+        }
+
+        let imagePath = documentsDirectory.appendingPathComponent(fileNameWithExtension)
+
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            print("Failed to convert UIImage to JPEG data.")
+            return
+        }
+
+        do {
+            try imageData.write(to: imagePath)
+            print("Image successfully saved at: \(imagePath)")
+        } catch {
+            print("Error saving image to documents directory: \(error)")
+        }
+    }
 }
 
 
@@ -384,5 +486,15 @@ extension SignupViewController: UITextFieldDelegate {
         if textField == passwordTextfield {
             checkPassWordRequirements()
         }
+    }
+}
+
+extension SignupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[.originalImage] as! UIImage
+        UserDefaultsHelper.setString(key: .profileImage, value: "userProfile.jpeg")
+        saveImageToDocuments(image: image, fileNameWithExtension: "userProfile.jpeg")
+        profileIcon.image = image
+        self.dismiss(animated: true)
     }
 }

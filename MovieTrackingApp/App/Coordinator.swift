@@ -17,14 +17,12 @@ protocol Coordinator: AnyObject {
 }
 
 extension Coordinator {
-    func childDidFinish(_ coordinator: Coordinator) {
-        for (index, child) in children.enumerated() {
-            if child === coordinator {
+    func childDidFinish(_ child: Coordinator) {
+            // Remove reference from children array
+            if let index = children.firstIndex(where: { $0 === child }) {
                 children.remove(at: index)
-                break
             }
         }
-    }
     
     func showController(vc: UIViewController) {
         navigationController.show(vc, sender: nil)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class SignupViewModel {
     enum ViewState {
@@ -22,24 +23,24 @@ final class SignupViewModel {
         self.navigation = navigation
     }
     
-    func createUser(email: String, password: String, username: String) {
-        requestCallback?(.loading)
-        FirebaseHelper.shared.createUserWithEmailUsername(email: email, username: username, password: password) { result in
-            switch result {
-            case .success(let field):
-                switch field {
-                case .loaded:
-                    self.requestCallback?(.loaded)
-                case .success:
-                    self.requestCallback?(.success)
-                case .successWithReturn(_):
-                    return
-                }
-            case .failure(let error):
-                let errorMessage = error.localizedDescription
-                self.requestCallback?(.error(message: errorMessage))
-            }
-        }
+    func createUser(email: String, password: String, username: String, profileImage: UIImage) {
+//        requestCallback?(.loading)
+//        FirebaseHelper.shared.createUserWithEmailUsername(email: email, username: username, profileImage: profileImage, password: password) { result in
+//            switch result {
+//            case .success(let field):
+//                switch field {
+//                case .loaded:
+//                    self.requestCallback?(.loaded)
+//                case .success:
+//                    self.requestCallback?(.success)
+//                case .successWithReturn(_):
+//                    return
+//                }
+//            case .failure(let error):
+//                let errorMessage = error.localizedDescription
+//                self.requestCallback?(.error(message: errorMessage))
+//            }
+//        }
     }
     
     func popController() {
